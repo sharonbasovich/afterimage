@@ -2,13 +2,48 @@ name: Source-pinned demo capture
 on:
   push:
     branches: ['film/real-browser-capture']
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: demo-capture-${{ github.ref }}
+  group: demo-capture-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  validate:
+    name: Capture source and license metadata (no browser)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.22.1'
+      - name: Check capture JavaScript syntax (not browser execution)
+        run: |
+          node --check scripts/capture-demo.mjs
+          node --check scripts/capture-motion.mjs
+          node --input-type=module -e "import fs from 'node:fs'; import vm from 'node:vm'; const html=fs.readFileSync('film/motion.html','utf8'); const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m=>m[1]).filter(s=>s.trim()); if(scripts.length!==1) throw Error('Expected one inline motion script'); scripts.forEach(s=>new vm.Script(s));"
+      - name: Verify locked GSAP installation and actual license collection
+        run: |
+          npm ci --prefix film/motion-deps --ignore-scripts --no-audit --no-fund
+          mkdir -p motion-capture
+          cp film/motion-deps/package-lock.json motion-capture/gsap-package-lock.json
+          cp film/motion-deps/node_modules/gsap/package.json motion-capture/gsap-package.json
+          cp film/motion-deps/node_modules/gsap/dist/gsap.min.js motion-capture/gsap.min.js
+          node --input-type=module -e "import fs from 'node:fs'; import assert from 'node:assert/strict'; const pkg=JSON.parse(fs.readFileSync('motion-capture/gsap-package.json')); const js=fs.readFileSync('motion-capture/gsap.min.js','utf8'); assert.equal(pkg.version,'3.15.0'); assert.match(pkg.license,/gsap.com\/standard-license/); assert.match(js.slice(0,2000),/gsap.com\/standard-license/);"
+          sha256sum motion-capture/* > motion-capture/SHA256SUMS.txt
+      - name: Preserve license-validation evidence (not footage)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: capture-license-validation-${{ github.sha }}
+          path: motion-capture/
+          retention-days: 7
   capture:
+    name: Full real-browser capture (manual only)
+    if: github.event_name == 'workflow_dispatch'
+    needs: validate
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -20,6 +55,7 @@ jobs:
             scripts/capture-demo.mjs
             scripts/capture-motion.mjs
             film/motion.html
+            film/motion-deps
           sparse-checkout-cone-mode: false
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -55,7 +91,8 @@ jobs:
       - name: Record original GSAP editorial sequences (no model)
         working-directory: app
         run: |
-          npm install --prefix motion-deps --ignore-scripts --no-audit --no-fund --save-exact gsap@3.15.0
+          cp -R ../capture-code/film/motion-deps motion-deps
+          npm ci --prefix motion-deps --ignore-scripts --no-audit --no-fund
           mkdir -p motion
           cp ../capture-code/film/motion.html motion/index.html
           cp motion-deps/node_modules/gsap/dist/gsap.min.js motion/gsap.min.js
