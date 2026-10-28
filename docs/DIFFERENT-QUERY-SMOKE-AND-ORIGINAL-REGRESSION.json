@@ -1,0 +1,182 @@
+{
+  "date": "2026-10-28",
+  "runtime": "Node ONNX CPU, NOT browser WASM",
+  "model": "Xenova/all-MiniLM-L6-v2",
+  "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+  "dtype": "q8",
+  "casesPrelabeled": true,
+  "threshold": 0.4,
+  "margin": 0.04,
+  "results": [
+    {
+      "query": "Why did the chime sound with no one on shift?",
+      "expected": "M03",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.716597661397687
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.43106313428224813
+        },
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.32292958523309384
+        }
+      ]
+    },
+    {
+      "query": "What made the lights flicker?",
+      "expected": "M04",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.6512500547276844
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.28563473522932914
+        },
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.27628269428399865
+        }
+      ]
+    },
+    {
+      "query": "What caused the low humming noise?",
+      "expected": "M01",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.5925638471276146
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.33614183869855396
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.26286566697584474
+        }
+      ]
+    },
+    {
+      "query": "Why is the gauge stuck?",
+      "expected": "M06",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M06",
+          "date": "1987-10-27T17:00:00Z",
+          "quote": "The pressure gauge is stuck at forty kilopascals. A blocked sensing tube prevents the needle from returning to zero.",
+          "score": 0.6563669843700234
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.13170798272754483
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.12266649933753554
+        }
+      ]
+    },
+    {
+      "query": "Why did the nightly relay reset stop?",
+      "expected": "M07",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.7536685361272715
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.6470707635228787
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.30962724459308405
+        }
+      ]
+    },
+    {
+      "query": "How do I bake a chocolate cake?",
+      "expected": null,
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": []
+    },
+    {
+      "query": "Which planet has the most moons?",
+      "expected": null,
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": []
+    },
+    {
+      "query": "How was the recurring nighttime alarm fixed?",
+      "expected": "M07",
+      "status": "uncertain",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.41346315242201703
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.39445953059669436
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.386465203968284
+        }
+      ]
+    }
+  ]
+}

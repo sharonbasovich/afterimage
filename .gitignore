@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env*
+playwright-report/
+test-results/
+browser-provenance/
+# Rebuilt by npm run setup:browser-assets; retained in source delivery archives.
+public/models/
+public/wasm/

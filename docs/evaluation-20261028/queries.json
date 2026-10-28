@@ -1,0 +1,405 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-28T08:13:10.764582+00:00",
+  "purpose": "New pre-labeled diagnostic set, not reconstruction of lost 48-query evaluation. Labels fixed before inference. Hand-authored by evaluating agent; not independently adjudicated.",
+  "label_policy": "Relevant records answer supported questions or supply pertinent correction/context for misleading premises. Retrieval recall does not measure premise confirmation. Temporal targets use record timestamps, not inferred event dates.",
+  "queries": [
+    {
+      "id": "Q01",
+      "category": "ordinary",
+      "query": "What is causing the low hum in the turbine hall?",
+      "relevant_record_ids": [
+        "M01"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Worn fan bearing and uneven rotation."
+    },
+    {
+      "id": "Q02",
+      "category": "ordinary",
+      "query": "Why does the relay clock restart the maintenance chime every night?",
+      "relevant_record_ids": [
+        "M02"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Power loss and discharging capacitor."
+    },
+    {
+      "id": "Q03",
+      "category": "ordinary",
+      "query": "What triggered the recorded three-note sound with nobody on shift?",
+      "relevant_record_ids": [
+        "M03"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Automatic relay reboot triggered the recording."
+    },
+    {
+      "id": "Q04",
+      "category": "ordinary",
+      "query": "Why do the corridor lamps flicker?",
+      "relevant_record_ids": [
+        "M04"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Rainwater and shorted lighting circuit."
+    },
+    {
+      "id": "Q05",
+      "category": "ordinary",
+      "query": "Whose boot prints were beside the locked entrance?",
+      "relevant_record_ids": [
+        "M05"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Inspection team technicians."
+    },
+    {
+      "id": "Q06",
+      "category": "ordinary",
+      "query": "Why is the pressure needle stuck at forty kilopascals?",
+      "relevant_record_ids": [
+        "M06"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Blocked sensing tube."
+    },
+    {
+      "id": "Q07",
+      "category": "ordinary",
+      "query": "How was the recurring nighttime alarm fixed?",
+      "relevant_record_ids": [
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Capacitor replacement; original hard query retained verbatim. Alarm paraphrases chime."
+    },
+    {
+      "id": "Q08",
+      "category": "ordinary",
+      "query": "Why are there no personnel files from before 1987?",
+      "relevant_record_ids": [
+        "M08"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Earlier files never transferred; no occupancy records in this archive."
+    },
+    {
+      "id": "Q09",
+      "category": "temporal",
+      "query": "Which record was written first?",
+      "relevant_record_ids": [
+        "M01"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Earliest record timestamp, not earliest event inferred from text."
+    },
+    {
+      "id": "Q10",
+      "category": "temporal",
+      "query": "Which record was written last?",
+      "relevant_record_ids": [
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Latest timestamp October 31; record order is not date order."
+    },
+    {
+      "id": "Q11",
+      "category": "temporal",
+      "query": "What was recorded on October 28 at 14:00?",
+      "relevant_record_ids": [
+        "M08"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Timestamp identifies archive coverage note."
+    },
+    {
+      "id": "Q12",
+      "category": "temporal",
+      "query": "What did the October 27 noon entry report?",
+      "relevant_record_ids": [
+        "M05"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Timestamp identifies inspection team boot prints."
+    },
+    {
+      "id": "Q13",
+      "category": "temporal",
+      "query": "What was documented immediately before the October 27 pressure-gauge entry?",
+      "relevant_record_ids": [
+        "M05"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Previous record timestamp is noon that day."
+    },
+    {
+      "id": "Q14",
+      "category": "temporal",
+      "query": "What was the next recorded entry after the corridor speaker note?",
+      "relevant_record_ids": [
+        "M04"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Next timestamp October 26 at 09:00."
+    },
+    {
+      "id": "Q15",
+      "category": "temporal",
+      "query": "What evidence reports the three nights after the capacitor replacement?",
+      "relevant_record_ids": [
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Retrospective maintenance note; exact replacement date not asserted."
+    },
+    {
+      "id": "Q16",
+      "category": "temporal",
+      "query": "Which two entries were recorded at 02:13 on consecutive dates?",
+      "relevant_record_ids": [
+        "M02",
+        "M03"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "October 25 and October 26 timestamp metadata."
+    },
+    {
+      "id": "Q17",
+      "category": "multi-record",
+      "query": "What caused the nightly reset, and what stopped it?",
+      "relevant_record_ids": [
+        "M02",
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Cause and subsequent intervention require two records."
+    },
+    {
+      "id": "Q18",
+      "category": "multi-record",
+      "query": "How are the relay reboot and the unattended speaker recording connected?",
+      "relevant_record_ids": [
+        "M02",
+        "M03"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Clock/capacitor mechanism and speaker observation."
+    },
+    {
+      "id": "Q19",
+      "category": "multi-record",
+      "query": "What links the roof leak with the technicians visiting?",
+      "relevant_record_ids": [
+        "M04",
+        "M05"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Roof seal damage and inspection of roof damage."
+    },
+    {
+      "id": "Q20",
+      "category": "multi-record",
+      "query": "What mechanical faults explain both the humming fan and stuck gauge?",
+      "relevant_record_ids": [
+        "M01",
+        "M06"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Distinct mechanical faults."
+    },
+    {
+      "id": "Q21",
+      "category": "multi-record",
+      "query": "Compare the corridor lighting fault with the cause of the three-note chime.",
+      "relevant_record_ids": [
+        "M03",
+        "M04"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Two independent explanations."
+    },
+    {
+      "id": "Q22",
+      "category": "multi-record",
+      "query": "What evidence describes the chime before and after the capacitor replacement?",
+      "relevant_record_ids": [
+        "M02",
+        "M03",
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Cause, observed playback, and follow-up."
+    },
+    {
+      "id": "Q23",
+      "category": "multi-record",
+      "query": "What did the two October 27 entries say about prints and pressure?",
+      "relevant_record_ids": [
+        "M05",
+        "M06"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Both entries requested explicitly."
+    },
+    {
+      "id": "Q24",
+      "category": "multi-record",
+      "query": "What explains the humming hall and why earlier personnel history cannot be checked?",
+      "relevant_record_ids": [
+        "M01",
+        "M08"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Two unrelated but answerable archive topics."
+    },
+    {
+      "id": "Q25",
+      "category": "misleading-premise",
+      "query": "Why did a ghost sing through the corridor speaker?",
+      "relevant_record_ids": [
+        "M03"
+      ],
+      "premise_support": "contradicted",
+      "label_rationale": "Recording triggered by automatic relay, not a ghost."
+    },
+    {
+      "id": "Q26",
+      "category": "misleading-premise",
+      "query": "How did the intruder leave fresh boot prints by the locked entrance?",
+      "relevant_record_ids": [
+        "M05"
+      ],
+      "premise_support": "contradicted",
+      "label_rationale": "Prints attributed to inspection team, not an intruder."
+    },
+    {
+      "id": "Q27",
+      "category": "misleading-premise",
+      "query": "Why does the archive prove nobody occupied the building before 1987?",
+      "relevant_record_ids": [
+        "M08"
+      ],
+      "premise_support": "unsupported",
+      "label_rationale": "Missing occupancy records cannot establish absence of occupants."
+    },
+    {
+      "id": "Q28",
+      "category": "misleading-premise",
+      "query": "How did replacing the fan bearing stop the nightly relay resets?",
+      "relevant_record_ids": [
+        "M01",
+        "M07"
+      ],
+      "premise_support": "contradicted",
+      "label_rationale": "Documented reset intervention is capacitor replacement, not fan bearing."
+    },
+    {
+      "id": "Q29",
+      "category": "misleading-premise",
+      "query": "Which technician deliberately sabotaged the corridor lighting?",
+      "relevant_record_ids": [
+        "M04",
+        "M05"
+      ],
+      "premise_support": "unsupported",
+      "label_rationale": "Leak explains short; technicians inspected roof. No intentional sabotage or named culprit."
+    },
+    {
+      "id": "Q30",
+      "category": "misleading-premise",
+      "query": "Why did the pressure gauge show zero after the sensing tube was cleared?",
+      "relevant_record_ids": [
+        "M06"
+      ],
+      "premise_support": "unsupported",
+      "label_rationale": "Only blocked tube and stuck forty reading documented; no clearing or later zero reading."
+    },
+    {
+      "id": "Q31",
+      "category": "misleading-premise",
+      "query": "What proves the maintenance chimes never returned at any later time?",
+      "relevant_record_ids": [
+        "M07"
+      ],
+      "premise_support": "unsupported",
+      "label_rationale": "Follow-up limited to three nights, not all future time."
+    },
+    {
+      "id": "Q32",
+      "category": "misleading-premise",
+      "query": "How did the October 28 note confirm that the capacitor replacement had already been monitored for three nights?",
+      "relevant_record_ids": [
+        "M07",
+        "M08"
+      ],
+      "premise_support": "contradicted",
+      "label_rationale": "October 28 record concerns missing files; capacitor follow-up note dated October 31."
+    },
+    {
+      "id": "Q33",
+      "category": "unrelated",
+      "query": "How do I bake sourdough bread?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records."
+    },
+    {
+      "id": "Q34",
+      "category": "unrelated",
+      "query": "Who won the 1998 football World Cup?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records."
+    },
+    {
+      "id": "Q35",
+      "category": "unrelated",
+      "query": "What is the exchange rate for euros today?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records."
+    },
+    {
+      "id": "Q36",
+      "category": "unrelated",
+      "query": "How do I train a puppy to sit?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records."
+    },
+    {
+      "id": "Q37",
+      "category": "unrelated",
+      "query": "Which planet has the most moons?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records."
+    },
+    {
+      "id": "Q38",
+      "category": "unrelated",
+      "query": "Give me a recipe for chocolate ice cream.",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records."
+    },
+    {
+      "id": "Q39",
+      "category": "unrelated",
+      "query": "How do I renew my passport?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records."
+    },
+    {
+      "id": "Q40",
+      "category": "unrelated",
+      "query": "What is the best hiking trail in Patagonia?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records."
+    }
+  ]
+}

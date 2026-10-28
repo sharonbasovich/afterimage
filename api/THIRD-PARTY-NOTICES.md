@@ -1,0 +1,11 @@
+# Historical Node API inventory and provenance
+
+This notice describes the preserved Node API prototype only. Current browser distribution rights and bundled/restored assets are documented in the root `THIRD-PARTY-NOTICES.md` and `licenses/`. References below to private/unpublished status and excluded binaries describe the original API package, not the current repository.
+
+- `@huggingface/transformers` 3.8.1: Apache-2.0. Original installed license copied unmodified to `licenses/TRANSFORMERS-APACHE-2.0.txt`.
+- `onnxruntime-node` 1.21.0 and `onnxruntime-common` 1.21.0: MIT declared in installed package metadata. Source: https://github.com/microsoft/onnxruntime . Their installed npm directories inspected here do not include a standalone LICENSE file. No runtime binaries are redistributed in this package. Obtain/preserve the official upstream license and notices before bundling binaries for release.
+- `Xenova/all-MiniLM-L6-v2`, revision `751bff37182d3f1213fa05d7196b954e230abad9`, q8 ONNX export: Apache-2.0 declared in original model card, preserved as `MODEL-CARD.md`. Model source https://huggingface.co/Xenova/all-MiniLM-L6-v2/tree/751bff37182d3f1213fa05d7196b954e230abad9 . Base model: sentence-transformers/all-MiniLM-L6-v2. The earlier spike checked both model cards; a standalone base-model LICENSE fetch returned 404. Do not describe this as a separately downloaded weight license. Weights are not included here.
+- `package-lock.json` preserves exact transitive dependency identities/integrity and available license metadata. It includes browser-related packages, but this adapter only verifies Node CPU execution; no browser model inference claim.
+- `corpus.json` is the same eight synthetic fictional records from the cloud feasibility spike. `retrieve.mjs` is copied unchanged from that spike. `test/baseline-offline.json` preserves that spike's measured offline outcomes. No unrelated archive or user data was used.
+
+This is a private, unpublished prototype, not a completed third-party redistribution audit. Original adapter code is covered by the root project MIT license in this local candidate. This does not alter the separately documented third-party licenses or complete a redistribution audit.

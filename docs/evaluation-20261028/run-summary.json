@@ -1,0 +1,149 @@
+{
+  "summary": {
+    "all": {
+      "queries": 40,
+      "relevanceQueries": 32,
+      "top1Hits": 22,
+      "anyRelevantAt3": 24,
+      "allRelevantAt3": 23,
+      "macroRecallAt3": 0.734375,
+      "microRecallAt3": 0.7333333333333333,
+      "noMatch": 16,
+      "match": 22,
+      "uncertain": 2,
+      "returnedPassages": 72,
+      "weakReturnedPassages": 35,
+      "categories": {
+        "weak-lower-ranked-candidate": 20,
+        "top-one-relevance-miss": 2,
+        "threshold-abstention-with-relevant-evidence": 8,
+        "incomplete-relevant-set": 9,
+        "related-results-for-non-supported-premise": 8,
+        "match-status-for-non-supported-premise": 7
+      }
+    },
+    "ordinary": {
+      "queries": 8,
+      "relevanceQueries": 8,
+      "top1Hits": 7,
+      "anyRelevantAt3": 8,
+      "allRelevantAt3": 8,
+      "macroRecallAt3": 1,
+      "microRecallAt3": 1,
+      "noMatch": 0,
+      "match": 7,
+      "uncertain": 1,
+      "returnedPassages": 24,
+      "weakReturnedPassages": 14,
+      "categories": {
+        "weak-lower-ranked-candidate": 7,
+        "top-one-relevance-miss": 1
+      }
+    },
+    "temporal": {
+      "queries": 8,
+      "relevanceQueries": 8,
+      "top1Hits": 1,
+      "anyRelevantAt3": 2,
+      "allRelevantAt3": 2,
+      "macroRecallAt3": 0.25,
+      "microRecallAt3": 0.2222222222222222,
+      "noMatch": 6,
+      "match": 2,
+      "uncertain": 0,
+      "returnedPassages": 6,
+      "weakReturnedPassages": 3,
+      "categories": {
+        "threshold-abstention-with-relevant-evidence": 6,
+        "incomplete-relevant-set": 6,
+        "top-one-relevance-miss": 1,
+        "weak-lower-ranked-candidate": 2
+      }
+    },
+    "multi-record": {
+      "queries": 8,
+      "relevanceQueries": 8,
+      "top1Hits": 6,
+      "anyRelevantAt3": 6,
+      "allRelevantAt3": 6,
+      "macroRecallAt3": 0.75,
+      "microRecallAt3": 0.7647058823529411,
+      "noMatch": 2,
+      "match": 6,
+      "uncertain": 0,
+      "returnedPassages": 18,
+      "weakReturnedPassages": 7,
+      "categories": {
+        "weak-lower-ranked-candidate": 5,
+        "threshold-abstention-with-relevant-evidence": 2,
+        "incomplete-relevant-set": 2
+      }
+    },
+    "misleading-premise": {
+      "queries": 8,
+      "relevanceQueries": 8,
+      "top1Hits": 8,
+      "anyRelevantAt3": 8,
+      "allRelevantAt3": 7,
+      "macroRecallAt3": 0.9375,
+      "microRecallAt3": 0.9090909090909091,
+      "noMatch": 0,
+      "match": 7,
+      "uncertain": 1,
+      "returnedPassages": 24,
+      "weakReturnedPassages": 11,
+      "categories": {
+        "weak-lower-ranked-candidate": 6,
+        "related-results-for-non-supported-premise": 8,
+        "match-status-for-non-supported-premise": 7,
+        "incomplete-relevant-set": 1
+      }
+    },
+    "unrelated": {
+      "queries": 8,
+      "relevanceQueries": 0,
+      "top1Hits": 0,
+      "anyRelevantAt3": 0,
+      "allRelevantAt3": 0,
+      "macroRecallAt3": null,
+      "microRecallAt3": null,
+      "noMatch": 8,
+      "match": 0,
+      "uncertain": 0,
+      "returnedPassages": 0,
+      "weakReturnedPassages": 0,
+      "categories": {}
+    }
+  },
+  "hard": {
+    "query": "How was the recurring nighttime alarm fixed?",
+    "intended": "M07",
+    "archivedRanking": [
+      "M02",
+      "M03",
+      "M07"
+    ],
+    "currentRanking": [
+      "M02",
+      "M03",
+      "M07"
+    ],
+    "archivedStatus": "uncertain",
+    "currentStatus": "uncertain",
+    "scoreDeltas": [
+      {
+        "id": "M02",
+        "delta": 0
+      },
+      {
+        "id": "M03",
+        "delta": 0
+      },
+      {
+        "id": "M07",
+        "delta": 0
+      }
+    ],
+    "note": "Archived seven-query baseline only; not lost 48-query artifacts."
+  }
+}

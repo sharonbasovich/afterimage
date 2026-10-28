@@ -1,0 +1,14 @@
+✔ partial multi-record coverage is not a complete hit (1.703217ms)
+✔ threshold abstention has zero displayed recall despite ungated hit (0.247961ms)
+✔ non-supported premise cannot become supported through perfect recall (0.261717ms)
+✔ out-of-domain cases are excluded from relevant-query denominator (0.587843ms)
+✔ top-one miss can still give complete top-three coverage (0.330395ms)
+✔ out-of-domain returned evidence is an error (0.26337ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.070966

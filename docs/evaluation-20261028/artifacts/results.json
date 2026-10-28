@@ -1,0 +1,3167 @@
+{
+  "metadata": {
+    "createdUtc": "2026-10-28T08:14:25.947Z",
+    "node": "v24.22.1",
+    "runtime": "Node native ONNX CPU; NOT browser WASM or visual/interaction QA",
+    "transformersVersion": "3.8.1",
+    "onnxVersion": "1.21.0",
+    "modelId": "Xenova/all-MiniLM-L6-v2",
+    "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+    "dtype": "q8",
+    "pooling": "mean",
+    "normalize": true,
+    "dimensions": 384,
+    "threads": {
+      "intraOp": 1,
+      "interOp": 1
+    },
+    "remoteModels": false,
+    "threshold": 0.4,
+    "margin": 0.04,
+    "limit": 3,
+    "labelSha256": "e9be90088a7008a3303432621cb69b55f97bd02d0be31c34d1b398a76e52506a",
+    "modelHashes": {
+      "config.json": "7135149f7cffa1a573466c6e4d8423ed73b62fd2332c575bf738a0d033f70df7",
+      "onnx/model_quantized.onnx": "afdb6f1a0e45b715d0bb9b11772f032c399babd23bfc31fed1c170afc848bdb1",
+      "tokenizer.json": "da0e79933b9ed51798a3ae27893d3c5fa4a201126cef75586296df9b4d2c62a0",
+      "tokenizer_config.json": "9261e7d79b44c8195c1cada2b453e55b00aeb81e907a6664974b4d7776172ab3"
+    },
+    "sourceHashes": {
+      "src/browserCorpus.ts": "30fa24de07645fd232c6d269af96f3c1b001de0db2cedd2cef6841a25f9267cf",
+      "src/browserRetrieve.ts": "91269fe16a1abe606c5aa7decab6da14b84029dc16c1e1eaa4ad556b8cb72f4b",
+      "src/embedding.worker.ts": "d23978b3cec2d58bd2861e419c80f1419ec536cf98c4b4f17ad450acbe2956e2",
+      "api/corpus.json": "b6b54050605113c6280110f82e93a3917a7c0fba6222d1993a29e231ffa772b0",
+      "api/test/baseline-offline.json": "027a572d094122f00f70d25d819f8c5d8ef3a215f2e02e23ab02cf7508a43e83",
+      "package-lock.json": "ba8d3e1b6fc86f2a2d52fc4c6d2cc18806749f82f5bfbd616cedc7738359e59e"
+    },
+    "loadMs": 165.46785699999998,
+    "indexMs": 62.26392600000008,
+    "totalMs": 407.530348
+  },
+  "summary": {
+    "all": {
+      "queries": 40,
+      "relevanceQueries": 32,
+      "top1Hits": 22,
+      "anyRelevantAt3": 24,
+      "allRelevantAt3": 23,
+      "macroRecallAt3": 0.734375,
+      "microRecallAt3": 0.7333333333333333,
+      "noMatch": 16,
+      "match": 22,
+      "uncertain": 2,
+      "returnedPassages": 72,
+      "weakReturnedPassages": 35,
+      "categories": {
+        "weak-lower-ranked-candidate": 20,
+        "top-one-relevance-miss": 2,
+        "threshold-abstention-with-relevant-evidence": 8,
+        "incomplete-relevant-set": 9,
+        "related-results-for-non-supported-premise": 8,
+        "match-status-for-non-supported-premise": 7
+      }
+    },
+    "ordinary": {
+      "queries": 8,
+      "relevanceQueries": 8,
+      "top1Hits": 7,
+      "anyRelevantAt3": 8,
+      "allRelevantAt3": 8,
+      "macroRecallAt3": 1,
+      "microRecallAt3": 1,
+      "noMatch": 0,
+      "match": 7,
+      "uncertain": 1,
+      "returnedPassages": 24,
+      "weakReturnedPassages": 14,
+      "categories": {
+        "weak-lower-ranked-candidate": 7,
+        "top-one-relevance-miss": 1
+      }
+    },
+    "temporal": {
+      "queries": 8,
+      "relevanceQueries": 8,
+      "top1Hits": 1,
+      "anyRelevantAt3": 2,
+      "allRelevantAt3": 2,
+      "macroRecallAt3": 0.25,
+      "microRecallAt3": 0.2222222222222222,
+      "noMatch": 6,
+      "match": 2,
+      "uncertain": 0,
+      "returnedPassages": 6,
+      "weakReturnedPassages": 3,
+      "categories": {
+        "threshold-abstention-with-relevant-evidence": 6,
+        "incomplete-relevant-set": 6,
+        "top-one-relevance-miss": 1,
+        "weak-lower-ranked-candidate": 2
+      }
+    },
+    "multi-record": {
+      "queries": 8,
+      "relevanceQueries": 8,
+      "top1Hits": 6,
+      "anyRelevantAt3": 6,
+      "allRelevantAt3": 6,
+      "macroRecallAt3": 0.75,
+      "microRecallAt3": 0.7647058823529411,
+      "noMatch": 2,
+      "match": 6,
+      "uncertain": 0,
+      "returnedPassages": 18,
+      "weakReturnedPassages": 7,
+      "categories": {
+        "weak-lower-ranked-candidate": 5,
+        "threshold-abstention-with-relevant-evidence": 2,
+        "incomplete-relevant-set": 2
+      }
+    },
+    "misleading-premise": {
+      "queries": 8,
+      "relevanceQueries": 8,
+      "top1Hits": 8,
+      "anyRelevantAt3": 8,
+      "allRelevantAt3": 7,
+      "macroRecallAt3": 0.9375,
+      "microRecallAt3": 0.9090909090909091,
+      "noMatch": 0,
+      "match": 7,
+      "uncertain": 1,
+      "returnedPassages": 24,
+      "weakReturnedPassages": 11,
+      "categories": {
+        "weak-lower-ranked-candidate": 6,
+        "related-results-for-non-supported-premise": 8,
+        "match-status-for-non-supported-premise": 7,
+        "incomplete-relevant-set": 1
+      }
+    },
+    "unrelated": {
+      "queries": 8,
+      "relevanceQueries": 0,
+      "top1Hits": 0,
+      "anyRelevantAt3": 0,
+      "allRelevantAt3": 0,
+      "macroRecallAt3": null,
+      "microRecallAt3": null,
+      "noMatch": 8,
+      "match": 0,
+      "uncertain": 0,
+      "returnedPassages": 0,
+      "weakReturnedPassages": 0,
+      "categories": {}
+    }
+  },
+  "originalHardQueryComparison": {
+    "query": "How was the recurring nighttime alarm fixed?",
+    "intended": "M07",
+    "archivedRanking": [
+      "M02",
+      "M03",
+      "M07"
+    ],
+    "currentRanking": [
+      "M02",
+      "M03",
+      "M07"
+    ],
+    "archivedStatus": "uncertain",
+    "currentStatus": "uncertain",
+    "scoreDeltas": [
+      {
+        "id": "M02",
+        "delta": 0
+      },
+      {
+        "id": "M03",
+        "delta": 0
+      },
+      {
+        "id": "M07",
+        "delta": 0
+      }
+    ],
+    "note": "Archived seven-query baseline only; not lost 48-query artifacts."
+  },
+  "results": [
+    {
+      "id": "Q01",
+      "category": "ordinary",
+      "query": "What is causing the low hum in the turbine hall?",
+      "relevant_record_ids": [
+        "M01"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Worn fan bearing and uneven rotation.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.7380770990905591
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.22769722006969814
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.19398973811567205
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M01",
+          "score": 0.7380770990905591
+        },
+        {
+          "id": "M04",
+          "score": 0.22769722006969814
+        },
+        {
+          "id": "M03",
+          "score": 0.19398973811567205
+        },
+        {
+          "id": "M02",
+          "score": 0.1890440644983194
+        },
+        {
+          "id": "M07",
+          "score": 0.16274987863182552
+        },
+        {
+          "id": "M06",
+          "score": 0.1606624330988452
+        },
+        {
+          "id": "M05",
+          "score": 0.10708507270047844
+        },
+        {
+          "id": "M08",
+          "score": 0.0663716847426119
+        }
+      ],
+      "latencyMs": 6.602639999999951,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q02",
+      "category": "ordinary",
+      "query": "Why does the relay clock restart the maintenance chime every night?",
+      "relevant_record_ids": [
+        "M02"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Power loss and discharging capacitor.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.8292243294125383
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.6711246489258944
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.4507243219744005
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M02",
+          "score": 0.8292243294125383
+        },
+        {
+          "id": "M07",
+          "score": 0.6711246489258944
+        },
+        {
+          "id": "M03",
+          "score": 0.4507243219744005
+        },
+        {
+          "id": "M01",
+          "score": 0.3061296145480918
+        },
+        {
+          "id": "M04",
+          "score": 0.28114696570486425
+        },
+        {
+          "id": "M05",
+          "score": 0.20565226110388574
+        },
+        {
+          "id": "M06",
+          "score": 0.1779239806005717
+        },
+        {
+          "id": "M08",
+          "score": -0.010523895034115533
+        }
+      ],
+      "latencyMs": 4.791331999999898,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    },
+    {
+      "id": "Q03",
+      "category": "ordinary",
+      "query": "What triggered the recorded three-note sound with nobody on shift?",
+      "relevant_record_ids": [
+        "M03"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Automatic relay reboot triggered the recording.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.7409487068138776
+        },
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.2783706765165999
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.2381091193160001
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.7409487068138776
+        },
+        {
+          "id": "M01",
+          "score": 0.2783706765165999
+        },
+        {
+          "id": "M07",
+          "score": 0.2381091193160001
+        },
+        {
+          "id": "M04",
+          "score": 0.22078768032275414
+        },
+        {
+          "id": "M05",
+          "score": 0.18743158477554753
+        },
+        {
+          "id": "M02",
+          "score": 0.18594353226137222
+        },
+        {
+          "id": "M08",
+          "score": 0.18194792397514006
+        },
+        {
+          "id": "M06",
+          "score": 0.1530857129556588
+        }
+      ],
+      "latencyMs": 4.5509250000000065,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q04",
+      "category": "ordinary",
+      "query": "Why do the corridor lamps flicker?",
+      "relevant_record_ids": [
+        "M04"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Rainwater and shorted lighting circuit.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.674129244320339
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.31216015092108074
+        },
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.2889474395156164
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M04",
+          "score": 0.674129244320339
+        },
+        {
+          "id": "M03",
+          "score": 0.31216015092108074
+        },
+        {
+          "id": "M01",
+          "score": 0.2889474395156164
+        },
+        {
+          "id": "M02",
+          "score": 0.23604195280568782
+        },
+        {
+          "id": "M07",
+          "score": 0.16337853949498338
+        },
+        {
+          "id": "M05",
+          "score": 0.15709658030278065
+        },
+        {
+          "id": "M08",
+          "score": 0.10049989172432752
+        },
+        {
+          "id": "M06",
+          "score": 0.0995550865889818
+        }
+      ],
+      "latencyMs": 3.3849460000000136,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q05",
+      "category": "ordinary",
+      "query": "Whose boot prints were beside the locked entrance?",
+      "relevant_record_ids": [
+        "M05"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Inspection team technicians.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M05",
+          "date": "1987-10-27T12:00:00Z",
+          "quote": "Fresh boot prints near the locked entrance belong to the inspection team. Two technicians visited to check the roof damage.",
+          "score": 0.6971186542460042
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.32611400475171104
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.19581106944921411
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M05",
+          "score": 0.6971186542460042
+        },
+        {
+          "id": "M03",
+          "score": 0.32611400475171104
+        },
+        {
+          "id": "M04",
+          "score": 0.19581106944921411
+        },
+        {
+          "id": "M07",
+          "score": 0.16518093153084645
+        },
+        {
+          "id": "M08",
+          "score": 0.16507499167214149
+        },
+        {
+          "id": "M02",
+          "score": 0.07969355554954617
+        },
+        {
+          "id": "M01",
+          "score": 0.06310647494475907
+        },
+        {
+          "id": "M06",
+          "score": -0.003694019698760339
+        }
+      ],
+      "latencyMs": 3.9651249999999436,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q06",
+      "category": "ordinary",
+      "query": "Why is the pressure needle stuck at forty kilopascals?",
+      "relevant_record_ids": [
+        "M06"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Blocked sensing tube.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M06",
+          "date": "1987-10-27T17:00:00Z",
+          "quote": "The pressure gauge is stuck at forty kilopascals. A blocked sensing tube prevents the needle from returning to zero.",
+          "score": 0.8101361794307628
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.1352898914334232
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.13414064336826015
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M06",
+          "score": 0.8101361794307628
+        },
+        {
+          "id": "M03",
+          "score": 0.1352898914334232
+        },
+        {
+          "id": "M02",
+          "score": 0.13414064336826015
+        },
+        {
+          "id": "M01",
+          "score": 0.12223497677067786
+        },
+        {
+          "id": "M04",
+          "score": 0.10452657664091287
+        },
+        {
+          "id": "M07",
+          "score": 0.1031036621495048
+        },
+        {
+          "id": "M05",
+          "score": 0.05782912978108949
+        },
+        {
+          "id": "M08",
+          "score": 0.044523889465664795
+        }
+      ],
+      "latencyMs": 4.123149000000012,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q07",
+      "category": "ordinary",
+      "query": "How was the recurring nighttime alarm fixed?",
+      "relevant_record_ids": [
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Capacitor replacement; original hard query retained verbatim. Alarm paraphrases chime.",
+      "status": "uncertain",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.41346315242201703
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.39445953059669436
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.386465203968284
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M02",
+          "score": 0.41346315242201703
+        },
+        {
+          "id": "M03",
+          "score": 0.39445953059669436
+        },
+        {
+          "id": "M07",
+          "score": 0.386465203968284
+        },
+        {
+          "id": "M04",
+          "score": 0.3208939899538577
+        },
+        {
+          "id": "M05",
+          "score": 0.2784777363862913
+        },
+        {
+          "id": "M06",
+          "score": 0.15475473373192442
+        },
+        {
+          "id": "M01",
+          "score": 0.09809302446345347
+        },
+        {
+          "id": "M08",
+          "score": 0.09198802537174403
+        }
+      ],
+      "latencyMs": 3.405174000000102,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": false,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "top-one-relevance-miss",
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q08",
+      "category": "ordinary",
+      "query": "Why are there no personnel files from before 1987?",
+      "relevant_record_ids": [
+        "M08"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Earlier files never transferred; no occupancy records in this archive.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M08",
+          "date": "1987-10-28T14:00:00Z",
+          "quote": "The archive has no occupancy records for the years before 1987. Earlier personnel files were never transferred to this cabinet.",
+          "score": 0.601997087816086
+        },
+        {
+          "id": "M05",
+          "date": "1987-10-27T12:00:00Z",
+          "quote": "Fresh boot prints near the locked entrance belong to the inspection team. Two technicians visited to check the roof damage.",
+          "score": 0.22687426635566352
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.17697131112585554
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M08",
+          "score": 0.601997087816086
+        },
+        {
+          "id": "M05",
+          "score": 0.22687426635566352
+        },
+        {
+          "id": "M03",
+          "score": 0.17697131112585554
+        },
+        {
+          "id": "M04",
+          "score": 0.07671146035562842
+        },
+        {
+          "id": "M07",
+          "score": 0.07439422543929762
+        },
+        {
+          "id": "M02",
+          "score": 0.05229371448536345
+        },
+        {
+          "id": "M06",
+          "score": 0.044507606708728976
+        },
+        {
+          "id": "M01",
+          "score": 0.023331234753527302
+        }
+      ],
+      "latencyMs": 3.9776180000000068,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q09",
+      "category": "temporal",
+      "query": "Which record was written first?",
+      "relevant_record_ids": [
+        "M01"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Earliest record timestamp, not earliest event inferred from text.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.26298839530511936
+        },
+        {
+          "id": "M08",
+          "score": 0.2193066893017148
+        },
+        {
+          "id": "M05",
+          "score": 0.06752618032754415
+        },
+        {
+          "id": "M04",
+          "score": 0.05681196357639229
+        },
+        {
+          "id": "M06",
+          "score": 0.03421722377852384
+        },
+        {
+          "id": "M07",
+          "score": 0.02734105861957262
+        },
+        {
+          "id": "M01",
+          "score": 0.0024427609121393376
+        },
+        {
+          "id": "M02",
+          "score": -0.059047056930660764
+        }
+      ],
+      "latencyMs": 3.4401090000000067,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 0,
+        "top1Relevant": false,
+        "anyRelevantAt3": false,
+        "allRelevantAt3": false,
+        "recallAt3": 0,
+        "ungatedRecallAt3": 0,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "threshold-abstention-with-relevant-evidence",
+          "incomplete-relevant-set"
+        ]
+      }
+    },
+    {
+      "id": "Q10",
+      "category": "temporal",
+      "query": "Which record was written last?",
+      "relevant_record_ids": [
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Latest timestamp October 31; record order is not date order.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.30457465092289987
+        },
+        {
+          "id": "M08",
+          "score": 0.2627356928321125
+        },
+        {
+          "id": "M07",
+          "score": 0.10515620791600745
+        },
+        {
+          "id": "M02",
+          "score": 0.059984401952559316
+        },
+        {
+          "id": "M05",
+          "score": 0.058625422277759735
+        },
+        {
+          "id": "M04",
+          "score": 0.0461109385132728
+        },
+        {
+          "id": "M06",
+          "score": 0.03621497239928004
+        },
+        {
+          "id": "M01",
+          "score": 0.008720139185160883
+        }
+      ],
+      "latencyMs": 2.948374000000058,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 0,
+        "top1Relevant": false,
+        "anyRelevantAt3": false,
+        "allRelevantAt3": false,
+        "recallAt3": 0,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "threshold-abstention-with-relevant-evidence",
+          "incomplete-relevant-set"
+        ]
+      }
+    },
+    {
+      "id": "Q11",
+      "category": "temporal",
+      "query": "What was recorded on October 28 at 14:00?",
+      "relevant_record_ids": [
+        "M08"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Timestamp identifies archive coverage note.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.2722677707206628
+        },
+        {
+          "id": "M02",
+          "score": 0.1796662535676957
+        },
+        {
+          "id": "M07",
+          "score": 0.16875780424717257
+        },
+        {
+          "id": "M04",
+          "score": 0.12420317680193485
+        },
+        {
+          "id": "M08",
+          "score": 0.07762742949726233
+        },
+        {
+          "id": "M05",
+          "score": 0.05847011281085094
+        },
+        {
+          "id": "M01",
+          "score": 0.025913976330121255
+        },
+        {
+          "id": "M06",
+          "score": 0.02388346546384699
+        }
+      ],
+      "latencyMs": 3.3560019999999895,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 0,
+        "top1Relevant": false,
+        "anyRelevantAt3": false,
+        "allRelevantAt3": false,
+        "recallAt3": 0,
+        "ungatedRecallAt3": 0,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "threshold-abstention-with-relevant-evidence",
+          "incomplete-relevant-set"
+        ]
+      }
+    },
+    {
+      "id": "Q12",
+      "category": "temporal",
+      "query": "What did the October 27 noon entry report?",
+      "relevant_record_ids": [
+        "M05"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Timestamp identifies inspection team boot prints.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.22637479818496567
+        },
+        {
+          "id": "M02",
+          "score": 0.21998435087096885
+        },
+        {
+          "id": "M07",
+          "score": 0.20275557085524923
+        },
+        {
+          "id": "M05",
+          "score": 0.1599313466200917
+        },
+        {
+          "id": "M04",
+          "score": 0.11556722845477282
+        },
+        {
+          "id": "M08",
+          "score": 0.09833079029150948
+        },
+        {
+          "id": "M06",
+          "score": 0.06655071702645891
+        },
+        {
+          "id": "M01",
+          "score": 0.02810900369684408
+        }
+      ],
+      "latencyMs": 3.4696539999999914,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 0,
+        "top1Relevant": false,
+        "anyRelevantAt3": false,
+        "allRelevantAt3": false,
+        "recallAt3": 0,
+        "ungatedRecallAt3": 0,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "threshold-abstention-with-relevant-evidence",
+          "incomplete-relevant-set"
+        ]
+      }
+    },
+    {
+      "id": "Q13",
+      "category": "temporal",
+      "query": "What was documented immediately before the October 27 pressure-gauge entry?",
+      "relevant_record_ids": [
+        "M05"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Previous record timestamp is noon that day.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M06",
+          "score": 0.3977740299534069
+        },
+        {
+          "id": "M07",
+          "score": 0.18438989425178878
+        },
+        {
+          "id": "M03",
+          "score": 0.1565629428796588
+        },
+        {
+          "id": "M08",
+          "score": 0.11840270846868964
+        },
+        {
+          "id": "M04",
+          "score": 0.10341002323642821
+        },
+        {
+          "id": "M02",
+          "score": 0.10216792051553072
+        },
+        {
+          "id": "M05",
+          "score": 0.09087750168769797
+        },
+        {
+          "id": "M01",
+          "score": -0.002285347509636267
+        }
+      ],
+      "latencyMs": 3.9933979999999565,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 0,
+        "top1Relevant": false,
+        "anyRelevantAt3": false,
+        "allRelevantAt3": false,
+        "recallAt3": 0,
+        "ungatedRecallAt3": 0,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "threshold-abstention-with-relevant-evidence",
+          "incomplete-relevant-set"
+        ]
+      }
+    },
+    {
+      "id": "Q14",
+      "category": "temporal",
+      "query": "What was the next recorded entry after the corridor speaker note?",
+      "relevant_record_ids": [
+        "M04"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Next timestamp October 26 at 09:00.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.7338933647120132
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.2588902175948567
+        },
+        {
+          "id": "M05",
+          "date": "1987-10-27T12:00:00Z",
+          "quote": "Fresh boot prints near the locked entrance belong to the inspection team. Two technicians visited to check the roof damage.",
+          "score": 0.23037051277599666
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.7338933647120132
+        },
+        {
+          "id": "M04",
+          "score": 0.2588902175948567
+        },
+        {
+          "id": "M05",
+          "score": 0.23037051277599666
+        },
+        {
+          "id": "M07",
+          "score": 0.19205798348195144
+        },
+        {
+          "id": "M08",
+          "score": 0.17059723362453033
+        },
+        {
+          "id": "M01",
+          "score": 0.16359951974212808
+        },
+        {
+          "id": "M06",
+          "score": 0.09323321853295788
+        },
+        {
+          "id": "M02",
+          "score": 0.08944671037659277
+        }
+      ],
+      "latencyMs": 3.698488999999995,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": false,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "top-one-relevance-miss",
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q15",
+      "category": "temporal",
+      "query": "What evidence reports the three nights after the capacitor replacement?",
+      "relevant_record_ids": [
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Retrospective maintenance note; exact replacement date not asserted.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.5062934937546575
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.4500995898031192
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.2872847664548858
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M07",
+          "score": 0.5062934937546575
+        },
+        {
+          "id": "M02",
+          "score": 0.4500995898031192
+        },
+        {
+          "id": "M04",
+          "score": 0.2872847664548858
+        },
+        {
+          "id": "M03",
+          "score": 0.25948568987615434
+        },
+        {
+          "id": "M05",
+          "score": 0.2340930940328188
+        },
+        {
+          "id": "M08",
+          "score": 0.16811821350035525
+        },
+        {
+          "id": "M06",
+          "score": 0.11639338007346343
+        },
+        {
+          "id": "M01",
+          "score": 0.09500335340515229
+        }
+      ],
+      "latencyMs": 6.100195999999983,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q16",
+      "category": "temporal",
+      "query": "Which two entries were recorded at 02:13 on consecutive dates?",
+      "relevant_record_ids": [
+        "M02",
+        "M03"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "October 25 and October 26 timestamp metadata.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.2624268090140355
+        },
+        {
+          "id": "M02",
+          "score": 0.19316915768614504
+        },
+        {
+          "id": "M08",
+          "score": 0.18965141410266917
+        },
+        {
+          "id": "M07",
+          "score": 0.12678486740985395
+        },
+        {
+          "id": "M04",
+          "score": 0.09774809538501955
+        },
+        {
+          "id": "M05",
+          "score": 0.07328471458005305
+        },
+        {
+          "id": "M06",
+          "score": 0.040528945831225384
+        },
+        {
+          "id": "M01",
+          "score": 0.027092034571865983
+        }
+      ],
+      "latencyMs": 5.114181999999914,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 0,
+        "top1Relevant": false,
+        "anyRelevantAt3": false,
+        "allRelevantAt3": false,
+        "recallAt3": 0,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "threshold-abstention-with-relevant-evidence",
+          "incomplete-relevant-set"
+        ]
+      }
+    },
+    {
+      "id": "Q17",
+      "category": "multi-record",
+      "query": "What caused the nightly reset, and what stopped it?",
+      "relevant_record_ids": [
+        "M02",
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Cause and subsequent intervention require two records.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.6093341968817814
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.486298526953387
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.3049351703613449
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M07",
+          "score": 0.6093341968817814
+        },
+        {
+          "id": "M02",
+          "score": 0.486298526953387
+        },
+        {
+          "id": "M04",
+          "score": 0.3049351703613449
+        },
+        {
+          "id": "M03",
+          "score": 0.2764323729331684
+        },
+        {
+          "id": "M05",
+          "score": 0.22503009872819293
+        },
+        {
+          "id": "M06",
+          "score": 0.1433123476631554
+        },
+        {
+          "id": "M01",
+          "score": 0.09834169294674747
+        },
+        {
+          "id": "M08",
+          "score": 0.04931589096504689
+        }
+      ],
+      "latencyMs": 4.445328000000018,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 2,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q18",
+      "category": "multi-record",
+      "query": "How are the relay reboot and the unattended speaker recording connected?",
+      "relevant_record_ids": [
+        "M02",
+        "M03"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Clock/capacitor mechanism and speaker observation.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.49281516151503174
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.4010940186978562
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.4008025666561332
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.49281516151503174
+        },
+        {
+          "id": "M02",
+          "score": 0.4010940186978562
+        },
+        {
+          "id": "M07",
+          "score": 0.4008025666561332
+        },
+        {
+          "id": "M05",
+          "score": 0.20378020230301103
+        },
+        {
+          "id": "M01",
+          "score": 0.14877614652512253
+        },
+        {
+          "id": "M04",
+          "score": 0.14362969807374132
+        },
+        {
+          "id": "M06",
+          "score": 0.09433736036594431
+        },
+        {
+          "id": "M08",
+          "score": 0.005953255918073899
+        }
+      ],
+      "latencyMs": 5.606447000000003,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 2,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    },
+    {
+      "id": "Q19",
+      "category": "multi-record",
+      "query": "What links the roof leak with the technicians visiting?",
+      "relevant_record_ids": [
+        "M04",
+        "M05"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Roof seal damage and inspection of roof damage.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M05",
+          "date": "1987-10-27T12:00:00Z",
+          "quote": "Fresh boot prints near the locked entrance belong to the inspection team. Two technicians visited to check the roof damage.",
+          "score": 0.5676624241637063
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.4548469006572388
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.23014289485863873
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M05",
+          "score": 0.5676624241637063
+        },
+        {
+          "id": "M04",
+          "score": 0.4548469006572388
+        },
+        {
+          "id": "M02",
+          "score": 0.23014289485863873
+        },
+        {
+          "id": "M07",
+          "score": 0.19097491660582902
+        },
+        {
+          "id": "M03",
+          "score": 0.1472318313915389
+        },
+        {
+          "id": "M01",
+          "score": 0.09414758774922428
+        },
+        {
+          "id": "M06",
+          "score": 0.05348776562867777
+        },
+        {
+          "id": "M08",
+          "score": 0.051814017498164264
+        }
+      ],
+      "latencyMs": 4.213917000000038,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 2,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q20",
+      "category": "multi-record",
+      "query": "What mechanical faults explain both the humming fan and stuck gauge?",
+      "relevant_record_ids": [
+        "M01",
+        "M06"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Distinct mechanical faults.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.572691833282081
+        },
+        {
+          "id": "M06",
+          "date": "1987-10-27T17:00:00Z",
+          "quote": "The pressure gauge is stuck at forty kilopascals. A blocked sensing tube prevents the needle from returning to zero.",
+          "score": 0.3336816861058023
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.2631078996258383
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M01",
+          "score": 0.572691833282081
+        },
+        {
+          "id": "M06",
+          "score": 0.3336816861058023
+        },
+        {
+          "id": "M07",
+          "score": 0.2631078996258383
+        },
+        {
+          "id": "M02",
+          "score": 0.25432481667800017
+        },
+        {
+          "id": "M03",
+          "score": 0.2438384955667414
+        },
+        {
+          "id": "M04",
+          "score": 0.18174526761833693
+        },
+        {
+          "id": "M05",
+          "score": 0.10806164302667796
+        },
+        {
+          "id": "M08",
+          "score": -0.01961659410285852
+        }
+      ],
+      "latencyMs": 4.88622799999996,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 2,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q21",
+      "category": "multi-record",
+      "query": "Compare the corridor lighting fault with the cause of the three-note chime.",
+      "relevant_record_ids": [
+        "M03",
+        "M04"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Two independent explanations.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.6486662401548292
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.4058436288771116
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.3835491671263931
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.6486662401548292
+        },
+        {
+          "id": "M04",
+          "score": 0.4058436288771116
+        },
+        {
+          "id": "M07",
+          "score": 0.3835491671263931
+        },
+        {
+          "id": "M02",
+          "score": 0.28129415391536394
+        },
+        {
+          "id": "M01",
+          "score": 0.2453365972170554
+        },
+        {
+          "id": "M05",
+          "score": 0.19503785037351717
+        },
+        {
+          "id": "M06",
+          "score": 0.11510005528644286
+        },
+        {
+          "id": "M08",
+          "score": 0.004398934562130638
+        }
+      ],
+      "latencyMs": 6.0172509999999875,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 2,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q22",
+      "category": "multi-record",
+      "query": "What evidence describes the chime before and after the capacitor replacement?",
+      "relevant_record_ids": [
+        "M02",
+        "M03",
+        "M07"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Cause, observed playback, and follow-up.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.49365479872215495
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.38579306536529717
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.32596337800546143
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M07",
+          "score": 0.49365479872215495
+        },
+        {
+          "id": "M03",
+          "score": 0.38579306536529717
+        },
+        {
+          "id": "M02",
+          "score": 0.32596337800546143
+        },
+        {
+          "id": "M01",
+          "score": 0.16597526131346135
+        },
+        {
+          "id": "M06",
+          "score": 0.15245205103335313
+        },
+        {
+          "id": "M04",
+          "score": 0.1521445831226419
+        },
+        {
+          "id": "M05",
+          "score": 0.1344118773776431
+        },
+        {
+          "id": "M08",
+          "score": 0.10124473698619972
+        }
+      ],
+      "latencyMs": 7.757869000000028,
+      "metrics": {
+        "relevantCount": 3,
+        "relevantReturned": 3,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate"
+        ]
+      }
+    },
+    {
+      "id": "Q23",
+      "category": "multi-record",
+      "query": "What did the two October 27 entries say about prints and pressure?",
+      "relevant_record_ids": [
+        "M05",
+        "M06"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Both entries requested explicitly.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M05",
+          "score": 0.28023822687317773
+        },
+        {
+          "id": "M06",
+          "score": 0.27083564060933224
+        },
+        {
+          "id": "M03",
+          "score": 0.14061289705284666
+        },
+        {
+          "id": "M08",
+          "score": 0.10630345570903288
+        },
+        {
+          "id": "M04",
+          "score": 0.09411371569726332
+        },
+        {
+          "id": "M07",
+          "score": 0.08546810525105299
+        },
+        {
+          "id": "M01",
+          "score": 0.07459663085360675
+        },
+        {
+          "id": "M02",
+          "score": 0.04600210610657821
+        }
+      ],
+      "latencyMs": 4.755012999999963,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 0,
+        "top1Relevant": false,
+        "anyRelevantAt3": false,
+        "allRelevantAt3": false,
+        "recallAt3": 0,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "threshold-abstention-with-relevant-evidence",
+          "incomplete-relevant-set"
+        ]
+      }
+    },
+    {
+      "id": "Q24",
+      "category": "multi-record",
+      "query": "What explains the humming hall and why earlier personnel history cannot be checked?",
+      "relevant_record_ids": [
+        "M01",
+        "M08"
+      ],
+      "premise_support": "supported",
+      "label_rationale": "Two unrelated but answerable archive topics.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.38368566211714217
+        },
+        {
+          "id": "M01",
+          "score": 0.3579690121753406
+        },
+        {
+          "id": "M08",
+          "score": 0.2875634569835072
+        },
+        {
+          "id": "M05",
+          "score": 0.2541603910627406
+        },
+        {
+          "id": "M07",
+          "score": 0.21260871222621341
+        },
+        {
+          "id": "M02",
+          "score": 0.1591961063665441
+        },
+        {
+          "id": "M04",
+          "score": 0.1574840088973865
+        },
+        {
+          "id": "M06",
+          "score": 0.11354178072515177
+        }
+      ],
+      "latencyMs": 4.469543999999928,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 0,
+        "top1Relevant": false,
+        "anyRelevantAt3": false,
+        "allRelevantAt3": false,
+        "recallAt3": 0,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "supported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "threshold-abstention-with-relevant-evidence",
+          "incomplete-relevant-set"
+        ]
+      }
+    },
+    {
+      "id": "Q25",
+      "category": "misleading-premise",
+      "query": "Why did a ghost sing through the corridor speaker?",
+      "relevant_record_ids": [
+        "M03"
+      ],
+      "premise_support": "contradicted",
+      "label_rationale": "Recording triggered by automatic relay, not a ghost.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.5877343875709743
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.3276314916962783
+        },
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.2791936511371825
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M03",
+          "score": 0.5877343875709743
+        },
+        {
+          "id": "M04",
+          "score": 0.3276314916962783
+        },
+        {
+          "id": "M01",
+          "score": 0.2791936511371825
+        },
+        {
+          "id": "M07",
+          "score": 0.19732204590625926
+        },
+        {
+          "id": "M05",
+          "score": 0.158682252348408
+        },
+        {
+          "id": "M02",
+          "score": 0.13266539158135054
+        },
+        {
+          "id": "M08",
+          "score": 0.0974063614877595
+        },
+        {
+          "id": "M06",
+          "score": 0.08026193521628888
+        }
+      ],
+      "latencyMs": 4.828065000000038,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "contradicted",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate",
+          "related-results-for-non-supported-premise",
+          "match-status-for-non-supported-premise"
+        ]
+      }
+    },
+    {
+      "id": "Q26",
+      "category": "misleading-premise",
+      "query": "How did the intruder leave fresh boot prints by the locked entrance?",
+      "relevant_record_ids": [
+        "M05"
+      ],
+      "premise_support": "contradicted",
+      "label_rationale": "Prints attributed to inspection team, not an intruder.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M05",
+          "date": "1987-10-27T12:00:00Z",
+          "quote": "Fresh boot prints near the locked entrance belong to the inspection team. Two technicians visited to check the roof damage.",
+          "score": 0.6899965373210072
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.32180546788661557
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.24259714974662988
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M05",
+          "score": 0.6899965373210072
+        },
+        {
+          "id": "M03",
+          "score": 0.32180546788661557
+        },
+        {
+          "id": "M04",
+          "score": 0.24259714974662988
+        },
+        {
+          "id": "M07",
+          "score": 0.23714369895078977
+        },
+        {
+          "id": "M08",
+          "score": 0.19155524134638963
+        },
+        {
+          "id": "M02",
+          "score": 0.16276010516808648
+        },
+        {
+          "id": "M06",
+          "score": 0.09086830475067259
+        },
+        {
+          "id": "M01",
+          "score": 0.06024487204382667
+        }
+      ],
+      "latencyMs": 7.951578999999924,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "contradicted",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate",
+          "related-results-for-non-supported-premise",
+          "match-status-for-non-supported-premise"
+        ]
+      }
+    },
+    {
+      "id": "Q27",
+      "category": "misleading-premise",
+      "query": "Why does the archive prove nobody occupied the building before 1987?",
+      "relevant_record_ids": [
+        "M08"
+      ],
+      "premise_support": "unsupported",
+      "label_rationale": "Missing occupancy records cannot establish absence of occupants.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M08",
+          "date": "1987-10-28T14:00:00Z",
+          "quote": "The archive has no occupancy records for the years before 1987. Earlier personnel files were never transferred to this cabinet.",
+          "score": 0.6137831582328399
+        },
+        {
+          "id": "M05",
+          "date": "1987-10-27T12:00:00Z",
+          "quote": "Fresh boot prints near the locked entrance belong to the inspection team. Two technicians visited to check the roof damage.",
+          "score": 0.27643069166593587
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.14478841506498985
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M08",
+          "score": 0.6137831582328399
+        },
+        {
+          "id": "M05",
+          "score": 0.27643069166593587
+        },
+        {
+          "id": "M03",
+          "score": 0.14478841506498985
+        },
+        {
+          "id": "M04",
+          "score": 0.11986177634069066
+        },
+        {
+          "id": "M01",
+          "score": 0.10845109797136383
+        },
+        {
+          "id": "M07",
+          "score": 0.0843432322445829
+        },
+        {
+          "id": "M02",
+          "score": 0.08036699414261043
+        },
+        {
+          "id": "M06",
+          "score": -0.01179828485186942
+        }
+      ],
+      "latencyMs": 4.001552999999944,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "unsupported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate",
+          "related-results-for-non-supported-premise",
+          "match-status-for-non-supported-premise"
+        ]
+      }
+    },
+    {
+      "id": "Q28",
+      "category": "misleading-premise",
+      "query": "How did replacing the fan bearing stop the nightly relay resets?",
+      "relevant_record_ids": [
+        "M01",
+        "M07"
+      ],
+      "premise_support": "contradicted",
+      "label_rationale": "Documented reset intervention is capacitor replacement, not fan bearing.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.6572651521910354
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.5267034339474173
+        },
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.4069663108897932
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M07",
+          "score": 0.6572651521910354
+        },
+        {
+          "id": "M02",
+          "score": 0.5267034339474173
+        },
+        {
+          "id": "M01",
+          "score": 0.4069663108897932
+        },
+        {
+          "id": "M03",
+          "score": 0.29293136530542807
+        },
+        {
+          "id": "M04",
+          "score": 0.24675328451178555
+        },
+        {
+          "id": "M05",
+          "score": 0.21805460654175982
+        },
+        {
+          "id": "M06",
+          "score": 0.15636717792279078
+        },
+        {
+          "id": "M08",
+          "score": 0.0034556897127365808
+        }
+      ],
+      "latencyMs": 4.47347000000002,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 2,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "contradicted",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "related-results-for-non-supported-premise",
+          "match-status-for-non-supported-premise"
+        ]
+      }
+    },
+    {
+      "id": "Q29",
+      "category": "misleading-premise",
+      "query": "Which technician deliberately sabotaged the corridor lighting?",
+      "relevant_record_ids": [
+        "M04",
+        "M05"
+      ],
+      "premise_support": "unsupported",
+      "label_rationale": "Leak explains short; technicians inspected roof. No intentional sabotage or named culprit.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.5505346257508216
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.40428008801075505
+        },
+        {
+          "id": "M05",
+          "date": "1987-10-27T12:00:00Z",
+          "quote": "Fresh boot prints near the locked entrance belong to the inspection team. Two technicians visited to check the roof damage.",
+          "score": 0.39301714546372807
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M04",
+          "score": 0.5505346257508216
+        },
+        {
+          "id": "M03",
+          "score": 0.40428008801075505
+        },
+        {
+          "id": "M05",
+          "score": 0.39301714546372807
+        },
+        {
+          "id": "M07",
+          "score": 0.286811273931104
+        },
+        {
+          "id": "M02",
+          "score": 0.24855781723115505
+        },
+        {
+          "id": "M06",
+          "score": 0.14751456737532925
+        },
+        {
+          "id": "M08",
+          "score": 0.12580627893144458
+        },
+        {
+          "id": "M01",
+          "score": 0.08909634602785978
+        }
+      ],
+      "latencyMs": 4.615142999999989,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 2,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "unsupported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate",
+          "related-results-for-non-supported-premise",
+          "match-status-for-non-supported-premise"
+        ]
+      }
+    },
+    {
+      "id": "Q30",
+      "category": "misleading-premise",
+      "query": "Why did the pressure gauge show zero after the sensing tube was cleared?",
+      "relevant_record_ids": [
+        "M06"
+      ],
+      "premise_support": "unsupported",
+      "label_rationale": "Only blocked tube and stuck forty reading documented; no clearing or later zero reading.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M06",
+          "date": "1987-10-27T17:00:00Z",
+          "quote": "The pressure gauge is stuck at forty kilopascals. A blocked sensing tube prevents the needle from returning to zero.",
+          "score": 0.731058410883521
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.23626426498672792
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.17295736302989786
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M06",
+          "score": 0.731058410883521
+        },
+        {
+          "id": "M07",
+          "score": 0.23626426498672792
+        },
+        {
+          "id": "M03",
+          "score": 0.17295736302989786
+        },
+        {
+          "id": "M08",
+          "score": 0.13812026010610395
+        },
+        {
+          "id": "M02",
+          "score": 0.128637322671337
+        },
+        {
+          "id": "M01",
+          "score": 0.12129793492789212
+        },
+        {
+          "id": "M04",
+          "score": 0.10965351167122382
+        },
+        {
+          "id": "M05",
+          "score": 0.09599638733534828
+        }
+      ],
+      "latencyMs": 5.5261279999999715,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "unsupported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "weak-lower-ranked-candidate",
+          "related-results-for-non-supported-premise",
+          "match-status-for-non-supported-premise"
+        ]
+      }
+    },
+    {
+      "id": "Q31",
+      "category": "misleading-premise",
+      "query": "What proves the maintenance chimes never returned at any later time?",
+      "relevant_record_ids": [
+        "M07"
+      ],
+      "premise_support": "unsupported",
+      "label_rationale": "Follow-up limited to three nights, not all future time.",
+      "status": "uncertain",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.5426637798518779
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.5040189259861485
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.4642430312158472
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M07",
+          "score": 0.5426637798518779
+        },
+        {
+          "id": "M03",
+          "score": 0.5040189259861485
+        },
+        {
+          "id": "M02",
+          "score": 0.4642430312158472
+        },
+        {
+          "id": "M05",
+          "score": 0.284064469795195
+        },
+        {
+          "id": "M01",
+          "score": 0.25483075191388427
+        },
+        {
+          "id": "M04",
+          "score": 0.22406649749144944
+        },
+        {
+          "id": "M08",
+          "score": 0.1443437711054649
+        },
+        {
+          "id": "M06",
+          "score": 0.1310235580350625
+        }
+      ],
+      "latencyMs": 3.975904000000014,
+      "metrics": {
+        "relevantCount": 1,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": true,
+        "recallAt3": 1,
+        "ungatedRecallAt3": 1,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "unsupported",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "related-results-for-non-supported-premise"
+        ]
+      }
+    },
+    {
+      "id": "Q32",
+      "category": "misleading-premise",
+      "query": "How did the October 28 note confirm that the capacitor replacement had already been monitored for three nights?",
+      "relevant_record_ids": [
+        "M07",
+        "M08"
+      ],
+      "premise_support": "contradicted",
+      "label_rationale": "October 28 record concerns missing files; capacitor follow-up note dated October 31.",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.4715957119016936
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.38707893253096626
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.3719494961454568
+        }
+      ],
+      "fullRanking": [
+        {
+          "id": "M07",
+          "score": 0.4715957119016936
+        },
+        {
+          "id": "M02",
+          "score": 0.38707893253096626
+        },
+        {
+          "id": "M03",
+          "score": 0.3719494961454568
+        },
+        {
+          "id": "M05",
+          "score": 0.23617294204150432
+        },
+        {
+          "id": "M04",
+          "score": 0.21392083539044945
+        },
+        {
+          "id": "M06",
+          "score": 0.15157894230708904
+        },
+        {
+          "id": "M08",
+          "score": 0.13629271371522025
+        },
+        {
+          "id": "M01",
+          "score": 0.07337328530129007
+        }
+      ],
+      "latencyMs": 5.581240999999977,
+      "metrics": {
+        "relevantCount": 2,
+        "relevantReturned": 1,
+        "top1Relevant": true,
+        "anyRelevantAt3": true,
+        "allRelevantAt3": false,
+        "recallAt3": 0.5,
+        "ungatedRecallAt3": 0.5,
+        "outOfDomainAbstained": null,
+        "premiseSupport": "contradicted",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": [
+          "incomplete-relevant-set",
+          "weak-lower-ranked-candidate",
+          "related-results-for-non-supported-premise",
+          "match-status-for-non-supported-premise"
+        ]
+      }
+    },
+    {
+      "id": "Q33",
+      "category": "unrelated",
+      "query": "How do I bake sourdough bread?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M05",
+          "score": 0.04547674933849643
+        },
+        {
+          "id": "M04",
+          "score": 0.04323243838818239
+        },
+        {
+          "id": "M02",
+          "score": 0.015701084870557144
+        },
+        {
+          "id": "M03",
+          "score": 0.008091498832988939
+        },
+        {
+          "id": "M06",
+          "score": -0.009440636511753538
+        },
+        {
+          "id": "M01",
+          "score": -0.01044497629418331
+        },
+        {
+          "id": "M08",
+          "score": -0.03483838798947821
+        },
+        {
+          "id": "M07",
+          "score": -0.05255070077878757
+        }
+      ],
+      "latencyMs": 3.58997700000009,
+      "metrics": {
+        "relevantCount": 0,
+        "relevantReturned": 0,
+        "top1Relevant": null,
+        "anyRelevantAt3": null,
+        "allRelevantAt3": null,
+        "recallAt3": null,
+        "ungatedRecallAt3": null,
+        "outOfDomainAbstained": true,
+        "premiseSupport": "out-of-domain",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    },
+    {
+      "id": "Q34",
+      "category": "unrelated",
+      "query": "Who won the 1998 football World Cup?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M06",
+          "score": 0.12037152249433333
+        },
+        {
+          "id": "M05",
+          "score": 0.10619662398483283
+        },
+        {
+          "id": "M04",
+          "score": 0.07878119517615957
+        },
+        {
+          "id": "M03",
+          "score": 0.06569772861572078
+        },
+        {
+          "id": "M08",
+          "score": 0.05392922905496383
+        },
+        {
+          "id": "M07",
+          "score": 0.04613788857332275
+        },
+        {
+          "id": "M02",
+          "score": 0.039698750622415326
+        },
+        {
+          "id": "M01",
+          "score": 0.03244465938354483
+        }
+      ],
+      "latencyMs": 3.892029000000093,
+      "metrics": {
+        "relevantCount": 0,
+        "relevantReturned": 0,
+        "top1Relevant": null,
+        "anyRelevantAt3": null,
+        "allRelevantAt3": null,
+        "recallAt3": null,
+        "ungatedRecallAt3": null,
+        "outOfDomainAbstained": true,
+        "premiseSupport": "out-of-domain",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    },
+    {
+      "id": "Q35",
+      "category": "unrelated",
+      "query": "What is the exchange rate for euros today?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M06",
+          "score": 0.08230638056194349
+        },
+        {
+          "id": "M02",
+          "score": 0.03821565597548972
+        },
+        {
+          "id": "M07",
+          "score": 0.03797802289027403
+        },
+        {
+          "id": "M03",
+          "score": 0.024726141547225133
+        },
+        {
+          "id": "M01",
+          "score": 0.006870259142259098
+        },
+        {
+          "id": "M08",
+          "score": -0.05180924181447473
+        },
+        {
+          "id": "M04",
+          "score": -0.07158796864223184
+        },
+        {
+          "id": "M05",
+          "score": -0.09036965399671984
+        }
+      ],
+      "latencyMs": 3.317641000000094,
+      "metrics": {
+        "relevantCount": 0,
+        "relevantReturned": 0,
+        "top1Relevant": null,
+        "anyRelevantAt3": null,
+        "allRelevantAt3": null,
+        "recallAt3": null,
+        "ungatedRecallAt3": null,
+        "outOfDomainAbstained": true,
+        "premiseSupport": "out-of-domain",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    },
+    {
+      "id": "Q36",
+      "category": "unrelated",
+      "query": "How do I train a puppy to sit?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M05",
+          "score": 0.05804622919328999
+        },
+        {
+          "id": "M03",
+          "score": 0.006622900911027617
+        },
+        {
+          "id": "M06",
+          "score": -0.046489719924523054
+        },
+        {
+          "id": "M01",
+          "score": -0.04676131479787628
+        },
+        {
+          "id": "M08",
+          "score": -0.056256622635278856
+        },
+        {
+          "id": "M02",
+          "score": -0.06627805600275907
+        },
+        {
+          "id": "M04",
+          "score": -0.06953390274076166
+        },
+        {
+          "id": "M07",
+          "score": -0.09354325174461148
+        }
+      ],
+      "latencyMs": 3.0644689999999173,
+      "metrics": {
+        "relevantCount": 0,
+        "relevantReturned": 0,
+        "top1Relevant": null,
+        "anyRelevantAt3": null,
+        "allRelevantAt3": null,
+        "recallAt3": null,
+        "ungatedRecallAt3": null,
+        "outOfDomainAbstained": true,
+        "premiseSupport": "out-of-domain",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    },
+    {
+      "id": "Q37",
+      "category": "unrelated",
+      "query": "Which planet has the most moons?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M01",
+          "score": 0.032305426368211404
+        },
+        {
+          "id": "M08",
+          "score": -0.02630511670544348
+        },
+        {
+          "id": "M02",
+          "score": -0.03268696974674537
+        },
+        {
+          "id": "M05",
+          "score": -0.04502125425576509
+        },
+        {
+          "id": "M06",
+          "score": -0.062046929198349095
+        },
+        {
+          "id": "M03",
+          "score": -0.07620847834926062
+        },
+        {
+          "id": "M07",
+          "score": -0.07627449417850087
+        },
+        {
+          "id": "M04",
+          "score": -0.07883690970958708
+        }
+      ],
+      "latencyMs": 2.7507060000000365,
+      "metrics": {
+        "relevantCount": 0,
+        "relevantReturned": 0,
+        "top1Relevant": null,
+        "anyRelevantAt3": null,
+        "allRelevantAt3": null,
+        "recallAt3": null,
+        "ungatedRecallAt3": null,
+        "outOfDomainAbstained": true,
+        "premiseSupport": "out-of-domain",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    },
+    {
+      "id": "Q38",
+      "category": "unrelated",
+      "query": "Give me a recipe for chocolate ice cream.",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M02",
+          "score": 0.05516394951235984
+        },
+        {
+          "id": "M01",
+          "score": 0.03132479496494054
+        },
+        {
+          "id": "M03",
+          "score": 0.023395536413041314
+        },
+        {
+          "id": "M06",
+          "score": -0.007859244469241428
+        },
+        {
+          "id": "M07",
+          "score": -0.033304690406249705
+        },
+        {
+          "id": "M04",
+          "score": -0.04693058042424637
+        },
+        {
+          "id": "M05",
+          "score": -0.0722082972897819
+        },
+        {
+          "id": "M08",
+          "score": -0.1042188174204558
+        }
+      ],
+      "latencyMs": 3.0961379999999963,
+      "metrics": {
+        "relevantCount": 0,
+        "relevantReturned": 0,
+        "top1Relevant": null,
+        "anyRelevantAt3": null,
+        "allRelevantAt3": null,
+        "recallAt3": null,
+        "ungatedRecallAt3": null,
+        "outOfDomainAbstained": true,
+        "premiseSupport": "out-of-domain",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    },
+    {
+      "id": "Q39",
+      "category": "unrelated",
+      "query": "How do I renew my passport?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M08",
+          "score": 0.11423679753543577
+        },
+        {
+          "id": "M04",
+          "score": 0.07841749082097084
+        },
+        {
+          "id": "M06",
+          "score": 0.05762077605730839
+        },
+        {
+          "id": "M07",
+          "score": 0.03360706200465294
+        },
+        {
+          "id": "M05",
+          "score": 0.023840063429467453
+        },
+        {
+          "id": "M02",
+          "score": 0.013910602720049361
+        },
+        {
+          "id": "M01",
+          "score": -0.055368318157867205
+        },
+        {
+          "id": "M03",
+          "score": -0.08518977549448326
+        }
+      ],
+      "latencyMs": 3.063658999999916,
+      "metrics": {
+        "relevantCount": 0,
+        "relevantReturned": 0,
+        "top1Relevant": null,
+        "anyRelevantAt3": null,
+        "allRelevantAt3": null,
+        "recallAt3": null,
+        "ungatedRecallAt3": null,
+        "outOfDomainAbstained": true,
+        "premiseSupport": "out-of-domain",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    },
+    {
+      "id": "Q40",
+      "category": "unrelated",
+      "query": "What is the best hiking trail in Patagonia?",
+      "relevant_record_ids": [],
+      "premise_support": "out-of-domain",
+      "label_rationale": "No relevant evidence in these eight fictional records.",
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "fullRanking": [
+        {
+          "id": "M06",
+          "score": 0.059691308752649844
+        },
+        {
+          "id": "M05",
+          "score": 0.05062920868204102
+        },
+        {
+          "id": "M04",
+          "score": -0.009060120426857067
+        },
+        {
+          "id": "M02",
+          "score": -0.03193255358114456
+        },
+        {
+          "id": "M07",
+          "score": -0.04870014235158925
+        },
+        {
+          "id": "M03",
+          "score": -0.05959104249590886
+        },
+        {
+          "id": "M08",
+          "score": -0.07154819938182051
+        },
+        {
+          "id": "M01",
+          "score": -0.08881630689767206
+        }
+      ],
+      "latencyMs": 4.039372999999955,
+      "metrics": {
+        "relevantCount": 0,
+        "relevantReturned": 0,
+        "top1Relevant": null,
+        "anyRelevantAt3": null,
+        "allRelevantAt3": null,
+        "recallAt3": null,
+        "ungatedRecallAt3": null,
+        "outOfDomainAbstained": true,
+        "premiseSupport": "out-of-domain",
+        "premiseVerification": "not-performed-by-retrieval-engine",
+        "categories": []
+      }
+    }
+  ]
+}

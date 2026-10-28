@@ -1,0 +1,26 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {initialState,reducer} from './state.ts';
+import {validateResult} from './engine.ts';
+import type {SearchResult, ArchiveRecord} from './engine.ts';
+const result:SearchResult={outcome:'matches',model:'test',evidence:[{recordId:'a',quote:'Exactly this.',score:.8}]};
+const ready=()=>reducer(reducer(reducer(initialState,{type:'attach',operation:1}),{type:'initialize',operation:2}),{type:'ready',operation:2});
+test('search is rejected until model ready',()=>{assert.equal(reducer(initialState,{type:'search',operation:1,query:'Original question'}),initialState);});
+test('initialize then ready enables search',()=>{assert.equal(ready().ready,true);assert.equal(reducer(ready(),{type:'search',operation:3,query:'Original question'}).phase,'searching');});
+test('cancel initialization rejects late readiness and progress',()=>{let s=reducer(initialState,{type:'initialize',operation:1});s=reducer(s,{type:'cancel',operation:2});assert.equal(s.ready,false);assert.equal(reducer(s,{type:'ready',operation:1}),s);assert.equal(reducer(s,{type:'progress',operation:1,progress:{stage:'indexing',message:'late'}}),s);});
+test('cancel search preserves model readiness, rejects late result',()=>{let s=reducer(ready(),{type:'search',operation:3,query:'Original question'});s=reducer(s,{type:'cancel',operation:4});assert.equal(s.phase,'ready');assert.equal(reducer(s,{type:'result',operation:3,result}),s);});
+test('new search rejects stale results and errors',()=>{let s=reducer(ready(),{type:'search',operation:3,query:'Original question'});s=reducer(s,{type:'search',operation:4,query:'Original question'});assert.equal(reducer(s,{type:'result',operation:3,result}),s);assert.equal(reducer(s,{type:'error',operation:3,error:'late'}),s);});
+test('reset clears result, selection, and leaves model ready',()=>{let s=reducer(ready(),{type:'search',operation:3,query:'Original question'});s=reducer(s,{type:'result',operation:3,result});s=reducer(s,{type:'reset',operation:4});assert.equal(s.result,undefined);assert.equal(s.selected,undefined);assert.equal(s.ready,true);});
+test('reset during search suppresses its eventual result',()=>{let s=reducer(ready(),{type:'search',operation:3,query:'Original question'});s=reducer(s,{type:'reset',operation:4});assert.equal(reducer(s,{type:'result',operation:3,result}),s);});
+test('attach new engine discards prior readiness',()=>{const s=reducer(ready(),{type:'attach',operation:3});assert.equal(s.ready,false);assert.equal(s.phase,'idle');});
+test('search failure permits retry without reinitializing',()=>{let s=reducer(ready(),{type:'search',operation:3,query:'Original question'});s=reducer(s,{type:'error',operation:3,error:'Unavailable'});assert.equal(s.ready,true);assert.equal(reducer(s,{type:'search',operation:4,query:'Original question'}).phase,'searching');});
+const records:ArchiveRecord[]=[{id:'a',text:'Exactly this.',date:'1987-01-01',title:'a',author:'Synthetic',location:'a'}];
+test('accepts exact source quote',()=>assert.equal(validateResult(result,records),result));
+test('rejects invented quotations',()=>assert.throws(()=>validateResult({...result,evidence:[{recordId:'a',quote:'Made up.',score:.9}]},records)));
+test('rejects invented source IDs',()=>assert.throws(()=>validateResult({...result,evidence:[{recordId:'missing',quote:'Exactly this.',score:.9}]},records)));
+test('rejects no-match with evidence',()=>assert.throws(()=>validateResult({...result,outcome:'no-match'},records)));
+test('rejects matches without evidence',()=>assert.throws(()=>validateResult({...result,evidence:[]},records)));
+test('rejects nonfinite and out-of-range similarity',()=>{for(const score of [NaN,Infinity,1.1,-1.1])assert.throws(()=>validateResult({...result,evidence:[{recordId:'a',quote:'Exactly this.',score}]},records));});
+
+test('engine attachment synchronously clears old citations and submitted query',()=>{let s=reducer(ready(),{type:'search',operation:3,query:'lights'});s=reducer(s,{type:'result',operation:3,result});s=reducer(s,{type:'attach',operation:4});assert.equal(s.result,undefined);assert.equal(s.selected,undefined);assert.equal(s.submittedQuery,undefined);assert.equal(s.ready,false);assert.equal(reducer(s,{type:'result',operation:3,result}),s);});
+test('submitted question belongs to the accepted search operation, not later edits',()=>{let s=reducer(ready(),{type:'search',operation:3,query:'lights'});s=reducer(s,{type:'result',operation:3,result});assert.equal(s.submittedQuery,'lights');s=reducer(s,{type:'search',operation:4,query:'cake'});assert.equal(s.submittedQuery,'cake');assert.equal(s.result,undefined);assert.equal(reducer(s,{type:'result',operation:3,result}),s);});
