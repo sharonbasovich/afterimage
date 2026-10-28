@@ -70,6 +70,9 @@ test('failed asset load is recoverable; cancellation cannot revive stale initial
   await page.goto('/');
   await page.getByRole('button', {name: 'Enable browser AI'}).click();
   await expect(page.getByText('The trace was interrupted.', {exact: true})).toBeVisible({timeout: 120_000});
+  // Real runtime errors include long pinned asset URLs; they must wrap, not expand the mobile layout.
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  expect(await page.locator('.error-state').evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   await page.getByText('Browse all 8 original records', {exact: true}).click();
   await expect(page.locator('.archive-index article')).toHaveCount(8);
   failAssets = false;
