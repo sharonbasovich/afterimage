@@ -15,7 +15,7 @@ test('production WASM: consent, real hard query, exact originals, timeline, no-m
   const errors: string[] = [];
   page.on('request', request => requests.push(request.url()));
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto('/');
+  await page.goto('./');
   if (info.project.name === 'mobile-chromium') expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
   await page.getByRole('button', {name: 'Enter the archive'}).click();
   await expect(page.locator('#archive')).toBeFocused();
@@ -28,7 +28,7 @@ test('production WASM: consent, real hard query, exact originals, timeline, no-m
   await ready(page);
   expect(requests.some(url => url.endsWith('model_quantized.onnx'))).toBe(true);
   expect(requests.some(url => url.endsWith('.wasm'))).toBe(true);
-  expect(requests.every(url => new URL(url).origin === 'http://127.0.0.1:4173')).toBe(true);
+  expect(requests.every(url => new URL(url).origin === new URL(page.url()).origin)).toBe(true);
   const query = 'How was the recurring nighttime alarm fixed?';
   await search(page, query);
   const cards = page.locator('.evidence-card');
@@ -67,7 +67,7 @@ test('failed asset load is recoverable; cancellation cannot revive stale initial
   // Fault injection only blocks a real download. The successful retry must use unmodified real WASM.
   let failAssets = true;
   await context.route('**/models/**', route => failAssets ? route.abort('failed') : route.continue());
-  await page.goto('/');
+  await page.goto('./');
   await page.getByRole('button', {name: 'Enable browser AI'}).click();
   await expect(page.getByText('The trace was interrupted.', {exact: true})).toBeVisible({timeout: 120_000});
   // Real runtime errors include long pinned asset URLs; they must wrap, not expand the mobile layout.
