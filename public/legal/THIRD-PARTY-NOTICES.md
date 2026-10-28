@@ -2,8 +2,19 @@
 
 The initial local prototype used React Bits SpotlightCard. That component and its stylesheet have been removed from this candidate because its additional license restrictions were not clearly compatible with the event's sublicensing requirements. Current method cards are an original CSS implementation covered by the project MIT license. No React Bits source is included in this package.
 
+## React runtime dependencies
+
+The locked browser dependencies `react` 19.3.1, `react-dom` 19.3.1, and
+`scheduler` 0.28.0 are MIT licensed, copyright Meta Platforms, Inc. and affiliates.
+Their installed package `LICENSE` files are byte-identical. The complete,
+unmodified license text is preserved in `licenses/REACT-MIT.txt` and
+`public/legal/REACT-MIT.txt`; the static build distributes it as
+`legal/REACT-MIT.txt` alongside this notice. Keep this notice and the full license
+with redistributed source and browser builds, including minified bundles.
+Exact package versions and npm tarball integrity values are in `package-lock.json`.
+
 ## Other dependencies and assets
 
-React and React DOM: MIT, Meta Platforms and contributors. Vite: MIT. TypeScript: Apache-2.0. ESLint ecosystem: see each dependency's included license. Exact resolved dependencies are pinned by `package-lock.json`.
+Vite: MIT. TypeScript: Apache-2.0. ESLint ecosystem: see each dependency's included license. Exact resolved dependencies are pinned by `package-lock.json`.
 
 Instrument illustration is original inline SVG + CSS. No stock photos, paid assets, remote fonts, or analytics. Browser AI loads model/runtime resources only after explicit consent. CSS uses a system fallback font stack; DM Sans/IBM Plex Mono names apply only if locally installed. Pinned q8 model weights (approximately 23 MB), tokenizer/configuration files, and WASM runtime assets are bundled as self-hosted static resources under public/models/ and public/wasm/ (models/ and wasm/ in dist). These assets are included in the source preservation and static delivery archives; the Git repository instead provides `npm run setup:browser-assets` to restore the identical SHA256-pinned assets from the official pinned model revision and integrity-locked runtime npm package. In all cases, but are fetched by the browser only after explicit consent; they are not embedded in the initial UI JavaScript. Xenova/all-MiniLM-L6-v2 is Apache-2.0 licensed; its pinned revision and runtime configuration are recorded in README.md. Transformers.js 3.8.1 is Apache-2.0 licensed (copy in api/licenses/TRANSFORMERS-APACHE-2.0.txt); ONNX Runtime is MIT licensed (see package license). Pinned runtime and model resources are served same-origin, after consent; the browser worker disables remote model fallback.
