@@ -62,7 +62,8 @@ jobs:
           cp ../capture-code/scripts/capture-motion.mjs scripts/capture-motion.mjs
           timeout 90s node scripts/capture-motion.mjs
           cp motion-deps/package-lock.json motion-capture/gsap-package-lock.json
-          cp motion-deps/node_modules/gsap/LICENSE motion-capture/GSAP-LICENSE.txt
+          cp motion-deps/node_modules/gsap/package.json motion-capture/gsap-package.json
+          cp motion-deps/node_modules/gsap/dist/gsap.min.js motion-capture/gsap.min.js # Includes unmodified license notice and official terms URL.
           sha256sum motion-capture/* > motion-capture/SHA256SUMS.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
