@@ -46,6 +46,12 @@ jobs:
           git rev-parse HEAD > demo-capture/app-source-commit.txt
           cp docs/PINNED-ASSET-SHA256.json demo-capture/
           sha256sum demo-capture/* > demo-capture/SHA256SUMS.txt
+      - name: Preserve successful raw application footage before editorial rendering
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: app-browser-capture-${{ github.sha }}
+          path: app/demo-capture/
+          retention-days: 7
       - name: Record original GSAP editorial sequences (no model)
         working-directory: app
         run: |
@@ -54,7 +60,7 @@ jobs:
           cp ../capture-code/film/motion.html motion/index.html
           cp motion-deps/node_modules/gsap/dist/gsap.min.js motion/gsap.min.js
           cp ../capture-code/scripts/capture-motion.mjs scripts/capture-motion.mjs
-          node scripts/capture-motion.mjs
+          timeout 90s node scripts/capture-motion.mjs
           cp motion-deps/package-lock.json motion-capture/gsap-package-lock.json
           cp motion-deps/node_modules/gsap/LICENSE motion-capture/GSAP-LICENSE.txt
           sha256sum motion-capture/* > motion-capture/SHA256SUMS.txt
