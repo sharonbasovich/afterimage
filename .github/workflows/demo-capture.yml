@@ -1,0 +1,68 @@
+name: Source-pinned demo capture
+on:
+  push:
+    branches: ['film/real-browser-capture']
+permissions:
+  contents: read
+concurrency:
+  group: demo-capture-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          path: capture-code
+          sparse-checkout: |
+            scripts/capture-demo.mjs
+            scripts/capture-motion.mjs
+            film/motion.html
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          ref: c38a1bd7c4bdc73a87bdf1bd5dce7bf66f3c6c80
+          path: app
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.22.1'
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - name: Build exact source and install real browser
+        working-directory: app
+        run: |
+          npm ci
+          npm run setup:browser-assets
+          npm run build
+          npx playwright install --with-deps chromium
+          cp ../capture-code/scripts/capture-demo.mjs scripts/capture-demo.mjs
+      - name: Record actual app, real WASM retrieval and exact originals
+        working-directory: app
+        run: |
+          node scripts/capture-demo.mjs
+          git rev-parse HEAD > demo-capture/app-source-commit.txt
+          cp docs/PINNED-ASSET-SHA256.json demo-capture/
+          sha256sum demo-capture/* > demo-capture/SHA256SUMS.txt
+      - name: Record original GSAP editorial sequences (no model)
+        working-directory: app
+        run: |
+          npm install --prefix motion-deps --ignore-scripts --no-audit --no-fund --save-exact gsap@3.15.0
+          mkdir -p motion
+          cp ../capture-code/film/motion.html motion/index.html
+          cp motion-deps/node_modules/gsap/dist/gsap.min.js motion/gsap.min.js
+          cp ../capture-code/scripts/capture-motion.mjs scripts/capture-motion.mjs
+          node scripts/capture-motion.mjs
+          cp motion-deps/package-lock.json motion-capture/gsap-package-lock.json
+          cp motion-deps/node_modules/gsap/LICENSE motion-capture/GSAP-LICENSE.txt
+          sha256sum motion-capture/* > motion-capture/SHA256SUMS.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: real-browser-capture-${{ github.sha }}
+          path: |
+            app/demo-capture/
+            app/motion-capture/
+          retention-days: 7
