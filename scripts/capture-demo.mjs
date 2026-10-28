@@ -1,0 +1,54 @@
+import {chromium} from '@playwright/test';
+import {mkdir, writeFile, readFile} from 'node:fs/promises';
+import {spawn} from 'node:child_process';
+import {performance} from 'node:perf_hooks';
+const dir='demo-capture';
+const records=JSON.parse(await readFile('api/corpus.json','utf8'));
+const checkSource=async(page,id)=>{const expected=records.find(r=>r.id===id).text;const actual=await page.locator('.source-text p').textContent();if(actual!==expected)throw Error(`Original source mismatch for ${id}`);};
+await mkdir(dir,{recursive:true});
+const server=spawn('npm',['run','preview','--','--host','127.0.0.1','--port','4173','--strictPort'],{stdio:'inherit'});
+let browser,context;
+const provenance={sourceCommit:'c38a1bd7c4bdc73a87bdf1bd5dce7bf66f3c6c80',captureCommit:process.env.GITHUB_SHA,viewport:{width:1600,height:900},timingNote:'Shot timestamps begin after newPage resolves; WebM may begin slightly earlier. Use matching shot PNGs to align edit, not timestamps alone.',cache:'New isolated browser context; no stored state or model cache supplied',requests:[],pageErrors:[],shots:[],queries:[]};
+try {
+ for(let i=0;i<100;i++){try{if((await fetch('http://127.0.0.1:4173')).ok)break;}catch{ /* Preview is still starting. */ }await new Promise(r=>setTimeout(r,200));if(i===99)throw Error('Preview failed to start');}
+ browser=await chromium.launch();
+ context=await browser.newContext({viewport:provenance.viewport,recordVideo:{dir,size:provenance.viewport},serviceWorkers:'block'});
+ const page=await context.newPage();
+ const began=performance.now();
+ const stamp=()=>Number(((performance.now()-began)/1000).toFixed(3));
+ page.on('request',r=>provenance.requests.push({seconds:stamp(),url:r.url()}));
+ page.on('pageerror',e=>provenance.pageErrors.push(e.message));
+ const hold=ms=>page.waitForTimeout(ms);
+ const shot=async(name,holdMs=8000)=>{provenance.shots.push({name,seconds:stamp()});await page.screenshot({path:`${dir}/${name}.png`});await hold(holdMs);};
+ const frame=async(selector)=>{await page.locator(selector).first().evaluate(el=>el.scrollIntoView({block:'start',behavior:'smooth'}));await hold(1200);};
+ const search=async(query)=>{await frame('.search-form');await page.getByLabel('What are you trying to understand?').fill('');await page.getByLabel('What are you trying to understand?').pressSequentially(query,{delay:65});await hold(1000);await page.getByRole('button',{name:'Trace the evidence'}).click();await page.locator('.submitted-query').filter({hasText:`Results for: ${query}`}).waitFor();await page.locator('.loading-state').waitFor({state:'hidden'});provenance.queries.push({query,seconds:stamp(),cards:await page.locator('.evidence-card').allTextContents(),outcome:await page.locator('.status-area').textContent()});};
+ await page.goto('http://127.0.0.1:4173');
+ await shot('01-hero',10000);
+ await page.getByRole('button',{name:'Enter the archive'}).click();await hold(1400);
+ await shot('02-consent-before-download',12000);
+ if(provenance.requests.some(r=>/\/(models|wasm)\//.test(new URL(r.url).pathname)))throw Error('AI assets requested before consent');
+ await page.getByText('Browse all 8 original records',{exact:true}).click();await frame('.archive-index');await shot('03-manual-archive-before-download',8000);
+ await page.getByText('Browse all 8 original records',{exact:true}).click();await frame('#archive');await hold(2000);
+ provenance.consentSeconds=stamp();await page.getByRole('button',{name:'Enable browser AI'}).click();
+ await page.locator('.engine-state').filter({hasText:'8 records available'}).waitFor({timeout:180000});provenance.readySeconds=stamp();
+ await shot('04-model-ready',6000);
+ await search('Why did the speaker play music with no workers present?');await frame('.results-heading');await shot('05-music-results',8000);
+ const m03=page.locator('.evidence-card').filter({hasText:'/ M03'});await m03.click();await checkSource(page,'M03');await frame('.evidence-layout');await shot('06-m03-exact-source',14000);
+ await search('How was the recurring nighttime alarm fixed?');await frame('.results-heading');
+ const ranks=await page.locator('.evidence-top > span').allTextContents();if(JSON.stringify(ranks)!==JSON.stringify(['01 / M02','02 / M03','03 / M07']))throw Error(`Actual hard-query order changed: ${JSON.stringify(ranks)}`);
+ await shot('07-repair-ranked-results',12000);
+ await page.locator('.evidence-card').filter({hasText:'/ M07'}).click();await checkSource(page,'M07');await shot('07b-third-ranked-m07',7000);await frame('.evidence-layout');await shot('08-m07-original-source',18000);
+ await page.getByRole('button',{name:'Reveal the timeline'}).click();await frame('#timeline');await shot('09-timeline',10000);
+ await frame('#timeline li:last-child');await shot('10-m07-timeline',14000);
+ await page.locator('#timeline li').last().getByRole('button',{name:'Inspect source'}).click();await hold(1400);await shot('11-inspect-m07-source',12000);
+ await search('How do I bake a chocolate birthday cake?');await frame('.status-area');
+ await page.getByRole('heading',{name:'No close semantic match.'}).waitFor();await shot('12-no-match',12000);
+ await page.getByText('Browse all 8 original records',{exact:true}).click();await frame('.archive-index');await shot('13-manual-records',10000);
+ await page.getByRole('link',{name:'Afterimage home',exact:true}).click();await hold(1400);await shot('14-hero-close',8000);
+ if(!provenance.requests.some(r=>r.url.endsWith('model_quantized.onnx'))||!provenance.requests.some(r=>r.url.endsWith('.wasm')))throw Error('No real model/runtime request evidence');
+ if(provenance.requests.some(r=>new URL(r.url).origin!=='http://127.0.0.1:4173'))throw Error('Unexpected external request');
+ if(provenance.pageErrors.length)throw Error('Browser errors recorded');
+ provenance.success=true;provenance.endSeconds=stamp();
+ const video=page.video();await context.close();context=undefined;await video.saveAs(`${dir}/afterimage-real-browser.webm`);
+} catch(error){provenance.success=false;provenance.error=String(error);throw error;}
+finally{if(context)await context.close();if(browser)await browser.close();server.kill('SIGTERM');await writeFile(`${dir}/provenance.json`,JSON.stringify(provenance,null,2));}
