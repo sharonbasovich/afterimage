@@ -1,0 +1,184 @@
+{
+  "timestamp": "2026-10-28T04:46:00.304Z",
+  "offline": true,
+  "node": "v24.22.1",
+  "model": "Xenova/all-MiniLM-L6-v2",
+  "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+  "dtype": "q8",
+  "dimensions": 384,
+  "loadMs": 126.46692199999998,
+  "indexMs": 63.84024900000003,
+  "totalMs": 219.586912,
+  "embeddingSample": [
+    0.026364047080278397,
+    -0.02764297090470791,
+    0.017291756346821785,
+    0.03838292881846428,
+    0.011146040633320808,
+    -0.057233721017837524,
+    -0.05891527235507965,
+    -0.033210817724466324
+  ],
+  "passed": 6,
+  "total": 7,
+  "results": [
+    {
+      "query": "Why are the lights blinking?",
+      "expected": "M04",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.5094541938963772
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.3029914858167572
+        },
+        {
+          "id": "M05",
+          "date": "1987-10-27T12:00:00Z",
+          "quote": "Fresh boot prints near the locked entrance belong to the inspection team. Two technicians visited to check the roof damage.",
+          "score": 0.294440854440391
+        }
+      ],
+      "latencyMs": 4.730290999999966,
+      "passed": true
+    },
+    {
+      "query": "What makes the empty hall buzz?",
+      "expected": "M01",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.4675883941011193
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.38471527021830315
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.33385934380432225
+        }
+      ],
+      "latencyMs": 3.150192000000004,
+      "passed": true
+    },
+    {
+      "query": "Why did the speaker play music with no workers present?",
+      "expected": "M03",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.5180684042174509
+        },
+        {
+          "id": "M01",
+          "date": "1987-10-24T21:00:00Z",
+          "quote": "The cooling fan bearing is worn. Its uneven rotation produces a low humming sound in the empty turbine hall.",
+          "score": 0.3046360884762751
+        },
+        {
+          "id": "M04",
+          "date": "1987-10-26T09:00:00Z",
+          "quote": "Rainwater entered through a cracked roof seal. Moisture shorted the corridor lighting circuit, making the lamps flicker.",
+          "score": 0.24963878750086313
+        }
+      ],
+      "latencyMs": 3.610898999999961,
+      "passed": true
+    },
+    {
+      "query": "How was the recurring nighttime alarm fixed?",
+      "expected": "M07",
+      "status": "uncertain",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.41346315242201703
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.39445953059669436
+        },
+        {
+          "id": "M07",
+          "date": "1987-10-31T08:00:00Z",
+          "quote": "Replacing the backup capacitor stopped the nightly relay reset. No further unprompted chimes were logged during the following three nights.",
+          "score": 0.386465203968284
+        }
+      ],
+      "latencyMs": 3.1944330000000036,
+      "passed": false
+    },
+    {
+      "query": "Why does the meter never fall back to zero?",
+      "expected": "M06",
+      "status": "match",
+      "reason": "Similarity ranks passages; it does not verify a claim or establish causation.",
+      "results": [
+        {
+          "id": "M06",
+          "date": "1987-10-27T17:00:00Z",
+          "quote": "The pressure gauge is stuck at forty kilopascals. A blocked sensing tube prevents the needle from returning to zero.",
+          "score": 0.4817570936870233
+        },
+        {
+          "id": "M02",
+          "date": "1987-10-25T02:13:00Z",
+          "quote": "The relay clock loses power at 02:13 each night. Its backup capacitor discharges and restarts the maintenance chime.",
+          "score": 0.3082432467562956
+        },
+        {
+          "id": "M03",
+          "date": "1987-10-26T02:13:00Z",
+          "quote": "A recorded three-note maintenance chime played from the corridor speaker although nobody was on shift. The automatic relay reboot triggered the recording.",
+          "score": 0.21839878990521974
+        }
+      ],
+      "latencyMs": 3.7822080000000255,
+      "passed": true
+    },
+    {
+      "query": "How do I bake a chocolate birthday cake?",
+      "expected": null,
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "latencyMs": 7.2284799999999905,
+      "passed": true
+    },
+    {
+      "query": "Who won the football world cup?",
+      "expected": null,
+      "status": "no-match",
+      "reason": "No archive passage met the similarity threshold. This is not proof of absence.",
+      "results": [],
+      "latencyMs": 2.8665340000000015,
+      "passed": true
+    }
+  ]
+}

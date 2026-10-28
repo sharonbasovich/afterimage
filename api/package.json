@@ -1,0 +1,20 @@
+{
+  "name": "afterimage-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "setup:model": "node setup-model.mjs --download",
+    "test": "node --test test/contract.test.mjs",
+    "test:model": "node --test test/model.test.mjs",
+    "test:http": "node --test test/http.test.mjs",
+    "test:all": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "3.8.1"
+  }
+}
