@@ -4,6 +4,7 @@ import type {ArchiveRecord} from './engine.ts';
 import {DIMENSIONS,MODEL,REVISION} from './protocol.ts';
 import type {Request,Reply} from './protocol.ts';
 import {retrieve} from './browserRetrieve.ts';
+import {clearModelCache} from './modelCache.ts';
 const scope=globalThis as unknown as {location:Location;onmessage:((event:{data:Request})=>void)|null;postMessage:(reply:Reply)=>void};
 let extractor:FeatureExtractionPipeline|undefined,records:readonly ArchiveRecord[]=[],vectors:number[][]=[];
 function check(values:number[][]){if(!values.length||values.some(v=>v.length!==DIMENSIONS||v.some(x=>!Number.isFinite(x))))throw new Error('Model returned invalid 384-dimensional embeddings');return values;}
@@ -16,6 +17,9 @@ scope.onmessage=async({data})=>{
    const base=new URL(data.assetBase,scope.location.href);
    if(base.origin!==scope.location.origin||!['http:','https:'].includes(base.protocol))throw new Error('Assets must be same-origin HTTP(S)');
    if(!base.pathname.endsWith('/'))base.pathname+='/';
+   // The previous failed worker has been terminated. Clear only this app's
+   // pinned model entries before a retry can read invalid cached HTTP-200 bytes.
+   if(data.recoverCache)await clearModelCache(base);
    env.allowRemoteModels=false;env.allowLocalModels=true;env.useFSCache=false;
    env.useBrowserCache=typeof caches!=='undefined';
    env.localModelPath=new URL(`models/${REVISION}/`,base).href;

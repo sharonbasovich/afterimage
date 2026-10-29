@@ -8,10 +8,10 @@ const aborted=()=>new DOMException('Canceled','AbortError');
 /** Consent + initialize are both required before any worker/model/runtime load. */
 export function createBrowserEngine(options:{records?:readonly ArchiveRecord[];assetBase?:string;workerFactory?:()=>WorkerPort;onState?:(state:BrowserState)=>void}={}):BrowserEngine{
  const records=Object.freeze((options.records??browserRecords).map(r=>Object.freeze({...r})));
- let state:BrowserState='consent-required',consented=false,worker:WorkerPort|undefined,sequence=0,generation=0;
+ let state:BrowserState='consent-required',consented=false,worker:WorkerPort|undefined,sequence=0,generation=0,recoverCache=false;
  let pending:{id:number;resolve:(reply:Reply)=>void;reject:(error:Error)=>void;cleanup:()=>void;progress?:(p:ModelProgress)=>void}|undefined;
  const setState=(value:BrowserState)=>{state=value;options.onState?.(value);};
- const stop=(error:Error,next:BrowserState)=>{generation++;const old=pending;pending=undefined;worker?.terminate();worker=undefined;old?.cleanup();old?.reject(error);setState(next);};
+ const stop=(error:Error,next:BrowserState)=>{if(next==='error'&&state==='loading')recoverCache=true;generation++;const old=pending;pending=undefined;worker?.terminate();worker=undefined;old?.cleanup();old?.reject(error);setState(next);};
  const call=(request:Request,signal:AbortSignal,progress?:(p:ModelProgress)=>void)=>new Promise<Reply>((resolve,reject)=>{
   if(signal.aborted){reject(aborted());return;}
   const abort=()=>stop(aborted(),'idle');
@@ -44,10 +44,10 @@ export function createBrowserEngine(options:{records?:readonly ArchiveRecord[];a
      stop(new Error(event.message||'Browser model worker failed'),'error');
     };
     const assetBase=options.assetBase??new URL('.',globalThis.location.href).href;
-    const reply=await call({id:++sequence,type:'initialize',records,assetBase},signal,onProgress);
+    const reply=await call({id:++sequence,type:'initialize',records,assetBase,...(recoverCache?{recoverCache:true}:{})},signal,onProgress);
     if(own!==generation)throw aborted();
     if(reply.type!=='ready')throw new Error('Invalid initialization response');
-    setState('ready');
+    recoverCache=false;setState('ready');
    }catch(error){if(own===generation)stop(error instanceof Error?error:new Error(String(error)),'error');throw error;}
   },
   async search(query,{signal}){

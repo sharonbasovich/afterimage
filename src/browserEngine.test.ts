@@ -45,3 +45,41 @@ test('stale worker error cannot revive a disposed browser engine',async()=>{
  assert.equal(engine.state,'disposed');assert.equal(engine.isReady,false);
  assert.throws(()=>engine.grantDownloadConsent(),/disposed/);
 });
+test('failed initialization requests scoped cache recovery until a current retry succeeds',async()=>{
+ const {engine,workers}=setup();engine.grantDownloadConsent();
+ const first=engine.initialize(opts());const failed=assert.rejects(first,/invalid cached config/);
+ assert.equal('recoverCache' in workers[0].messages[0],false);
+ workers[0].reply({id:1,type:'error',message:'invalid cached config'});await failed;
+ assert.equal(workers[0].terminated,true);
+ const retry=engine.initialize(opts());const canceled=assert.rejects(retry,{name:'AbortError'});
+ assert.equal((workers[1].messages[0] as Extract<Request,{type:'initialize'}>).recoverCache,true);
+ engine.cancel();await canceled;
+ const replacement=engine.initialize(opts());
+ assert.equal((workers[2].messages[0] as Extract<Request,{type:'initialize'}>).recoverCache,true);
+ workers[1].reply({id:2,type:'ready'});assert.equal(engine.state,'loading');
+ workers[2].reply({id:3,type:'ready'});await replacement;
+ engine.cancel();const healthy=engine.initialize(opts());
+ assert.equal('recoverCache' in workers[3].messages[0],false);
+ workers[3].reply({id:4,type:'ready'});await healthy;
+});
+test('stale worker failures cannot arm cache recovery for a healthy replacement',async()=>{
+ const {engine,workers}=setup();engine.grantDownloadConsent();
+ const first=engine.initialize(opts());const canceled=assert.rejects(first,{name:'AbortError'});
+ const replacement=engine.initialize(opts());await canceled;
+ workers[0].onerror?.({message:'Late old failure'});
+ workers[1].reply({id:2,type:'ready'});await replacement;
+ engine.cancel();const next=engine.initialize(opts());
+ assert.equal('recoverCache' in workers[2].messages[0],false);
+ workers[2].reply({id:3,type:'ready'});await next;
+});
+test('search failure and ordinary cancellation do not discard cached model assets',async()=>{
+ const {engine,workers}=await ready();
+ const query=engine.search('question',opts());const failed=assert.rejects(query,/inference failed/);
+ workers[0].reply({id:2,type:'error',message:'inference failed'});await failed;
+ const retry=engine.initialize(opts());
+ assert.equal('recoverCache' in workers[1].messages[0],false);
+ workers[1].reply({id:3,type:'ready'});await retry;
+ engine.cancel();const next=engine.initialize(opts());
+ assert.equal('recoverCache' in workers[2].messages[0],false);
+ workers[2].reply({id:4,type:'ready'});await next;
+});
