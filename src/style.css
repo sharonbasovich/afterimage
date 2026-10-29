@@ -9,3 +9,16 @@
 .archive-card{position:relative;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--panel);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}.archive-card:focus-within{border-color:var(--amber)}@media(hover:hover) and (pointer:fine){.archive-card:hover{transform:translateY(-3px);border-color:var(--amber);box-shadow:0 8px 24px #0003}}.retrieval-caution{font-size:13px;line-height:1.8;color:var(--muted)}.archive-index{border-top:1px solid var(--line);padding:20px 0;color:var(--muted)}.archive-index summary{cursor:pointer;min-height:44px;padding:12px 0;color:var(--amber)}.archive-index article{padding:20px 0;border-bottom:1px solid var(--line)}.archive-index h3{font-size:18px}.archive-index blockquote{margin:12px 0;font-size:15px;line-height:1.8;color:var(--text);overflow-wrap:anywhere}
 
 @media(prefers-reduced-motion:reduce){.archive-card:hover{transform:none}}
+
+/* Source handoff: preserve orientation between the timeline and its original record. */
+.source-reader{scroll-margin-top:24px}
+.source-reader:focus-visible{outline:2px solid var(--amber);outline-offset:6px}
+.source-return.text-button{color:#38472e;border-bottom:1px solid #929b8170;width:100%;text-align:left;justify-content:flex-start;margin-bottom:18px;padding:0 0 12px}
+.source-return:focus-visible{outline-color:#38472e}
+.source-document{animation:record-arrive .2s ease-out}
+.timeline li>div{transition:background-color .2s,border-color .2s}
+.timeline li.timeline-selected>div{border-left-color:var(--amber);background:linear-gradient(90deg,#edbc770c,transparent 90%)}
+.timeline li.timeline-selected>div:before{box-shadow:0 0 0 4px #edbc7718}
+.reading-marker{color:var(--text);letter-spacing:0}
+@keyframes record-arrive{from{opacity:.65;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.source-document{animation:none}.timeline li>div{transition:none}}

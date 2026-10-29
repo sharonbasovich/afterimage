@@ -46,7 +46,7 @@ test('production WASM: consent, real hard query, exact originals, timeline, no-m
     await expect(page.locator('.source-text p')).toHaveText(record.text);
   }
   await page.getByRole('button', {name: 'Reveal the timeline'}).click();
-  await expect(page.locator('#timeline li .eyebrow')).toHaveText(['M02', 'M03', 'M07']);
+  await expect(page.locator('#timeline li .timeline-record-id')).toHaveText(['M02', 'M03', 'M07']);
   await info.attach('real-wasm-hard-query.json', {body: JSON.stringify({query, evidence: await cards.allTextContents(), requests, browser: info.project.name}, null, 2), contentType: 'application/json'});
   await search(page, 'How do I bake sourdough bread?');
   await expect(page.getByRole('heading', {name: 'No close semantic match.'})).toBeVisible();
@@ -98,4 +98,50 @@ test('failed asset load is recoverable; cancellation cannot revive stale initial
   await context.unroute('**/models/**');
   await page.getByRole('button', {name: 'Enable browser AI'}).click();
   await ready(page);
+});
+
+test('timeline source handoff preserves keyboard orientation and clears stale return state', async ({page}, info) => {
+  await page.goto('./');
+  // Explicit development fixture isolates navigation; it is not evidence of AI quality.
+  await page.getByText('Developer interface preview', {exact: true}).click();
+  await page.getByRole('button', {name: 'Open labeled synthetic preview'}).click();
+  await page.getByRole('button', {name: 'Open fixed examples'}).click();
+  await page.getByRole('button', {name: 'Trace the evidence'}).click();
+  await page.getByRole('button', {name: 'Reveal the timeline'}).click();
+  const row = page.locator('#timeline li').filter({hasText: 'LOG-033'});
+  const inspect = row.getByRole('button', {name: 'Inspect source'});
+  // Cancel the handoff before its queued frame while the source node remains mounted.
+  await page.evaluate(() => {
+    (document.querySelector('#timeline li:last-child button') as HTMLButtonElement).click();
+    const toggle = document.querySelector('[aria-controls="timeline"]') as HTMLButtonElement;
+    toggle.focus(); toggle.click();
+  });
+  await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+  await expect(page.getByRole('button', {name: 'Reveal the timeline'})).toBeFocused();
+  await expect(page.getByRole('button', {name: 'Return to timeline'})).toHaveCount(0);
+  await page.getByRole('button', {name: 'Reveal the timeline'}).click();
+  await inspect.focus(); await page.keyboard.press('Enter');
+  const reader = page.getByRole('complementary', {name: 'Selected original source LOG-033'});
+  await expect(reader).toBeFocused();
+  await expect.poll(async () => reader.evaluate(el => { const top = el.getBoundingClientRect().top; return top >= 0 && top < 100; })).toBe(true);
+  await expect(row).toHaveAttribute('aria-current', 'true');
+  await expect(row.locator('.reading-marker')).toHaveText(' · Reading');
+  await expect(reader.locator('.source-text p')).toContainText('Found an auxiliary timer');
+  await page.screenshot({path: info.outputPath('source-focused.png')});
+  await page.getByRole('button', {name: 'Return to timeline'}).click();
+  await expect(inspect).toBeFocused();
+  await expect(inspect).toBeInViewport();
+  await page.screenshot({path: info.outputPath('timeline-return.png')});
+  await expect(page.getByRole('button', {name: 'Return to timeline'})).toHaveCount(0);
+  await inspect.click();
+  await expect(reader).toBeFocused();
+  await page.getByRole('button', {name: 'Clear investigation'}).click();
+  await expect(page.getByRole('button', {name: 'Return to timeline'})).toHaveCount(0);
+  await expect(page.locator('#timeline')).toHaveCount(0);
+  await page.getByRole('button', {name: 'Trace the evidence'}).click();
+  await expect(page.locator('.source-document')).toBeVisible();
+  if (await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+    expect(await page.locator('.source-document').evaluate(el => getComputedStyle(el).animationName)).toBe('none');
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
