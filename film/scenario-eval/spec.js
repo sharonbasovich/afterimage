@@ -65,7 +65,7 @@ class ArchiveUI extends Scene {
    if(this.repair){const third=ease(u,5.6,6.4);this.rank.style.opacity=third;this.heading.style.opacity=appear*(1-third);this.cards[2].style.borderColor=third>.1?'#e5b369':'#62705d';move(this.cards[2],third*35,0,1+third*.02);const tl=ease(u,10.35,10.9);this.timeline.style.opacity=tl;move(this.timeline,1400*(1-tl),0);this.nodes.forEach((n,i)=>move(n,0,55*(1-ease(u,10.7+i*.25,11.3+i*.25))));}
   }
   if(mode==='source'){move(this.paperEl,-80*(1-ease(u,0,.65)),0,1+.025*u/3.45,-2*(1-ease(u,0,.65)));}
-  if(mode==='failure'){const a=ease(u,1.1,1.8);this.empty.style.opacity=a;move(this.empty,0,65*(1-a));const b=ease(u,4.8,5.45);move(this.empty,-1100*b,0);this.empty.style.opacity=a*(1-b);this.manual.style.opacity=b;move(this.manual,400*(1-b),0,1,-2*(1-b));move(this.browse,-540*b,-350*b,.6+.4*(1-b));}
+  if(mode==='failure'){const a=ease(u,1.1,1.8);this.empty.style.opacity=a;move(this.empty,0,65*(1-a));const b=ease(u,4.8,5.45);move(this.empty,-1100*b,0);this.empty.style.opacity=a*(1-b);this.manual.style.opacity=b;move(this.manual,400*(1-b),0,1,-2*(1-b));this.browse.style.opacity=1-b;move(this.browse,-540*b,-350*b,.6+.4*(1-b));}
   if(mode==='consent'){const a=ease(u,1.8,2.3);this.button.style.opacity=1-a;move(this.button,0,-70*a,1-.025*Math.sin(Math.PI*a));this.ready.textContent='8 records available · Browser-local MiniLM · WASM CPU';this.ready.style.opacity=ease(u,2.2,2.8);move(this.ready,0,-120*a);}
  }
  cam(){return {x:0,y:0,s:1,r:0};}
