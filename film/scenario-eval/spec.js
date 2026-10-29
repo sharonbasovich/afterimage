@@ -29,9 +29,8 @@ export default {
   ]}],
   [Picture,K(15.2),K(18.65),{src:'assets/music-last.jpg',focus:[.72,.55],tint:0,frame:false,weather:null,reveal:'zoom',words:[],whipOut:[0,-900,.12]}],
   proof(18.65,25.25,'repair'),
-  [Words,K(25.25),K(27),{shots:[{at:K(25.25),style:'split',text:['REPAIR RANKED','THIRD.'],second:.35,ground:'accent',fx:'none',note:'M07 · similarity 0.384, not confidence',noteAt:.5}]}],
-  proof(27,28.6,'select'),
-  [Words,K(28.6),K(29),{shots:[{at:K(28.6),style:'cut',text:'FOLLOW.',fx:'none',ground:'paper'}]}],
+  [Words,K(25.25),K(27),{shots:[{at:K(25.25),style:'split',text:['REPAIR RANKED','THIRD.'],second:.35,color:'ink',ground:'accent',fx:'none',note:'M07 · similarity 0.384, not confidence',noteAt:.5}]}],
+  proof(27,29,'select'),
   proof(29,32.5,'timeline'),
   [Words,K(32.5),K(35.2),{shots:[
    {at:K(32.5),style:'stack',text:['M07 · OCTOBER 31, 1987','CAPACITOR'],ground:'paper',second:.5,fx:'none'},
