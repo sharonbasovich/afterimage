@@ -20,9 +20,15 @@ The Git repository keeps model/runtime binaries out of version control. `setup:b
 
 The default entrypoint uses a browser Web Worker, not a Node API. Serve `dist/` over HTTP(S) for a static deployment. No keys, account, or backend are required. The preserved `api/` directory and `docs/NODE-PROTOTYPE-HISTORY.md` document the earlier, separately tested loopback prototype; its prior validation is not evidence that this rebuilt browser candidate passed.
 
+## AI development disclosure
+
+OpenAI Codex/ChatGPT AI agents assisted with application implementation, fictional archive content, interface revisions, tests and evaluation tooling, documentation, code review, and debugging. This includes AI-generated code and text, not unaided human coding. Automated checks are evidence of the specific tested behavior, not human user validation or a guarantee of correctness.
+
+The application's runtime AI is separate from that development assistance: after explicit consent, a browser Web Worker runs pinned q8 `Xenova/all-MiniLM-L6-v2` (revision `751bff37182d3f1213fa05d7196b954e230abad9`) through Transformers.js `3.8.1` and ONNX Runtime's WebAssembly CPU backend. It ranks source passages by semantic similarity; it does not generate testimony, verify a question's premise, or establish truth. Model/runtime licenses and attribution are preserved in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and the license files.
+
 ## Consent and data boundary
 
-All eight hand-authored fictional records are bundled and can be read before loading AI. Only an explicit **Enable browser AI (~45 MB)** action initializes the model. Model/runtime resources are downloaded from the same site and may remain in browser cache. Questions and embeddings are processed in the browser, not sent to hosted inference. The site host necessarily sees resource requests and ordinary network metadata. Clearing an investigation does not erase browser cache.
+All eight fictional records are bundled and can be read before loading AI. Only an explicit **Enable browser AI (~45 MB)** action initializes the model. Model/runtime resources are downloaded from the same site and may remain in browser cache. Questions and embeddings are processed in the browser, not sent to hosted inference. The site host necessarily sees resource requests and ordinary network metadata. Clearing an investigation does not erase browser cache.
 
 Model: `Xenova/all-MiniLM-L6-v2`, q8, revision `751bff37182d3f1213fa05d7196b954e230abad9`; Transformers.js `3.8.1`, WASM CPU runtime. The model is Apache-2.0 licensed. See third-party notices. Download size is approximate and depends on cached resources/runtime implementation.
 
