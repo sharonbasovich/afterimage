@@ -21,6 +21,8 @@ jobs:
           node-version: '24.22.1'
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
+      - name: Install video encoder
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
       - name: Verify source and render preview or reviewed final
         run: |
           node --check scripts/render-kinetic.mjs
