@@ -100,7 +100,7 @@ test('failed asset load is recoverable; cancellation cannot revive stale initial
   await ready(page);
 });
 
-test('timeline source handoff preserves keyboard orientation and clears stale return state', async ({page}) => {
+test('timeline source handoff preserves keyboard orientation and clears stale return state', async ({page}, info) => {
   await page.goto('./');
   // Explicit development fixture isolates navigation; it is not evidence of AI quality.
   await page.getByText('Developer interface preview', {exact: true}).click();
@@ -127,9 +127,11 @@ test('timeline source handoff preserves keyboard orientation and clears stale re
   await expect(row).toHaveAttribute('aria-current', 'true');
   await expect(row.locator('.reading-marker')).toHaveText(' · Reading');
   await expect(reader.locator('.source-text p')).toContainText('Found an auxiliary timer');
+  await page.screenshot({path: info.outputPath('source-focused.png')});
   await page.getByRole('button', {name: 'Return to timeline'}).click();
   await expect(inspect).toBeFocused();
   await expect(inspect).toBeInViewport();
+  await page.screenshot({path: info.outputPath('timeline-return.png')});
   await expect(page.getByRole('button', {name: 'Return to timeline'})).toHaveCount(0);
   await inspect.click();
   await expect(reader).toBeFocused();
