@@ -1,6 +1,6 @@
 {
   "duration": 65.5,
-  "source": "/workspace/scratch/c0d4b46a72be/cloud-build/afterimage-film/capture/selected/demo-capture/afterimage-real-browser.webm",
+  "source": "original-capture/afterimage-real-browser.webm",
   "source_sha256": "c174430a9e53b67ddb1cce1f80092d460b5037f149a908c13d958b28c1ca5791",
   "segments": [
     {
@@ -8,20 +8,32 @@
       "start": 2.8,
       "end": 8.8,
       "seek": 49.7,
-      "label": "REAL APP \u00b7 QUERY \u2192 SOURCE"
+      "label": "REAL APP \u00b7 QUERY \u2192 SOURCE",
+      "camera": {
+        "max_zoom": 1.8,
+        "focus_x_ratio": 0.22,
+        "focus_y_ratio": 0.22,
+        "description": "Genuine input emphasis then full-frame pullback before result; no time remapping"
+      }
     },
     {
       "id": "repair",
       "start": 18.65,
       "end": 25.25,
       "seek": 79.8,
-      "label": "REAL APP \u00b7 CHANGE THE QUESTION"
+      "label": "REAL APP \u00b7 CHANGE THE QUESTION",
+      "camera": {
+        "max_zoom": 1.8,
+        "focus_x_ratio": 0.22,
+        "focus_y_ratio": 0.05,
+        "description": "Genuine input emphasis then full-frame pullback before result; no time remapping"
+      }
     },
     {
       "id": "select",
       "start": 27.0,
-      "end": 28.6,
-      "seek": 97.8,
+      "end": 29.0,
+      "seek": 98.2,
       "label": "REAL APP \u00b7 OPEN THE THIRD RESULT"
     },
     {
