@@ -1,0 +1,37 @@
+name: Hosted source-handoff verification
+on:
+  push:
+    branches: ['qa/hosted-source-handoff']
+permissions:
+  contents: read
+jobs:
+  hosted:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.22.1'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Verify deployed commit
+        run: |
+          mkdir -p hosted-provenance
+          node --input-type=module -e "import fs from 'node:fs';import assert from 'node:assert/strict';const r=await fetch('https://sharonbasovich.github.io/afterimage/deployment.json?qa='+Date.now());assert.ok(r.ok);const d=await r.json();assert.equal(d.commit,'b354b27f6cdba82f0bb84d14598efc837ff33c52');fs.writeFileSync('hosted-provenance/deployment.json',JSON.stringify(d));"
+      - name: Test actual public host desktop and mobile reduced motion
+        run: npm run test:browser
+        env:
+          PLAYWRIGHT_BASE_URL: https://sharonbasovich.github.io/afterimage/
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: hosted-source-handoff
+          path: |
+            test-results/
+            playwright-report/
+            hosted-provenance/
+          retention-days: 14
