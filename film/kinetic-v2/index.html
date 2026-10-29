@@ -13,9 +13,13 @@
  <div id="source-meta" class="absolute mono" style="left:100px;top:75px">ORIGINAL RECORD / M03</div>
  <div id="source-date" class="absolute date" style="right:100px;top:75px">26 OCT 1987 · 02:13 UTC</div>
  <div id="source-kicker" class="absolute" style="left:100px;top:155px;font-size:42px;letter-spacing:-1px">Not an answer. The source.</div>
+ <div id="quote-group" class="plane" style="transform-origin:100px 270px">
  <div class="absolute mask" style="left:100px;top:270px;width:1400px;height:95px"><div id="q1" class="quote-line">“The automatic relay reboot</div></div>
  <div class="absolute mask" style="left:100px;top:365px;width:1400px;height:95px"><div id="q2" class="quote-line">triggered the recording.”</div></div>
  <div id="quote-highlight" class="absolute" style="left:101px;top:352px;width:840px;height:5px;background:#bd742a;transform-origin:0 50%"></div>
+ </div>
+ <div id="date-anchor" class="absolute" style="left:900px;top:290px"><div class="mono">26 OCTOBER 1987</div><div style="font-size:142px;letter-spacing:-8px;margin-top:20px">02:13</div><div class="mono" style="margin-top:20px">UTC · RECORD M03</div></div>
+ <div id="evidence-link" class="absolute rule" style="left:100px;top:650px;width:1350px;background:#bd742a"></div>
  <div id="source-cite" class="absolute note" style="left:105px;top:560px">EXACT EXCERPT · SYNTHETIC MAINTENANCE ARCHIVE</div>
  <div id="source-footer" class="absolute" style="left:105px;top:730px;font-size:35px">Quotation + date, kept together.</div>
  <div id="source-mark" class="absolute" style="right:110px;top:685px;font-size:110px;color:#bd742a">↗</div>
@@ -66,13 +70,17 @@ gsap.set('#signal',{strokeDasharray:1100,strokeDashoffset:1100});gsap.set('#cloc
 tl.to('#clock',{y:0,opacity:1,duration:.65,ease:'expo.out'},0).to('#clocktag',{y:0,opacity:1,duration:.6},.2).to('#question',{y:0,opacity:1,duration:.6},.7).to('#fiction',{y:0,opacity:1,duration:.4},1);
 tl.to('#signal',{strokeDashoffset:0,duration:1.4,ease:'power2.inOut'},.25);tl.to('#trace',{scaleX:1,duration:1.1,ease:'power2.inOut'},.5);tl.set('#spark',{autoAlpha:1},.7).to('#spark',{x:1400,duration:1.3,ease:'power2.inOut'},.7);
 tl.to('#clock',{scale:.18,x:-5,y:-80,duration:.65,ease:'power3.inOut'},2.0).to('#wave',{scale:2.8,x:600,opacity:0,duration:.7},2.1).to('#question,#clocktag,#fiction',{y:-130,opacity:0,duration:.45},2.2).to('#trace,#spark',{opacity:0,duration:.25},2.4);
+tl.set('#opening',{autoAlpha:0},2.8);
 // Each genuine screen grows from the carried paper/trace and yields back to it.
 for(const s of plan.segments){const id='#ui-'+s.id;tl.set(id,{opacity:1,zIndex:25},s.start-.35);tl.to(id,{clipPath:'inset(0% 0% 0% 0%)',duration:.35,ease:'power3.inOut'},s.start-.35);tl.to(id,{clipPath:'inset(0% 0% 100% 0%)',duration:.35,ease:'power3.inOut'},s.end);tl.set(id,{opacity:0},s.end+.36)}
 // The selected record becomes a full reading surface; citation remains attached.
 tl.set('#source',{autoAlpha:1,x:840,y:240,scale:.36,rotationY:-8},8.45).to('#source',{x:0,y:0,scale:1,rotationY:0,duration:.75,ease:'power3.inOut'},8.45);
 gsap.set('#q1,#q2',{y:105});gsap.set('#quote-highlight',{scaleX:0});gsap.set('#source-cite,#source-footer,#source-mark',{opacity:0,y:35});
 tl.to('#q1',{y:0,duration:.55,ease:'expo.out'},9.15).to('#q2',{y:0,duration:.55,ease:'expo.out'},9.4).to('#quote-highlight',{scaleX:1,duration:1.1,ease:'power2.inOut'},10.8);
-tl.to('#source-cite',{opacity:1,y:0,duration:.45},12.1).to('#source-date',{scale:1.13,x:-25,duration:.55,ease:'power2.inOut'},14.9).to('#source-footer',{opacity:1,y:0,duration:.5},15.2).to('#source-mark',{opacity:1,y:0,rotation:-15,duration:.6},15.6);
+gsap.set('#date-anchor',{opacity:0,y:130});gsap.set('#evidence-link',{scaleX:0});
+tl.to('#source-kicker',{y:-80,opacity:0,duration:.5},12.2).to('#quote-group',{scale:.62,y:125,duration:.75,ease:'power3.inOut'},12.2).to('#source-cite',{opacity:1,y:0,fontSize:16,duration:.5},12.6);
+tl.to('#source-date',{opacity:0,duration:.3},12.8).to('#date-anchor',{opacity:1,y:0,duration:.7,ease:'expo.out'},12.8).to('#evidence-link',{scaleX:1,duration:.85,ease:'power2.inOut'},13.5).to('#source-footer',{opacity:1,y:0,duration:.5},14.5);
+tl.to('#date-anchor',{scale:.62,x:70,y:-110,duration:.7,ease:'power3.inOut'},16.4).to('#quote-group',{scale:.84,y:15,duration:.7,ease:'power3.inOut'},16.4).to('#source-footer,#evidence-link,#source-cite',{opacity:0,duration:.4},17.3);
 tl.to('#source',{scale:.84,x:-130,y:-75,rotationY:8,duration:.65,ease:'power3.inOut'},17.9).to('#source',{autoAlpha:0,duration:.3},18.7);
 // Not first is the point: factual order, then an actual third-result selection.
 gsap.set('#r1,#r2,#r3',{x:900,rotationY:35});gsap.set('#rank-title',{y:120,opacity:0});
