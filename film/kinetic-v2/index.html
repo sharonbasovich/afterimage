@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Afterimage · Follow the trace · editorial film</title>
+<style>
+@font-face{font-family:Inter;src:url('assets/Inter-700.woff2');font-weight:700}*{box-sizing:border-box}html,body{margin:0;width:1600px;height:900px;overflow:hidden;background:#16271f}body{font:700 32px Inter,Arial;color:#f3edda}#stage{position:relative;width:1600px;height:900px;overflow:hidden;perspective:1400px} .plane{position:absolute;inset:0;transform-origin:50% 50%}.off{visibility:hidden}.serif{font-family:Georgia,serif;font-weight:400}.mono{font:20px monospace;letter-spacing:3px}.label{font-size:22px;letter-spacing:2px}.big{font-size:136px;line-height:1.05;letter-spacing:-7px}.rule{height:4px;background:#f0b960;transform-origin:0 50%}.mask{overflow:hidden}.paper{background:#e9e4cd;color:#1c2d24}.amber{color:#f0b960}.faint{color:#9da99d}.absolute{position:absolute}.note{font:20px monospace;letter-spacing:1px}#trace{position:absolute;left:100px;top:720px;width:1400px;height:5px;background:#f0b960;transform-origin:0 50%;z-index:30;pointer-events:none}#spark{position:absolute;left:96px;top:714px;width:17px;height:17px;border-radius:50%;background:#f0b960;z-index:31}.ui{position:absolute;inset:0;z-index:12;overflow:hidden;clip-path:inset(50% 42%);opacity:0;transform-origin:50% 50%}.ui img{width:1600px;height:900px;object-fit:fill}.ui-label{position:absolute;bottom:22px;left:24px;padding:10px 16px;background:#13251fee;color:#f3edda;font:18px monospace;letter-spacing:1px;z-index:14}.quote-line{font:64px/1.2 Georgia,serif}.card{position:absolute;background:#e9e4cd;color:#1c2d24;border:2px solid #aeb8a8;padding:30px;box-shadow:0 18px 50px #0003}.rank{font-size:82px;letter-spacing:-4px}.date{font:22px monospace;letter-spacing:1px}.fieldline{position:absolute;height:2px;background:#f0b96088;transform-origin:0 50%}
+</style><div id="stage">
+<div id="opening" class="plane">
+ <div id="clock" class="absolute" style="left:92px;top:120px;font-size:270px;letter-spacing:-18px">02:13</div>
+ <div id="clocktag" class="absolute mono amber" style="left:105px;top:430px">NIGHT SHIFT / NO ONE PRESENT</div>
+ <div id="question" class="absolute serif" style="left:100px;top:495px;font-size:84px;letter-spacing:-3px">What happened?</div>
+ <div id="fiction" class="absolute note faint" style="left:105px;top:817px">EIGHT FICTIONAL RECORDS · REAL LOCAL SEARCH</div>
+ <svg id="wave" class="absolute" style="left:1030px;top:150px" width="460" height="300" viewBox="0 0 460 300"><path id="signal" d="M0 150H95L112 100L134 210L156 30L180 270L205 75L230 205L248 125L270 150H460" fill="none" stroke="#f0b960" stroke-width="6"/></svg>
+</div>
+<div id="source" class="plane paper" style="z-index:15">
+ <div id="source-meta" class="absolute mono" style="left:100px;top:75px">ORIGINAL RECORD / M03</div>
+ <div id="source-date" class="absolute date" style="right:100px;top:75px">26 OCT 1987 · 02:13 UTC</div>
+ <div id="source-kicker" class="absolute" style="left:100px;top:155px;font-size:42px;letter-spacing:-1px">Not an answer. The source.</div>
+ <div class="absolute mask" style="left:100px;top:270px;width:1400px;height:95px"><div id="q1" class="quote-line">“The automatic relay reboot</div></div>
+ <div class="absolute mask" style="left:100px;top:365px;width:1400px;height:95px"><div id="q2" class="quote-line">triggered the recording.”</div></div>
+ <div id="quote-highlight" class="absolute" style="left:101px;top:352px;width:840px;height:5px;background:#bd742a;transform-origin:0 50%"></div>
+ <div id="source-cite" class="absolute note" style="left:105px;top:560px">EXACT EXCERPT · SYNTHETIC MAINTENANCE ARCHIVE</div>
+ <div id="source-footer" class="absolute" style="left:105px;top:730px;font-size:35px">Quotation + date, kept together.</div>
+ <div id="source-mark" class="absolute" style="right:110px;top:685px;font-size:110px;color:#bd742a">↗</div>
+</div>
+<div id="ranking" class="plane" style="z-index:16">
+ <div id="rank-title" class="absolute big" style="left:90px;top:70px">Third.<br><span class="amber">Not first.</span></div>
+ <div id="rank-note" class="absolute note faint" style="left:100px;top:780px">ACTUAL REPAIR-QUERY ORDER · SIMILARITY IS NOT CONFIDENCE</div>
+ <div id="r1" class="card" style="left:870px;top:130px;width:580px;height:160px"><span class="rank">01</span><span style="float:right;font-size:40px;margin-top:24px">M02 · 0.413</span></div>
+ <div id="r2" class="card" style="left:870px;top:315px;width:580px;height:160px"><span class="rank">02</span><span style="float:right;font-size:40px;margin-top:24px">M03 · 0.394</span></div>
+ <div id="r3" class="card" style="left:870px;top:500px;width:580px;height:160px;background:#f0b960"><span class="rank">03</span><span style="float:right;font-size:40px;margin-top:24px">M07 · 0.384</span></div>
+</div>
+<div id="dated" class="plane paper" style="z-index:17">
+ <div id="dated-title" class="absolute" style="left:100px;top:70px;font-size:98px;letter-spacing:-5px">Follow the dates.</div>
+ <div id="timeline-line" class="absolute rule" style="left:150px;top:330px;width:1300px;background:#bd742a"></div>
+ <div id="fault-dot" class="absolute" style="left:140px;top:319px;width:26px;height:26px;border-radius:50%;background:#1c2d24"></div>
+ <div id="repair-dot" class="absolute" style="left:1425px;top:319px;width:26px;height:26px;border-radius:50%;background:#bd742a"></div>
+ <div id="fault-label" class="absolute" style="left:100px;top:235px;font-size:38px">25 OCT · M02</div>
+ <div id="repair-label" class="absolute" style="left:1090px;top:235px;font-size:38px">31 OCT · M07</div>
+ <div id="repair-excerpt" class="absolute serif" style="left:100px;top:430px;width:1370px;font-size:61px;line-height:1.2">“Replacing the backup capacitor<br>stopped the nightly relay reset.”</div>
+ <div id="dated-note" class="absolute note" style="left:105px;top:740px">EXACT M07 EXCERPT · INSPECT EVIDENCE, NOT A GENERATED VERDICT</div>
+</div>
+<div id="local" class="plane" style="z-index:18">
+ <div id="local-title" class="absolute big" style="left:95px;top:70px;font-size:118px">The model stays<br><span class="amber">in your browser.</span></div>
+ <div id="browser-shell" class="absolute" style="left:100px;top:400px;width:1400px;height:330px;border:3px solid #8d9d8f;border-radius:18px;overflow:hidden"><div style="height:50px;border-bottom:2px solid #8d9d8f;padding:9px 20px;font:18px monospace;color:#9da99d">● ● ● &nbsp; AFTERIMAGE / OPTIONAL MINILM SEARCH</div>
+  <div id="node-query" class="absolute" style="left:60px;top:105px;width:290px;height:110px;background:#e9e4cd;color:#1c2d24;padding:34px;text-align:center">Question</div>
+  <div id="node-model" class="absolute" style="left:540px;top:105px;width:290px;height:110px;background:#f0b960;color:#1c2d24;padding:34px;text-align:center">MiniLM</div>
+  <div id="node-records" class="absolute" style="left:1020px;top:105px;width:290px;height:110px;background:#e9e4cd;color:#1c2d24;padding:34px;text-align:center">8 records</div>
+  <div id="path-a" class="fieldline" style="left:350px;top:160px;width:190px"></div><div id="path-b" class="fieldline" style="left:830px;top:160px;width:190px"></div>
+  <div id="packet" class="absolute" style="left:349px;top:151px;width:18px;height:18px;border-radius:50%;background:#f0b960"></div>
+ </div>
+ <div id="local-note" class="absolute note faint" style="left:105px;top:790px">EDITORIAL DIAGRAM · ~45 MB EXPLICIT DOWNLOAD · NO GENERATED ANSWER</div>
+ <div id="limit" class="absolute" style="left:105px;top:415px;font-size:76px;line-height:1.12;letter-spacing:-3px">Similarity can miss chronology.<br><span class="amber">Keep the source visible.</span></div>
+</div>
+<div id="ending" class="plane paper" style="z-index:20">
+ <div id="end-record" class="absolute note" style="left:100px;top:90px">M03 / 26 OCT 1987 / EXACT SOURCE</div>
+ <div id="end-brand" class="absolute" style="left:90px;top:220px;font-size:195px;letter-spacing:-11px">Afterimage.</div>
+ <div id="end-line" class="absolute" style="left:100px;top:490px;font-size:76px;letter-spacing:-3px">Follow the trace.<br>Keep the source.</div>
+ <div id="end-url" class="absolute note" style="left:105px;top:785px;letter-spacing:0">sharonbasovich.github.io/afterimage &nbsp; / &nbsp; github.com/sharonbasovich/afterimage</div>
+</div>
+<div id="trace"></div><div id="spark"></div>
+</div><script src="assets/gsap.min.js"></script><script>
+(async()=>{
+const assets=await fetch('assets.json').then(r=>r.json());await Promise.all(Object.values(assets).map(src=>{const i=new Image();i.src=src;return i.decode()}));const plan=await fetch('segments.json').then(r=>r.json());
+const stage=document.querySelector('#stage');for(const s of plan.segments){const el=document.createElement('div');el.className='ui';el.id='ui-'+s.id;el.innerHTML=`<img alt="Actual Afterimage app capture" src="${assets[s.id+'-first']}"><div class="ui-label">${s.label}</div>`;stage.append(el)}
+const tl=gsap.timeline({paused:true});window.timeline=tl;
+gsap.set('#source,#ranking,#dated,#local,#ending',{autoAlpha:0});gsap.set('#trace',{scaleX:0});gsap.set('#spark',{autoAlpha:0});
+gsap.set('#signal',{strokeDasharray:1100,strokeDashoffset:1100});gsap.set('#clock,#clocktag,#question,#fiction',{y:80,opacity:0});
+tl.to('#clock',{y:0,opacity:1,duration:.65,ease:'expo.out'},0).to('#clocktag',{y:0,opacity:1,duration:.6},.2).to('#question',{y:0,opacity:1,duration:.6},.7).to('#fiction',{y:0,opacity:1,duration:.4},1);
+tl.to('#signal',{strokeDashoffset:0,duration:1.4,ease:'power2.inOut'},.25);tl.to('#trace',{scaleX:1,duration:1.1,ease:'power2.inOut'},.5);tl.set('#spark',{autoAlpha:1},.7).to('#spark',{x:1400,duration:1.3,ease:'power2.inOut'},.7);
+tl.to('#clock',{scale:.18,x:-5,y:-80,duration:.65,ease:'power3.inOut'},2.0).to('#wave',{scale:2.8,x:600,opacity:0,duration:.7},2.1).to('#question,#clocktag,#fiction',{y:-130,opacity:0,duration:.45},2.2).to('#trace,#spark',{opacity:0,duration:.25},2.4);
+// Each genuine screen grows from the carried paper/trace and yields back to it.
+for(const s of plan.segments){const id='#ui-'+s.id;tl.set(id,{opacity:1,zIndex:25},s.start-.35);tl.to(id,{clipPath:'inset(0% 0% 0% 0%)',duration:.35,ease:'power3.inOut'},s.start-.35);tl.to(id,{clipPath:'inset(0% 0% 100% 0%)',duration:.35,ease:'power3.inOut'},s.end);tl.set(id,{opacity:0},s.end+.36)}
+// The selected record becomes a full reading surface; citation remains attached.
+tl.set('#source',{autoAlpha:1,x:840,y:240,scale:.36,rotationY:-8},8.45).to('#source',{x:0,y:0,scale:1,rotationY:0,duration:.75,ease:'power3.inOut'},8.45);
+gsap.set('#q1,#q2',{y:105});gsap.set('#quote-highlight',{scaleX:0});gsap.set('#source-cite,#source-footer,#source-mark',{opacity:0,y:35});
+tl.to('#q1',{y:0,duration:.55,ease:'expo.out'},9.15).to('#q2',{y:0,duration:.55,ease:'expo.out'},9.4).to('#quote-highlight',{scaleX:1,duration:1.1,ease:'power2.inOut'},10.8);
+tl.to('#source-cite',{opacity:1,y:0,duration:.45},12.1).to('#source-date',{scale:1.13,x:-25,duration:.55,ease:'power2.inOut'},14.9).to('#source-footer',{opacity:1,y:0,duration:.5},15.2).to('#source-mark',{opacity:1,y:0,rotation:-15,duration:.6},15.6);
+tl.to('#source',{scale:.84,x:-130,y:-75,rotationY:8,duration:.65,ease:'power3.inOut'},17.9).to('#source',{autoAlpha:0,duration:.3},18.7);
+// Not first is the point: factual order, then an actual third-result selection.
+gsap.set('#r1,#r2,#r3',{x:900,rotationY:35});gsap.set('#rank-title',{y:120,opacity:0});
+tl.set('#ranking',{autoAlpha:1},24.9).to('#rank-title',{y:0,opacity:1,duration:.5,ease:'expo.out'},24.9).to('#r1,#r2,#r3',{x:0,rotationY:0,duration:.5,stagger:.1,ease:'power3.out'},25.05).to('#r3',{x:-85,scale:1.09,duration:.45,ease:'power2.out'},25.8).to('#r1,#r2',{opacity:.5,duration:.35},26.0);
+tl.to('#ranking',{autoAlpha:0,duration:.25},26.8);
+// A source is not time reasoning. Date order is editorial evidence inspection.
+gsap.set('#timeline-line',{scaleX:0});gsap.set('#repair-dot,#repair-label,#repair-excerpt,#dated-note',{opacity:0,y:30});
+tl.set('#dated',{autoAlpha:1,x:0,y:900},32.15).to('#dated',{y:0,duration:.55,ease:'power3.inOut'},32.15).to('#timeline-line',{scaleX:1,duration:.8,ease:'power2.inOut'},32.7).to('#repair-dot,#repair-label',{opacity:1,y:0,duration:.4},33.3).to('#repair-excerpt',{opacity:1,y:0,duration:.6,ease:'power3.out'},33.6).to('#dated-note',{opacity:1,y:0,duration:.4},35.2).to('#dated-title',{x:30,duration:1.2,ease:'power2.inOut'},36.1).to('#dated',{y:-900,duration:.6,ease:'power3.inOut'},39.6);
+// Optional local model, a diagram tied to the genuine explicit download.
+gsap.set('#browser-shell',{rotationY:25,scale:.7,x:300,opacity:0});gsap.set('#local-title',{y:70,opacity:0});gsap.set('#path-a,#path-b',{scaleX:0});gsap.set('#limit',{opacity:0,y:50});
+tl.set('#local',{autoAlpha:1},52.9).to('#local-title',{opacity:1,y:0,duration:.55,ease:'expo.out'},53.0).to('#browser-shell',{rotationY:0,scale:1,x:0,opacity:1,duration:.7,ease:'power3.out'},53.05).to('#path-a',{scaleX:1,duration:.4},53.6).to('#packet',{x:480,duration:.65,ease:'power2.inOut'},53.8).to('#path-b',{scaleX:1,duration:.4},54.2).to('#packet',{x:960,duration:.65,ease:'power2.inOut'},54.4);
+tl.to('#browser-shell',{scale:.55,y:330,x:270,opacity:.28,duration:.6,ease:'power3.inOut'},55.6).to('#limit',{opacity:1,y:0,duration:.5,ease:'expo.out'},56).to('#local-note',{opacity:0,duration:.3},55.6);
+// The final record is the brand plane, not an unrelated closing slide.
+gsap.set('#end-brand,#end-line',{y:170,opacity:0});gsap.set('#end-url',{opacity:0});tl.set('#ending',{autoAlpha:1,x:1500,y:40,scale:.08,rotation:-8},59.9).to('#ending',{x:0,y:0,scale:1,rotation:0,duration:.8,ease:'power3.inOut'},59.9).to('#end-brand',{y:0,opacity:1,duration:.55,ease:'expo.out'},60.45).to('#end-line',{y:0,opacity:1,duration:.55,ease:'expo.out'},60.8).to('#end-url',{opacity:1,duration:.4},61.4);
+tl.set('#trace',{opacity:1,backgroundColor:'#bd742a',y:-5,scaleX:0},61.2).to('#trace',{scaleX:1,duration:.9,ease:'power2.inOut'},61.2);
+window.seek=async(t)=>{tl.seek(t,false);for(const s of plan.segments){const img=document.querySelector('#ui-'+s.id+' img');const src=assets[s.id+(t>=s.end?'-last':'-first')];if(img.getAttribute('src')!==src){img.src=src;await img.decode()}} };window.duration=plan.duration;window.ready=true;window.seek(0);
+})();
+</script></html>

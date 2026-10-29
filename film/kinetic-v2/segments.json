@@ -1,0 +1,58 @@
+{
+  "duration": 65.5,
+  "source": "original-capture/afterimage-real-browser.webm",
+  "source_sha256": "c174430a9e53b67ddb1cce1f80092d460b5037f149a908c13d958b28c1ca5791",
+  "segments": [
+    {
+      "id": "music",
+      "start": 2.8,
+      "end": 8.8,
+      "seek": 49.7,
+      "label": "REAL APP \u00b7 QUERY \u2192 SOURCE"
+    },
+    {
+      "id": "repair",
+      "start": 18.65,
+      "end": 25.25,
+      "seek": 79.8,
+      "label": "REAL APP \u00b7 CHANGE THE QUESTION"
+    },
+    {
+      "id": "select",
+      "start": 27.0,
+      "end": 28.6,
+      "seek": 97.8,
+      "label": "REAL APP \u00b7 OPEN THE THIRD RESULT"
+    },
+    {
+      "id": "timeline",
+      "start": 29.0,
+      "end": 32.5,
+      "seek": 124.6,
+      "label": "REAL APP \u00b7 REVEAL THE TIMELINE"
+    },
+    {
+      "id": "failure",
+      "start": 40.0,
+      "end": 44.5,
+      "seek": 167.5,
+      "label": "REAL APP \u00b7 AN UNRELATED QUESTION"
+    },
+    {
+      "id": "recovery",
+      "start": 44.9,
+      "end": 47.3,
+      "seek": 183.3,
+      "label": "REAL APP \u00b7 BROWSE THE ORIGINALS"
+    },
+    {
+      "id": "consent",
+      "start": 48.0,
+      "end": 53.4,
+      "seek": 36.8,
+      "label": "REAL APP \u00b7 EXPLICIT MODEL DOWNLOAD"
+    }
+  ],
+  "rate": 1,
+  "editing": "Unchanged waits omitted between genuine actions. Editorial shapes are labelled; actual footage remains 1x."
+}
