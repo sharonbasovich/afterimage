@@ -1,0 +1,46 @@
+name: Private Scenario motion evaluation
+on:
+  push:
+    branches: ['film/scenario-eval']
+    paths: ['film/scenario-eval/**', '.github/workflows/scenario-eval.yml']
+permissions:
+  contents: read
+concurrency:
+  group: scenario-evaluation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.22.1'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Prepare transient engine and render
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/scenario-python"
+          "$RUNNER_TEMP/scenario-python/bin/pip" install numpy==2.2.6 opencv-python-headless==4.11.0.86
+          mkdir -p "$RUNNER_TEMP/scenario-work"
+          curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 'https://iieqkinwjorxrzjp.public.blob.vercel-storage.com/explorations/2217ab5dbd452185a5c3c1509994da46b1ac20d2ebeaa888536244372ce73ebf/scenario-kinetic-film-skill.zip?download=1' -o "$RUNNER_TEMP/scenario-engine.zip"
+          python3 film/scenario-eval/prepare.py "$RUNNER_TEMP/scenario-engine.zip" "$RUNNER_TEMP/scenario-work" film/scenario-eval
+          "$RUNNER_TEMP/scenario-python/bin/python" film/scenario-eval/run.py "$RUNNER_TEMP/scenario-work"
+          mkdir -p scenario-ciphertext
+          node film/scenario-eval/envelope.mjs encrypt film/scenario-eval/encrypt.pem "$RUNNER_TEMP/scenario-work/motion.mp4" scenario-ciphertext/motion.encrypted.json
+      - name: Upload ciphertext only
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: scenario-ciphertext-${{ github.sha }}
+          path: scenario-ciphertext/motion.encrypted.json
+          if-no-files-found: error
+          retention-days: 1
+      - name: Remove transient vendor and clear render
+        if: always()
+        shell: bash
+        run: rm -rf -- "$RUNNER_TEMP/scenario-work" "$RUNNER_TEMP/scenario-engine.zip" "$RUNNER_TEMP/scenario-python"
