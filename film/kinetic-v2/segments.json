@@ -47,8 +47,14 @@
       "id": "failure",
       "start": 40.0,
       "end": 44.5,
-      "seek": 167.5,
-      "label": "REAL APP \u00b7 AN UNRELATED QUESTION"
+      "seek": 169.2,
+      "label": "REAL APP \u00b7 AN UNRELATED QUESTION",
+      "camera": {
+        "max_zoom": 1.8,
+        "focus_x_ratio": 0.22,
+        "focus_y_ratio": 0.05,
+        "description": "Genuine unrelated query emphasis then pullback to no-match; idle typing omitted, no speed change"
+      }
     },
     {
       "id": "recovery",
@@ -60,9 +66,28 @@
     {
       "id": "consent",
       "start": 48.0,
+      "end": 50.0,
+      "seek": 35.5,
+      "label": "REAL APP \u00b7 EXPLICIT MODEL DOWNLOAD",
+      "camera": {
+        "max_zoom": 1.25,
+        "focus_x_ratio": 0.5,
+        "focus_y_ratio": 0.3,
+        "description": "Keep actual explicit download button and context visible"
+      }
+    },
+    {
+      "id": "consent_ready",
+      "start": 50.0,
       "end": 53.4,
-      "seek": 36.8,
-      "label": "REAL APP \u00b7 EXPLICIT MODEL DOWNLOAD"
+      "seek": 40.0,
+      "label": "REAL APP \u00b7 DOWNLOAD \u2192 READY",
+      "camera": {
+        "max_zoom": 1.25,
+        "focus_x_ratio": 0.5,
+        "focus_y_ratio": 0.3,
+        "description": "Intermediate loading idle omitted; unchanged1x ready state"
+      }
     }
   ],
   "rate": 1,

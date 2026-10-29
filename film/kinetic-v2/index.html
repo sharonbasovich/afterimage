@@ -39,6 +39,7 @@
  <div id="fault-label" class="absolute" style="left:100px;top:235px;font-size:38px">25 OCT · M02</div>
  <div id="repair-label" class="absolute" style="left:1090px;top:235px;font-size:38px">31 OCT · M07</div>
  <div id="repair-excerpt" class="absolute serif" style="left:100px;top:430px;width:1370px;font-size:61px;line-height:1.2">“Replacing the backup capacitor<br>stopped the nightly relay reset.”</div>
+ <div id="repair-proof" class="absolute" style="left:100px;top:650px;width:1200px;height:7px;background:#bd742a;transform-origin:0 50%"></div>
  <div id="dated-note" class="absolute note" style="left:105px;top:740px">EXACT M07 EXCERPT · INSPECT EVIDENCE, NOT A GENERATED VERDICT</div>
 </div>
 <div id="local" class="plane" style="z-index:18">
@@ -87,8 +88,8 @@ gsap.set('#r1,#r2,#r3',{x:900,rotationY:35});gsap.set('#rank-title',{y:120,opaci
 tl.set('#ranking',{autoAlpha:1},24.9).to('#rank-title',{y:0,opacity:1,duration:.5,ease:'expo.out'},24.9).to('#r1,#r2,#r3',{x:0,rotationY:0,duration:.5,stagger:.1,ease:'power3.out'},25.05).to('#r3',{x:-85,scale:1.09,duration:.45,ease:'power2.out'},25.8).to('#r1,#r2',{opacity:.5,duration:.35},26.0);
 tl.to('#ranking',{autoAlpha:0,duration:.25},26.8);
 // A source is not time reasoning. Date order is editorial evidence inspection.
-gsap.set('#timeline-line',{scaleX:0});gsap.set('#repair-dot,#repair-label,#repair-excerpt,#dated-note',{opacity:0,y:30});
-tl.set('#dated',{autoAlpha:1,x:0,y:900},32.15).to('#dated',{y:0,duration:.55,ease:'power3.inOut'},32.15).to('#timeline-line',{scaleX:1,duration:.8,ease:'power2.inOut'},32.7).to('#repair-dot,#repair-label',{opacity:1,y:0,duration:.4},33.3).to('#repair-excerpt',{opacity:1,y:0,duration:.6,ease:'power3.out'},33.6).to('#dated-note',{opacity:1,y:0,duration:.4},35.2).to('#dated-title',{x:30,duration:1.2,ease:'power2.inOut'},36.1).to('#dated',{y:-900,duration:.6,ease:'power3.inOut'},39.6);
+gsap.set('#timeline-line,#repair-proof',{scaleX:0});gsap.set('#repair-dot,#repair-label,#repair-excerpt,#dated-note',{opacity:0,y:30});
+tl.set('#dated',{autoAlpha:1,x:0,y:900},32.15).to('#dated',{y:0,duration:.55,ease:'power3.inOut'},32.15).to('#timeline-line',{scaleX:1,duration:.8,ease:'power2.inOut'},32.7).to('#repair-dot,#repair-label',{opacity:1,y:0,duration:.4},33.3).to('#repair-excerpt',{opacity:1,y:0,duration:.6,ease:'power3.out'},33.6).to('#dated-note',{opacity:1,y:0,duration:.4},35.2).to('#repair-proof',{scaleX:1,duration:.7,ease:'power2.inOut'},35.1).to('#fault-dot,#fault-label',{opacity:0,duration:.5},35.8).to('#repair-label',{x:-950,y:-10,scale:1.4,transformOrigin:'0 50%',duration:.75,ease:'power3.inOut'},35.8).to('#timeline-line',{scaleX:.03,x:0,duration:.75,ease:'power3.inOut'},35.8).to('#repair-dot',{x:-1285,duration:.75,ease:'power3.inOut'},35.8).to('#repair-excerpt',{y:-40,duration:.75,ease:'power3.inOut'},36.0).to('#dated-note',{y:-25,duration:.6},36.2).to('#dated',{y:-900,duration:.6,ease:'power3.inOut'},39.6);
 // Optional local model, a diagram tied to the genuine explicit download.
 gsap.set('#browser-shell',{rotationY:25,scale:.7,x:300,opacity:0});gsap.set('#local-title',{y:70,opacity:0});gsap.set('#path-a,#path-b',{scaleX:0});gsap.set('#limit',{opacity:0,y:50});
 tl.set('#local',{autoAlpha:1},52.9).to('#local-title',{opacity:1,y:0,duration:.55,ease:'expo.out'},53.0).to('#browser-shell',{rotationY:0,scale:1,x:0,opacity:1,duration:.7,ease:'power3.out'},53.05).to('#path-a',{scaleX:1,duration:.4},53.6).to('#packet',{x:480,duration:.65,ease:'power2.inOut'},53.8).to('#path-b',{scaleX:1,duration:.4},54.2).to('#packet',{x:960,duration:.65,ease:'power2.inOut'},54.4);
