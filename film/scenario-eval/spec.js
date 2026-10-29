@@ -2,7 +2,7 @@
 // 120 BPM is a timing grid, NOT a claim of a generated soundtrack.
 // Actual app footage is composited at 1x over declared Proof intervals.
 import {Words, Hero, Chain, Picture, Logo, Scene} from './blocks.js';
-import {el, set} from './core.js';
+import {el} from './core.js';
 const K=s=>s*2;
 class InsetWords extends Words {cam(t){const c=super.cam(t);if(this.t0===32.5 && t<33.8)return c;return {...c,s:c.s*.88};}}
 class Proof extends Scene {

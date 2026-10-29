@@ -1,3 +1,5 @@
+import process from 'node:process';
+import {Buffer} from 'node:buffer';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {randomBytes,createCipheriv,createDecipheriv,publicEncrypt,privateDecrypt,constants} from 'node:crypto';
 const [mode,keypath,input,output]=process.argv.slice(2), key=readFileSync(keypath);
