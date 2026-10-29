@@ -145,3 +145,40 @@ test('timeline source handoff preserves keyboard orientation and clears stale re
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
+
+test('malformed cached model config cannot trap connection retry', async ({page, context}, info) => {
+  // A successful HTTP status with an invalid body differs from an aborted fetch:
+  // Transformers may cache those bytes before discovering they cannot be parsed.
+  let corrupt = true;
+  const configRequests: string[] = [];
+  await context.route('**/models/**/config.json', async route => {
+    configRequests.push(route.request().url());
+    if (corrupt) await route.fulfill({status: 200, contentType: 'application/json', body: '{"model_type":'});
+    else await route.continue();
+  });
+  await page.goto('./');
+  // Isolated test context only. A recovery must not erase other models or caches.
+  await page.evaluate(async () => {
+    const cache = await caches.open('transformers-cache');
+    await cache.put(new URL('models/unrelated-model/config.json', location.href), new Response('keep this unrelated model'));
+  });
+  await page.getByRole('button', {name: 'Enable browser AI'}).click();
+  await expect(page.getByText('The trace was interrupted.', {exact: true})).toBeVisible({timeout: 120_000});
+  await expect(page.getByRole('heading', {name: 'No close semantic match.'})).toHaveCount(0);
+  await expect(page.getByLabel('What are you trying to understand?')).toBeDisabled();
+  await page.getByText('Browse all 8 original records', {exact: true}).click();
+  await expect(page.locator('.archive-index article')).toHaveCount(8);
+  corrupt = false;
+  await page.getByRole('button', {name: 'Retry connection'}).click();
+  // Observe the real terminal state, so the broken baseline fails promptly.
+  await page.waitForFunction(() => document.querySelector('.engine-state')?.textContent === '8 records available' || document.querySelector('.error-state'), {}, {timeout: 120_000});
+  await info.attach('cached-config-retry.json', {body: JSON.stringify({configRequests, terminalState: await page.locator('.engine-state').textContent(), error: await page.locator('.error-state').allTextContents()}, null, 2), contentType: 'application/json'});
+  await expect(page.locator('.engine-state')).toHaveText('8 records available', {timeout: 1_000});
+  expect(configRequests.length).toBeGreaterThanOrEqual(2);
+  expect(await page.evaluate(async () => (await (await caches.open('transformers-cache')).match(new URL('models/unrelated-model/config.json', location.href)))?.text())).toBe('keep this unrelated model');
+  await search(page, 'How was the recurring nighttime alarm fixed?');
+  await expect(page.locator('.evidence-top > span')).toHaveText(['01 / M02', '02 / M03', '03 / M07']);
+  await search(page, 'How do I bake sourdough bread?');
+  await expect(page.getByRole('heading', {name: 'No close semantic match.'})).toBeVisible();
+  await expect(page.locator('.error-state')).toHaveCount(0);
+});
