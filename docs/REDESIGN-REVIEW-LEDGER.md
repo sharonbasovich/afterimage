@@ -12,4 +12,6 @@ On the stacked reading-desk layouts, activating a retrieved record now focuses a
 
 The real-WASM browser regression now asserts visible original transcript, focus and return orientation for every retrieved record on narrow layouts. A secondary discovery improvement keeps the selected manual record visible within the horizontal phone rail without moving the page vertically. A human recovery explanation and optional technical details replace the primary raw loader exception.
 
+The stronger selected-item assertion also exposed the last index item below the viewport on a short desktop. The assertion was retained: the desktop index is now bounded to the reading viewport, scrolls internally, and reveals its selected item. Resize observation adapts that same selection to the horizontal phone rail without scrolling the document.
+
 The repair requires a new candidate identity and independent recheck. This ledger does not declare that recheck passed. The full blocking gate is in `EXPERIENCE-RELEASE-GATE.md`; hosted release, event/build-window review and the film/submission bundle remain outside local app-preview approval.

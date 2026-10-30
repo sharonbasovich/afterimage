@@ -46,11 +46,17 @@ export function App({engine}:{engine?:ArchiveEngine}) {
  const preview=activeEngine?.syntheticPreview;
  useEffect(()=>{
   const list=recordListRef.current;
-  if(!list||!window.matchMedia('(max-width:700px)').matches)return;
-  const active=list.querySelector<HTMLButtonElement>('[aria-pressed="true"]');
-  if(!active)return;
-  const buttonBounds=active.getBoundingClientRect(),listBounds=list.getBoundingClientRect();
-  list.scrollTo({left:list.scrollLeft+buttonBounds.left-listBounds.left+buttonBounds.width/2-listBounds.width/2,behavior:reducedMotion()?'instant':'smooth'});
+  if(!list)return;
+  const reveal=()=>{
+   const active=list.querySelector<HTMLButtonElement>('[aria-pressed="true"]');
+   if(!active)return;
+   const b=active.getBoundingClientRect(),l=list.getBoundingClientRect();
+   const behavior=reducedMotion()?'instant':'smooth';
+   if(window.matchMedia('(max-width:700px)').matches)list.scrollTo({left:list.scrollLeft+b.left-l.left+b.width/2-l.width/2,behavior});
+   else if(b.top<l.top||b.bottom>l.bottom)list.scrollTo({top:list.scrollTop+b.top-l.top+(b.height-l.height)/2,behavior});
+  };
+  reveal();const observer=new ResizeObserver(reveal);observer.observe(list);
+  return ()=>observer.disconnect();
  },[selected?.id]);
 
  return <>
