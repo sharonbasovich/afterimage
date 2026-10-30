@@ -5,6 +5,8 @@ dist/
 playwright-report/
 test-results/
 browser-provenance/
+evidence/**/*.log
+evidence/**/*.pid
 # Rebuilt by npm run setup:browser-assets; retained in source delivery archives.
 public/models/
 public/wasm/

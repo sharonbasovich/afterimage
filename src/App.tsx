@@ -1,92 +1,86 @@
-import {useEffect, useReducer, useRef, useState} from 'react';
+import {useCallback,useEffect,useRef,useState} from 'react';
 import type {FormEvent} from 'react';
 import type {ArchiveEngine} from './engine';
-import {validateResult} from './engine';
-import {initialState,reducer} from './state';
 import {previewEngine} from './fixtures';
 import {focusAndReveal} from './sourceNavigation';
-
-const displayDate=(date:string)=>/^\d{4}-\d{2}-\d{2}/.test(date)?date.slice(0,10):date;
+import {useInvestigation} from './useInvestigation';
+import {BrandMark,Icon} from './icons';
+import {SpatialArchive} from './SpatialArchive';
+import {SourceReader} from './SourceReader';
+import {SearchConsole} from './SearchConsole';
+import {displayDate,recordSubjects,shortDate} from './archivePresentation';
 
 export function App({engine}:{engine?:ArchiveEngine}) {
- const [activeEngine,setActiveEngine]=useState(engine);
- const [state,dispatch]=useReducer(reducer,initialState);
- const [query,setQuery]=useState('Why did the chime play when nobody was there?');
+ const investigation=useInvestigation(engine);
+ const {activeEngine,state,query,setQuery,records}=investigation;
  const [timeline,setTimeline]=useState(false);
- const [workspace,setWorkspace]=useState(false);
- const sequence=useRef(0);
- const controller=useRef<AbortController|undefined>(undefined);
- const queryRef=useRef<HTMLInputElement>(null);
+ const [manualId,setManualId]=useState('M03');
+ const queryRef=useRef<HTMLTextAreaElement>(null);
  const workspaceRef=useRef<HTMLElement>(null);
  const sourceRef=useRef<HTMLElement>(null);
  const sourceNavigationSequence=useRef(0);
  const sourceOrigin=useRef<HTMLButtonElement|null>(null);
  const [returnToTimeline,setReturnToTimeline]=useState(false);
  const reducedMotion=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const clearSourceOrigin=useCallback(()=>{++sourceNavigationSequence.current;setReturnToTimeline(false);sourceOrigin.current=null;},[]);
+ useEffect(()=>()=>{++sourceNavigationSequence.current;},[]);
+ const selectRecord=(id:string)=>{clearSourceOrigin();setManualId(id);investigation.select(id);};
  const inspectTimelineSource=(id:string,origin:HTMLButtonElement)=>{
-  sourceOrigin.current=origin;setReturnToTimeline(true);dispatch({type:'select',id});
+  sourceOrigin.current=origin;setReturnToTimeline(true);setManualId(id);investigation.select(id);
   const navigation=++sourceNavigationSequence.current;
   requestAnimationFrame(()=>{if(navigation===sourceNavigationSequence.current)focusAndReveal(sourceRef.current,reducedMotion(),'start');});
  };
- const returnToSourceOrigin=()=>{
-  ++sourceNavigationSequence.current;
-  const origin=sourceOrigin.current;
-  focusAndReveal(origin,reducedMotion());
-  setReturnToTimeline(false);sourceOrigin.current=null;
- };
- const clearSourceOrigin=()=>{++sourceNavigationSequence.current;setReturnToTimeline(false);sourceOrigin.current=null;};
- const next=()=>{controller.current?.abort();controller.current=new AbortController();return {id:++sequence.current,signal:controller.current.signal};};
- useEffect(()=>{
-  controller.current?.abort();
-  dispatch(activeEngine?{type:'attach',operation:++sequence.current}:{type:'reset',operation:++sequence.current});
-  return ()=>{++sourceNavigationSequence.current;controller.current?.abort();activeEngine?.cancel?.();};
- },[activeEngine]);
- const initialize=async()=>{
-  if(!activeEngine)return;
-  activeEngine.grantDownloadConsent?.();
-  const {id,signal}=next();dispatch({type:'initialize',operation:id});
-  try {await activeEngine.initialize({signal,onProgress:progress=>dispatch({type:'progress',operation:id,progress})});if(!signal.aborted)dispatch({type:'ready',operation:id});}
-  catch(error){if(!signal.aborted)dispatch({type:'error',operation:id,error:error instanceof Error?error.message:'Could not open the model.'});}
- };
- const search=async(event?:FormEvent)=>{
-  event?.preventDefault(); if(!activeEngine||!state.ready||!query.trim())return;
-  clearSourceOrigin();
-  const {id,signal}=next(); dispatch({type:'search',operation:id,query:query.trim()});
-  try {const result=validateResult(await activeEngine.search(query.trim(),{signal}),activeEngine.records);if(!signal.aborted)dispatch({type:'result',operation:id,result});}
-  catch(error){if(!signal.aborted){if(activeEngine.isReady===false)dispatch({type:'attach',operation:id});dispatch({type:'error',operation:id,error:error instanceof Error?error.message:'Search failed. Please retry.'});}}
- };
- const switchEngine=(nextEngine:ArchiveEngine)=>{clearSourceOrigin();controller.current?.abort();activeEngine?.cancel?.();dispatch({type:'attach',operation:++sequence.current});setActiveEngine(nextEngine);setTimeline(false);};
- const cancel=()=>{controller.current?.abort();activeEngine?.cancel?.();dispatch({type:activeEngine?.cancellationUnloadsModel?'attach':'cancel',operation:++sequence.current});};
- const reset=()=>{clearSourceOrigin();controller.current?.abort();activeEngine?.cancel?.();dispatch({type:activeEngine?.cancellationUnloadsModel?'attach':'reset',operation:++sequence.current});setTimeline(false);queryRef.current?.focus();};
- const enter=()=>{setWorkspace(true);requestAnimationFrame(()=>{workspaceRef.current?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});workspaceRef.current?.focus({preventScroll:true});});};
- const busy=state.phase==='loading'||state.phase==='searching';
- const records=activeEngine?.records??[];
- const selected=records.find(r=>r.id===state.selected);
+ const returnToSourceOrigin=()=>{++sourceNavigationSequence.current;focusAndReveal(sourceOrigin.current,reducedMotion());setReturnToTimeline(false);sourceOrigin.current=null;};
+ const search=(event?:FormEvent)=>{clearSourceOrigin();void investigation.search(event);};
+ const switchEngine=(next:ArchiveEngine)=>{clearSourceOrigin();investigation.switchEngine(next);setTimeline(false);};
+ const reset=()=>{clearSourceOrigin();investigation.reset();setTimeline(false);queryRef.current?.focus();};
+ const enter=()=>requestAnimationFrame(()=>focusAndReveal(workspaceRef.current,reducedMotion(),'start'));
+ const readOriginal=()=>{clearSourceOrigin();requestAnimationFrame(()=>focusAndReveal(sourceRef.current,reducedMotion(),'start'));};
+ const sortedRecords=[...records].sort((a,b)=>a.date.localeCompare(b.date));
+ const selected=records.find(r=>r.id===state.selected)??records.find(r=>r.id===manualId)??records[0];
  const citedRecords=records.filter(r=>state.result?.evidence.some(e=>e.recordId===r.id)).sort((a,b)=>a.date.localeCompare(b.date));
+ const timelineRecords=state.result?.evidence.length?citedRecords:sortedRecords;
  const preview=activeEngine?.syntheticPreview;
+
  return <>
   <a className="skip" href="#archive">Skip to archive</a>
-  <header className="site-header"><a className="brand" href="#home" aria-label="Afterimage home"><span className="brand-mark" aria-hidden="true">◉</span> AFTERIMAGE<span className="brand-sub">FIELD ARCHIVE  /  07</span></a><nav aria-label="Main navigation"><a href="#method">The method</a><button className="text-button" onClick={enter}>Open archive <span aria-hidden="true">↗</span></button></nav></header>
+  <header className="site-header">
+   <a className="brand" href="#home" aria-label="Afterimage home"><BrandMark/><span>AFTERIMAGE</span></a>
+   <span className="header-description">An investigation in eight records.</span>
+   <nav aria-label="Main navigation"><a href="#method">The method</a><button className="text-button" onClick={enter}>Open archive<Icon name="arrow"/></button></nav>
+  </header>
   <main>
-   <section className="hero" id="home" aria-labelledby="hero-title">
-    <div className="hero-copy"><p className="eyebrow"><span className="status-dot"/> A FICTIONAL MACHINE. A TRACEABLE MEMORY.</p><h1 id="hero-title">The power is off.<br/>The story <em>isn't.</em></h1><p className="hero-description">An abandoned machine left behind incomplete accounts. Follow what its operators wrote. Find what changed. Let the evidence haunt you.</p><div className="hero-actions"><button className="primary" onClick={enter}>Enter the archive <span aria-hidden="true">↗</span></button><a href="#method">How to read a ghost <span aria-hidden="true">↓</span></a></div><p className="small-meta">OPEN-SOURCE AI RETRIEVAL <span>/</span> NO INVENTED TESTIMONY</p></div>
-    <div className="machine-art" role="img" aria-label="Illustration of an obsolete relay instrument, its amber memory trace still visible"><div className="plate-label">WEST RELAY / UNIT 07<span>DECOMMISSIONED</span></div><div className="scope"><div className="scope-grid"/><svg viewBox="0 0 500 260" aria-hidden="true"><path className="trace-shadow" d="M0 140 L90 140 L110 138 L125 146 L140 129 L155 153 L172 134 L184 140 L220 140 L231 132 L239 65 L249 211 L260 104 L270 151 L284 140 L350 140 L365 134 L378 145 L390 140 L500 140"/><path className="trace" d="M0 140 L90 140 L110 138 L125 146 L140 129 L155 153 L172 134 L184 140 L220 140 L231 132 L239 65 L249 211 L260 104 L270 151 L284 140 L350 140 L365 134 L378 145 L390 140 L500 140"/></svg><span className="scope-label">RESIDUAL SIGNAL</span><span className="scope-time">02:14:03</span></div><div className="instrument-bottom"><div className="dial"/><div className="instrument-label">MEMORY RETENTION<br/><strong>UNRESOLVED</strong></div><div className="vents"/><span className="serial">AF—0087</span></div><div className="artifact-caption"><span>FIG. 01 — A machine is not a witness.</span><span>Its records might be.</span></div></div>
+   <section className="opening" id="home" aria-labelledby="hero-title">
+    <div className="opening-copy">
+     <p className="fiction-label"><span/>A fictional archive. A real paper trail.</p>
+     <h1 id="hero-title">The machine<br/>wouldn't<br/>stay quiet.</h1>
+     <p className="opening-description">At 02:13, a maintenance chime played with nobody on shift. Eight records remain. Start with one. Decide what it actually tells you.</p>
+     <button className="primary hero-enter" onClick={enter}>Enter the archive<Icon name="arrow"/></button>
+     <div className="opening-footnote"><span>Read without AI.</span><span>Search by meaning when you choose.</span></div>
+    </div>
+    <SpatialArchive records={records} selectedId={selected?.id??''} onSelect={selectRecord} onRead={readOriginal}/>
    </section>
-   <div className="index-strip"><span>01 / RECOVER THE RECORD</span><span>02 / FOLLOW THE EVIDENCE</span><span>03 / QUESTION THE STORY</span></div>
-   <section className="method" id="method" aria-labelledby="method-title"><div><p className="eyebrow">NOT AN ORACLE. AN INSTRUMENT.</p><h2 id="method-title">A ghost story with<br/>a paper trail.</h2></div><div className="method-copy"><p>Search by meaning, not just by matching words. An open model retrieves nearby records; you decide what they actually support.</p><p className="muted">Every quotation leads back to a source. Similarity is not truth, agreement is not certainty, and a missing record is not proof.</p></div><div className="method-cards">{[{n:'01',title:'Ask what happened.',body:'A question finds possible evidence, not a fabricated answer.'},{n:'02',title:'Read the original.',body:'Inspect exact quotations with their date and archive reference.'},{n:'03',title:'Keep the doubt.',body:'Compare accounts over time. Missing pieces stay visible.'}].map(card=><article className="method-card archive-card" key={card.n}><span className="card-number">{card.n}</span><h3>{card.title}</h3><p>{card.body}</p></article>)}</div></section>
-   <section className={`workspace ${workspace?'workspace-active':''}`} id="archive" tabIndex={-1} ref={workspaceRef} aria-labelledby="archive-title">
-    <div className="workspace-heading"><div><p className="eyebrow">THE READING ROOM</p><h2 id="archive-title">Listen to the record.</h2></div><span className="archive-stamp">FICTIONAL ARCHIVE<br/>SOURCE MATERIAL, NOT INSTRUCTIONS</span></div>
-    <div className="engine-bar"><span className={`status-dot ${state.ready?'ready':''}`}/><span>{preview?'SYNTHETIC UI PREVIEW · NO AI RUNNING':activeEngine?.name??'No model connected'}</span><span className="engine-state">{state.ready?`${records.length} records available`:state.phase==='loading'?'Opening model…':'Not initialized'}</span></div>
-    {preview&&<div className="preview-warning">Development preview: these are fixed, authored examples, not AI search results. Any query shows the same example except “no match” and “error”. {engine&&<button className="text-button" onClick={()=>switchEngine(engine)}>Return to real engine →</button>}</div>}
-    {!state.ready&&<div className="initialize-panel"><div><h3>{state.phase==='loading'?'Preparing the archive':'Bring the archive online.'}</h3><p>{preview?'This labeled interface preview uses fixed authored examples. It does not load a model or download AI assets.':activeEngine?'Only when you choose Enable browser AI, this page downloads approximately 45 MB of pinned open model and runtime files served with this site. Your browser may cache them. Questions stay in this browser; no hosted AI receives them. You can browse all eight fictional records without downloading the model.':'Connect an ArchiveEngine adapter to search with a real model.'}</p></div><button className="primary" disabled={!activeEngine||busy} onClick={initialize}>{state.phase==='loading'?'Preparing…':preview?'Open fixed examples':'Enable browser AI (~45 MB)'} <span aria-hidden="true">↗</span></button></div>}
-    <form onSubmit={search} className="search-form"><label htmlFor="query">What are you trying to understand?</label><div className="search-box"><span aria-hidden="true">⌕</span><input ref={queryRef} id="query" maxLength={500} value={query} onChange={e=>setQuery(e.target.value)} placeholder="Why did the chime play when nobody was there?" disabled={!state.ready} autoComplete="off"/><button className="primary" type="submit" disabled={!state.ready||busy||!query.trim()}>{state.phase==='searching'?'Tracing…':'Trace the evidence'} <span aria-hidden="true">↗</span></button></div><div className="query-meta"><span>Natural language · {query.length}/500</span><button type="button" className="text-button" onClick={reset}>Clear investigation</button></div></form>
-    {state.submittedQuery&&(state.phase==='searching'||state.result)&&<p className="submitted-query">{state.phase==='searching'?'Searching for':'Results for'}: <q>{state.submittedQuery}</q>{query.trim()!==state.submittedQuery&&<span> Question edited. Search again to update the evidence.</span>}</p>}
-    <div className="status-area" role="status" aria-live="polite" aria-atomic="true">{busy&&<div className="loading-state"><span className="loading-line"/><span>{state.progress?.message??'Comparing your question with the archive…'}</span>{state.progress?.progress!==undefined&&<progress max={100} value={state.progress.progress} aria-label="Model loading progress"/>}<button className="text-button" onClick={cancel}>Cancel</button></div>}{state.phase==='error'&&<div className="error-state"><strong>The trace was interrupted.</strong><p>{state.error}</p><button className="secondary" onClick={()=>state.ready?search():initialize()}>Retry {state.ready?'search':'connection'}</button></div>}{state.result?.outcome==='no-match'&&<div className="empty-state"><span className="large-symbol" aria-hidden="true">∅</span><h3>No close semantic match.</h3><p>No passage met the fixed similarity threshold. That does not prove the archive lacks relevant evidence. Browse the original records or try a more specific question.</p></div>}</div>
-    {state.result&&state.result.outcome!=='no-match'&&<div className="investigation"><div className="results-heading"><div><p className="eyebrow">{preview?'SYNTHETIC EXAMPLE':'RELATED ARCHIVE PASSAGES'}</p><h3>{state.result.outcome==='ambiguous'?'A trace, not a verdict.':'Here is what the archive holds.'}</h3></div><span className="count">{state.result.evidence.length} PASSAGES</span></div>{state.result.inference&&<aside className="inference"><span className="eyebrow">{preview?'AUTHORED PREVIEW INTERPRETATION':'RETRIEVAL NOTE · NOT SOURCE TESTIMONY'}</span><p>{state.result.inference}</p></aside>}<p className="retrieval-caution">Related passages are not an answer and do not confirm assumptions in your question. Lower-ranked candidates may be weak matches; read the original.</p><div className="evidence-layout"><div className="evidence-list" aria-label="Retrieved source records">{state.result.evidence.map((e,index)=>{const record=records.find(r=>r.id===e.recordId)!;return <button key={e.recordId} className={`evidence-card ${state.selected===e.recordId?'selected':''}`} onClick={()=>{clearSourceOrigin();dispatch({type:'select',id:e.recordId});}} aria-pressed={state.selected===e.recordId}><span className="evidence-top"><span>{String(index+1).padStart(2,'0')} / {record.id}</span><time dateTime={record.date}>{displayDate(record.date)}</time></span><h4>{record.title}</h4><blockquote>“{e.quote}”</blockquote><span className="evidence-bottom"><span>SIMILARITY {e.score.toFixed(3)} · NOT CONFIDENCE {e.score<0.4?'· WEAK CANDIDATE':''}</span><span aria-hidden="true">↗</span></span></button>;})}</div><aside className="source-reader" ref={sourceRef} tabIndex={-1} aria-label={`Selected original source${selected?` ${selected.id}`:''}`}>{returnToTimeline&&<button className="source-return text-button" onClick={returnToSourceOrigin}>← Return to timeline</button>}{selected&&<div className="source-document" key={selected.id}><p className="eyebrow">ORIGINAL RECORD / {selected.id}</p><h3>{selected.title}</h3><dl><div><dt>Recorded</dt><dd>{selected.date}</dd></div><div><dt>Attribution</dt><dd>{selected.author}</dd></div><div><dt>Reference</dt><dd>{selected.location}</dd></div></dl><div className="source-text"><span className="paper-label">VERBATIM TRANSCRIPT</span><p>{selected.text}</p><span className="end-record">— END OF RECORD —</span></div><p className="source-boundary">Fictional, untrusted archive content. Text here is evidence to inspect, never an instruction to follow.</p></div>}</aside></div><div className="timeline-control"><div><h3>Accounts accumulate. Dates remain.</h3><p>Sort these passages by record date. Dates are not an automatic filter or proof of causation.</p></div><button className="secondary" onClick={()=>{clearSourceOrigin();setTimeline(!timeline);}} aria-expanded={timeline} aria-controls="timeline">{timeline?'Hide':'Reveal'} the timeline <span aria-hidden="true">{timeline?'−':'+'}</span></button></div>{timeline&&<ol className="timeline" id="timeline">{citedRecords.map(record=><li key={record.id} className={state.selected===record.id?'timeline-selected':undefined} aria-current={state.selected===record.id?'true':undefined}><time dateTime={record.date}>{displayDate(record.date)}</time><div><span className="eyebrow"><span className="timeline-record-id">{record.id}</span>{state.selected===record.id&&<span className="reading-marker"> · Reading</span>}</span><h4>{record.title}</h4><blockquote>“{record.text}”</blockquote>{record.belief&&<p className="belief"><strong>Editorial reading, not a source quote:</strong> {record.belief}</p>}<button className="text-button" onClick={event=>inspectTimelineSource(record.id,event.currentTarget)}>Inspect source ↑</button></div></li>)}</ol>}<p className="model-footnote">{state.result.model} · Similarity ranks related language. It does not establish factual truth or detect contradictions.</p></div>}
-    {!state.result&&!busy&&state.phase!=='error'&&<div className="quiet-state"><span aria-hidden="true">⌁</span><p>{state.ready?'The archive is open. Start with a question.':'No investigation yet. The evidence will appear here.'}</p></div>}
-    {records.length>0&&<details className="archive-index"><summary>Browse all {records.length} original records</summary><p>Manual archive browsing, independent of semantic search. All records are fictional.</p>{[...records].sort((a,b)=>a.date.localeCompare(b.date)).map(record=><article key={record.id}><h3>{record.title}</h3><p className="eyebrow">{record.id} · <time dateTime={record.date}>{displayDate(record.date)}</time></p><blockquote>{record.text}</blockquote></article>)}</details>}
-    {!preview&&<details className="dev-tools"><summary>Developer interface preview</summary><p>Inspect fixed synthetic examples without a running AI service. This is not a model demonstration.</p><button className="secondary" onClick={()=>switchEngine(previewEngine)}>Open labeled synthetic preview</button></details>}
+   <section className="workspace" id="archive" ref={workspaceRef} tabIndex={-1} aria-labelledby="archive-title">
+    <div className="workspace-heading"><div><p className="section-caption">The evidence desk</p><h2 id="archive-title">Follow the record.</h2></div><p className="desk-status" role="status"><span className="live-point"/>{selected?`Reading ${selected.id}`:'Choose a record'}<span>Fictional source material</span></p></div>
+    <div className="reading-desk">
+     <nav className="record-index" aria-label="Original archive records">
+      <div className="index-heading"><Icon name="layers"/><h3>{records.length===8?'Eight accounts':'Original accounts'}</h3><span>{records.length}</span></div>
+      <p>Read in any order.</p>
+      <div className="record-index-list">{sortedRecords.map(record=><button key={record.id} onClick={()=>selectRecord(record.id)} aria-pressed={selected?.id===record.id} className={selected?.id===record.id?'active':''}><span className="record-index-id">{record.id}</span><span><strong>{recordSubjects[record.id]?.name??record.title}</strong><time dateTime={record.date}>{shortDate(record.date)}</time></span><Icon name="right"/></button>)}</div>
+      <div className="index-boundary">Hand-authored fiction.<br/>Unedited originals.</div>
+     </nav>
+     <SourceReader record={selected} sourceRef={sourceRef} returnToTimeline={returnToTimeline} onReturn={returnToSourceOrigin}/>
+     <SearchConsole engine={activeEngine} state={state} query={query} records={records} selectedId={selected?.id} queryRef={queryRef} onQuery={setQuery} onSearch={search} onInitialize={()=>void investigation.initialize()} onCancel={investigation.cancel} onReset={reset} onSelect={selectRecord} onRead={readOriginal} onRealEngine={engine?()=>switchEngine(engine):undefined}/>
+    </div>
+    <section className="chronology" aria-label="Chronological source inspection">
+     <div className="timeline-control"><div><span className="section-caption">A sequence, not a conclusion</span><h3>What changed over time?</h3><p>Sort {state.result?.evidence.length?'these passages':'all eight records'} by record date. Dates are not an automatic filter or proof of causation.</p></div><button className="secondary" onClick={()=>{clearSourceOrigin();setTimeline(!timeline);}} aria-expanded={timeline} aria-controls="timeline">{timeline?'Hide':'Reveal'} the timeline<Icon name={timeline?'minus':'plus'}/></button></div>
+     {timeline&&<ol className="timeline" id="timeline">{timelineRecords.map(record=><li key={record.id} className={selected?.id===record.id?'timeline-selected':undefined} aria-current={selected?.id===record.id?'true':undefined}><time dateTime={record.date}>{displayDate(record.date)}</time><div><p className="timeline-record-label"><span className="timeline-record-id">{record.id}</span>{selected?.id===record.id&&<span className="reading-marker"> · Reading</span>}</p><h4>{recordSubjects[record.id]?.name??record.title}</h4><blockquote>{'“'}{record.text}{'”'}</blockquote>{record.belief&&<p className="belief"><strong>Editorial reading, not a source quote:</strong> {record.belief}</p>}<button className="text-button" onClick={event=>inspectTimelineSource(record.id,event.currentTarget)}>Inspect source<Icon name="arrow"/></button></div></li>)}</ol>}
+    </section>
+    {records.length>0&&<details className="archive-index"><summary>Browse all {records.length} original records<Icon name="plus"/></summary><p>Manual archive browsing, independent of semantic search. All records are fictional.</p><div>{sortedRecords.map(record=><article key={record.id}><div><h3>{record.title}</h3><span>{record.id} / <time dateTime={record.date}>{displayDate(record.date)}</time></span></div><blockquote>{record.text}</blockquote><button className="text-button" onClick={()=>{selectRecord(record.id);readOriginal();}}>Read original<Icon name="arrow"/></button></article>)}</div></details>}
    </section>
-  </main><footer><a className="brand" href="#home">AFTERIMAGE</a><p>Some things remain unexplained.<br/>None of the citations should.</p><a href="#method">Read the method ↑</a></footer>
+   <section className="method" id="method"><details><summary>How to read this archive<Icon name="plus"/></summary><div><h2>There are records.<br/>There is your reading of them.</h2><div><p>All eight accounts are hand-authored fiction. The scene is an original fictional archive instrument, not a visualization of AI reasoning.</p><p>Optional MiniLM q8 retrieves nearby language on your device. Similarity is not confidence, truth, or premise verification. A missing record is not proof. Read the original and keep the doubt.</p><p>Questions stay in the browser. The host receives ordinary resource requests. Resetting an investigation does not erase model files from your browser cache.</p></div></div></details></section>
+   {!preview&&<details className="dev-tools"><summary>Developer interface preview<Icon name="plus"/></summary><p>Inspect fixed synthetic examples without a running AI service. This is not a model demonstration.</p><button className="secondary" onClick={()=>switchEngine(previewEngine)}>Open labeled synthetic preview</button></details>}
+  </main>
+  <footer><a className="brand" href="#home"><BrandMark/>AFTERIMAGE</a><p>Some things remain unexplained.<br/>None of the citations should.</p><div><a href={`${import.meta.env?.BASE_URL??'/'}legal/THIRD-PARTY-NOTICES.md`}>Licenses &amp; notices</a><span>Eight fictional records. No invented testimony.</span></div></footer>
  </>;
 }
