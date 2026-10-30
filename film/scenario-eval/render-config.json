@@ -1,0 +1,15 @@
+{
+  "ranges": [
+    [
+      0,
+      240
+    ],
+    [
+      720,
+      930
+    ]
+  ],
+  "media_scope": "private_evaluation_only",
+  "scenario_music_rights": "Free evaluation output; not publication-cleared",
+  "publication_gate": "No YouTube/DEV/submission publication without separate approval and rights review"
+}
