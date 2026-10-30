@@ -1,0 +1,90 @@
+name: Preserve submitted root and publish pinned review path
+on:
+  pull_request:
+    paths: ['.github/workflows/review-pages.yml', '.github/workflows/pages.yml', 'scripts/compose-review*', 'docs/SUBMITTED-ROOT-008a75b-SHA256.json']
+  push:
+    branches: [main]
+    paths: ['.github/workflows/review-pages.yml', 'scripts/compose-review*', 'docs/SUBMITTED-ROOT-008a75b-SHA256.json']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pinned-pages-review
+  cancel-in-progress: false
+jobs:
+  compose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          path: infrastructure
+      - name: Test root preservation guards
+        run: python3 infrastructure/scripts/compose-review.test.py
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          ref: 6b317b62a7751a2bf79d5c0a19990121f23d7b00
+          path: candidate
+      - name: Verify pinned source
+        run: test "$(git -C candidate rev-parse HEAD)" = '6b317b62a7751a2bf79d5c0a19990121f23d7b00'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.22.1'
+          cache: npm
+          cache-dependency-path: candidate/package-lock.json
+      - name: Build and verify pinned candidate
+        working-directory: candidate
+        run: |
+          npm ci
+          npm run setup:browser-assets
+          npm run typecheck && npm run typecheck:browser && npm run lint && npm test && npm run test:evaluation
+          npm run build
+          npx playwright install --with-deps chromium
+      - name: Verify real WASM at exact nested review base
+        working-directory: candidate
+        run: npm run test:browser
+        env:
+          STATIC_PREFIX: /afterimage/review/6b317b62a7751a2bf79d5c0a19990121f23d7b00/
+      - name: Compose only after all submitted root hashes match
+        run: >-
+          python3 infrastructure/scripts/compose-review.py
+          --root https://sharonbasovich.github.io/afterimage/
+          --manifest infrastructure/docs/SUBMITTED-ROOT-008a75b-SHA256.json
+          --candidate candidate/dist --output assembled
+      - name: Preserve review verification
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pinned-review-verification-${{ github.sha }}
+          path: |
+            candidate/playwright-report/
+            candidate/test-results/
+            infrastructure/docs/SUBMITTED-ROOT-008a75b-SHA256.json
+          retention-days: 14
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          path: assembled
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: compose
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}review/6b317b62a7751a2bf79d5c0a19990121f23d7b00/
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Recheck submitted host immediately before deployment
+        run: python3 scripts/compose-review.py --root https://sharonbasovich.github.io/afterimage/ --manifest docs/SUBMITTED-ROOT-008a75b-SHA256.json --verify-host
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+      - id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+      - name: Verify all submitted root hashes after deployment
+        run: python3 scripts/compose-review.py --root https://sharonbasovich.github.io/afterimage/ --manifest docs/SUBMITTED-ROOT-008a75b-SHA256.json --verify-host
