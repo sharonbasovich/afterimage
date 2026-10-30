@@ -70,6 +70,9 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: compose
     runs-on: ubuntu-24.04
+    concurrency:
+      group: afterimage-pages-publication
+      cancel-in-progress: false
     permissions:
       contents: read
       pages: write
