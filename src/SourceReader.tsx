@@ -3,9 +3,9 @@ import type {ArchiveRecord} from './engine';
 import {Icon} from './icons';
 import {recordSubjects} from './archivePresentation';
 
-export function SourceReader({record,sourceRef,returnToTimeline,onReturn}:{record?:ArchiveRecord;sourceRef:RefObject<HTMLElement|null>;returnToTimeline:boolean;onReturn:()=>void}){
+export function SourceReader({record,sourceRef,returnTo,onReturn}:{record?:ArchiveRecord;sourceRef:RefObject<HTMLElement|null>;returnTo:'timeline'|'results'|null;onReturn:()=>void}){
  return <aside className="source-reader" ref={sourceRef} tabIndex={-1} aria-label={`Selected original source${record?` ${record.id}`:''}`}>
-  {returnToTimeline&&<button className="source-return text-button" onClick={onReturn}><Icon name="left"/>Return to timeline</button>}
+  {returnTo&&<button className="source-return text-button" onClick={onReturn}><Icon name="left"/>Return to {returnTo}</button>}
   {record?<div className="source-document" key={record.id}>
    <div className="document-top"><span>Original record</span><span>{record.id}</span></div>
    <div className="paper-heading"><p>{recordSubjects[record.id]?.kind??'Archive source'}</p><h3>{record.title}</h3><Icon name="document"/></div>

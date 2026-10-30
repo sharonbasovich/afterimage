@@ -18,29 +18,40 @@ export function App({engine}:{engine?:ArchiveEngine}) {
  const queryRef=useRef<HTMLTextAreaElement>(null);
  const workspaceRef=useRef<HTMLElement>(null);
  const sourceRef=useRef<HTMLElement>(null);
+ const recordListRef=useRef<HTMLDivElement>(null);
  const sourceNavigationSequence=useRef(0);
  const sourceOrigin=useRef<HTMLButtonElement|null>(null);
- const [returnToTimeline,setReturnToTimeline]=useState(false);
+ const [sourceReturn,setSourceReturn]=useState<'timeline'|'results'|null>(null);
  const reducedMotion=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const clearSourceOrigin=useCallback(()=>{++sourceNavigationSequence.current;setReturnToTimeline(false);sourceOrigin.current=null;},[]);
+ const clearSourceOrigin=useCallback(()=>{++sourceNavigationSequence.current;setSourceReturn(null);sourceOrigin.current=null;},[]);
  useEffect(()=>()=>{++sourceNavigationSequence.current;},[]);
  const selectRecord=(id:string)=>{clearSourceOrigin();setManualId(id);investigation.select(id);};
- const inspectTimelineSource=(id:string,origin:HTMLButtonElement)=>{
-  sourceOrigin.current=origin;setReturnToTimeline(true);setManualId(id);investigation.select(id);
+ const inspectSource=(id:string,origin:HTMLButtonElement,returnTo:'timeline'|'results')=>{
+  sourceOrigin.current=origin;setSourceReturn(returnTo);setManualId(id);investigation.select(id);
   const navigation=++sourceNavigationSequence.current;
   requestAnimationFrame(()=>{if(navigation===sourceNavigationSequence.current)focusAndReveal(sourceRef.current,reducedMotion(),'start');});
  };
- const returnToSourceOrigin=()=>{++sourceNavigationSequence.current;focusAndReveal(sourceOrigin.current,reducedMotion());setReturnToTimeline(false);sourceOrigin.current=null;};
+ const inspectTimelineSource=(id:string,origin:HTMLButtonElement)=>inspectSource(id,origin,'timeline');
+ const inspectEvidenceSource=(id:string,origin:HTMLButtonElement)=>{if(window.matchMedia('(max-width:980px)').matches)inspectSource(id,origin,'results');else selectRecord(id);};
+ const returnToSourceOrigin=()=>{++sourceNavigationSequence.current;focusAndReveal(sourceOrigin.current,reducedMotion());setSourceReturn(null);sourceOrigin.current=null;};
  const search=(event?:FormEvent)=>{clearSourceOrigin();void investigation.search(event);};
  const switchEngine=(next:ArchiveEngine)=>{clearSourceOrigin();investigation.switchEngine(next);setTimeline(false);};
  const reset=()=>{clearSourceOrigin();investigation.reset();setTimeline(false);queryRef.current?.focus();};
  const enter=()=>requestAnimationFrame(()=>focusAndReveal(workspaceRef.current,reducedMotion(),'start'));
- const readOriginal=()=>{clearSourceOrigin();requestAnimationFrame(()=>focusAndReveal(sourceRef.current,reducedMotion(),'start'));};
+ const readOriginal=()=>{clearSourceOrigin();const navigation=++sourceNavigationSequence.current;requestAnimationFrame(()=>{if(navigation===sourceNavigationSequence.current)focusAndReveal(sourceRef.current,reducedMotion(),'start');});};
  const sortedRecords=[...records].sort((a,b)=>a.date.localeCompare(b.date));
  const selected=records.find(r=>r.id===state.selected)??records.find(r=>r.id===manualId)??records[0];
  const citedRecords=records.filter(r=>state.result?.evidence.some(e=>e.recordId===r.id)).sort((a,b)=>a.date.localeCompare(b.date));
  const timelineRecords=state.result?.evidence.length?citedRecords:sortedRecords;
  const preview=activeEngine?.syntheticPreview;
+ useEffect(()=>{
+  const list=recordListRef.current;
+  if(!list||!window.matchMedia('(max-width:700px)').matches)return;
+  const active=list.querySelector<HTMLButtonElement>('[aria-pressed="true"]');
+  if(!active)return;
+  const buttonBounds=active.getBoundingClientRect(),listBounds=list.getBoundingClientRect();
+  list.scrollTo({left:list.scrollLeft+buttonBounds.left-listBounds.left+buttonBounds.width/2-listBounds.width/2,behavior:reducedMotion()?'instant':'smooth'});
+ },[selected?.id]);
 
  return <>
   <a className="skip" href="#archive">Skip to archive</a>
@@ -66,11 +77,11 @@ export function App({engine}:{engine?:ArchiveEngine}) {
      <nav className="record-index" aria-label="Original archive records">
       <div className="index-heading"><Icon name="layers"/><h3>{records.length===8?'Eight accounts':'Original accounts'}</h3><span>{records.length}</span></div>
       <p>Read in any order.</p>
-      <div className="record-index-list">{sortedRecords.map(record=><button key={record.id} onClick={()=>selectRecord(record.id)} aria-pressed={selected?.id===record.id} className={selected?.id===record.id?'active':''}><span className="record-index-id">{record.id}</span><span><strong>{recordSubjects[record.id]?.name??record.title}</strong><time dateTime={record.date}>{shortDate(record.date)}</time></span><Icon name="right"/></button>)}</div>
+      <div className="record-index-list" ref={recordListRef}>{sortedRecords.map(record=><button key={record.id} onClick={()=>selectRecord(record.id)} aria-pressed={selected?.id===record.id} className={selected?.id===record.id?'active':''}><span className="record-index-id">{record.id}</span><span><strong>{recordSubjects[record.id]?.name??record.title}</strong><time dateTime={record.date}>{shortDate(record.date)}</time></span><Icon name="right"/></button>)}</div>
       <div className="index-boundary">Hand-authored fiction.<br/>Unedited originals.</div>
      </nav>
-     <SourceReader record={selected} sourceRef={sourceRef} returnToTimeline={returnToTimeline} onReturn={returnToSourceOrigin}/>
-     <SearchConsole engine={activeEngine} state={state} query={query} records={records} selectedId={selected?.id} queryRef={queryRef} onQuery={setQuery} onSearch={search} onInitialize={()=>void investigation.initialize()} onCancel={investigation.cancel} onReset={reset} onSelect={selectRecord} onRead={readOriginal} onRealEngine={engine?()=>switchEngine(engine):undefined}/>
+     <SourceReader record={selected} sourceRef={sourceRef} returnTo={sourceReturn} onReturn={returnToSourceOrigin}/>
+     <SearchConsole engine={activeEngine} state={state} query={query} records={records} selectedId={selected?.id} queryRef={queryRef} onQuery={setQuery} onSearch={search} onInitialize={()=>void investigation.initialize()} onCancel={()=>{clearSourceOrigin();investigation.cancel();}} onReset={reset} onSelect={inspectEvidenceSource} onRead={readOriginal} onRealEngine={engine?()=>switchEngine(engine):undefined}/>
     </div>
     <section className="chronology" aria-label="Chronological source inspection">
      <div className="timeline-control"><div><span className="section-caption">A sequence, not a conclusion</span><h3>What changed over time?</h3><p>Sort {state.result?.evidence.length?'these passages':'all eight records'} by record date. Dates are not an automatic filter or proof of causation.</p></div><button className="secondary" onClick={()=>{clearSourceOrigin();setTimeline(!timeline);}} aria-expanded={timeline} aria-controls="timeline">{timeline?'Hide':'Reveal'} the timeline<Icon name={timeline?'minus':'plus'}/></button></div>

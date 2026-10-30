@@ -41,6 +41,7 @@ test('spatial archive offers real manual value before consent, loaded fonts and 
  await page.screenshot({path:info.outputPath('selected-carrier.png')});
  await page.getByRole('button',{name:'Enter the archive',exact:true}).click();
  await expect(page.locator('#archive')).toBeFocused();
+ await expect(page.locator('.record-index-list button[aria-pressed="true"]')).toBeInViewport();
  await expect(page.getByRole('complementary',{name:'Selected original source M07'})).toBeVisible();
  await expect(page.getByLabel('What are you trying to understand?')).toBeDisabled();
  await page.locator('.record-index-list button').filter({hasText:'M02'}).focus();await page.keyboard.press('Enter');

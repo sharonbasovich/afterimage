@@ -44,6 +44,14 @@ test('production WASM: consent, real hard query, exact originals, timeline, no-m
     await expect(card.locator('blockquote')).toHaveText(`“${record.text}”`);
     await card.focus(); await page.keyboard.press('Enter');
     await expect(page.locator('.source-text p')).toHaveText(record.text);
+    if ((page.viewportSize()?.width ?? 1280) <= 980) {
+      const reader = page.getByRole('complementary', {name: `Selected original source ${id}`});
+      await expect(reader).toBeFocused();
+      await expect(reader.locator('.source-text p')).toBeInViewport();
+      await page.getByRole('button', {name: 'Return to results', exact: true}).click();
+      await expect(card).toBeFocused();
+      await expect(card).toBeInViewport();
+    }
   }
   await page.getByRole('button', {name: 'Reveal the timeline'}).click();
   await expect(page.locator('#timeline li .timeline-record-id')).toHaveText(['M02', 'M03', 'M07']);
