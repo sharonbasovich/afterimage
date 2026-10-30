@@ -3,6 +3,8 @@ on:
   pull_request:
   push:
     branches: [main]
+    # Infrastructure-only preview publication must not rebuild/relabel the root.
+    paths-ignore: ['.github/workflows/pages.yml', '.github/workflows/review-pages.yml', 'scripts/compose-review*', 'docs/SUBMITTED-ROOT-008a75b-SHA256.json']
   workflow_dispatch:
 permissions:
   contents: read
@@ -51,6 +53,9 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-24.04
+    concurrency:
+      group: afterimage-pages-publication
+      cancel-in-progress: false
     permissions:
       pages: write
       id-token: write
