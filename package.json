@@ -20,18 +20,22 @@
     "preview": "vite preview",
     "test:browser": "playwright test",
     "test:evaluation": "node --test docs/evaluation-20261028/artifact.test.mjs docs/evaluation-20261028/scoring.test.mjs",
-    "typecheck:browser": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --types node --skipLibCheck --allowImportingTsExtensions playwright.config.ts tests/browser/production.spec.ts"
+    "typecheck:browser": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --types node --skipLibCheck --allowImportingTsExtensions playwright.config.ts tests/browser/production.spec.ts tests/browser/spatial.spec.ts"
   },
   "dependencies": {
+    "@fontsource/barlow-condensed": "5.3.0",
+    "@fontsource/manrope": "5.3.0",
     "@huggingface/transformers": "3.8.1",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "three": "0.187.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",
     "@playwright/test": "1.56.1",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@types/three": "0.187.0",
     "eslint": "^9.39.0",
     "globals": "^16.4.0",
     "typescript": "^5.9.3",

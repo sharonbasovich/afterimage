@@ -1,6 +1,14 @@
-# Afterimage — browser-local candidate
+# Afterimage — browser-local spatial archive
 
 A fictional archive instrument. Open-weights semantic retrieval finds related source passages; it does not generate testimony or establish whether a question's premise is true.
+
+## Spatial archive interface
+Choose one of eight fictional records on a procedural Three.js archive instrument, then read its unedited original at the evidence desk. A lightweight view preserves record selection when 3D is unavailable or unwanted. Reduced-motion preferences are respected. Barlow Condensed and Manrope are self-hosted; their SIL Open Font License notices and the Three.js MIT license are retained in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). The instrument is a fictional reading interface, not a visualization of model reasoning. This interface revision does not change the corpus, pinned model, similarity thresholds or known retrieval misses.
+
+## Demo and revision history
+The [56-second demo](https://www.youtube.com/watch?v=wm-Z-YpzmfQ) is an animated reconstruction of the earlier interface. Its queries, quotations, rankings and displayed similarities are preserved, while transitions and download timing are choreographed. It is not a screen recording of the spatial redesign or a model-speed benchmark. Its existing Scenario-generated narration, music and sound effects remain unchanged and are editorial presentation audio, not app audio. Use the [live app](https://sharonbasovich.github.io/afterimage/) for the current interface.
+
+The spatial application was independently reviewed at commit 6b317b62a7751a2bf79d5c0a19990121f23d7b00. The [initial submitted application snapshot](https://github.com/sharonbasovich/afterimage/tree/008a75b96a5e63ad3a853c3dcbcc014ed2abed6f) remains available. The [original hosted interface](https://sharonbasovich.github.io/afterimage/archive/008a75b96a5e63ad3a853c3dcbcc014ed2abed6f/) and [reviewed spatial interface](https://sharonbasovich.github.io/afterimage/review/6b317b62a7751a2bf79d5c0a19990121f23d7b00/) are retained as immutable snapshots. Historical captures and evaluation reports retain their original revision labels.
 
 ## Run
 
@@ -46,8 +54,8 @@ Model: `Xenova/all-MiniLM-L6-v2`, q8, revision `751bff37182d3f1213fa05d7196b954e
 
 This candidate was reconstructed on 2026-10-28 from the preserved Node UI/source after the prior temporary browser candidate disappeared. It is not byte-for-byte recovery of the original archives; old archive hashes must not be used for this build. Current validation is recorded in `docs/RECOVERY-QA.md`.
 
-The local reconstruction did not publish a Site, release, competition entry, or submission. This repository is a later source-publication step. Existing submitted projects remain untouched.
+The October 28 local reconstruction did not itself publish a Site, release or competition entry. Source publication and the DEV/STEM2Connect submissions followed later. Historical source snapshots and their evidence remain preserved; the spatial interface revision is an update to the same project, not a separately created entry.
 
 ## Production browser verification
 
-`npm run test:browser` tests the production build with real Chromium/WASM inference (run `npm run build` and `npx playwright install chromium` first). GitHub Actions runs this on a clean public runner. Unit tests and the 40-query CPU evaluation are separate evidence; neither proves browser inference works. See workflow results for the exact tested commit and browser report. Known retrieval misses remain assertions, not corrected labels or hidden tuning. No public demo or contest submission is implied by source publication.
+`npm run test:browser` tests the production build with real Chromium/WASM inference (run `npm run build` and `npx playwright install chromium` first). GitHub Actions runs this on a clean public runner. Unit tests and the 40-query CPU evaluation are separate evidence; neither proves browser inference works. See workflow results for the exact tested commit and browser report. Known retrieval misses remain assertions, not corrected labels or hidden tuning. A passing build or source publication alone does not verify a hosted deployment or a contest submission; each needs its own recorded evidence.

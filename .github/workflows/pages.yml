@@ -45,6 +45,10 @@ jobs:
         run: |
           printf '{"commit":"%s"}\n' "$GITHUB_SHA" > dist/deployment.json
           touch dist/.nojekyll
+      - name: Verify immutable snapshot retention
+        run: |
+          python3 scripts/retain-snapshots.test.py
+          python3 scripts/retain-snapshots.py --root https://sharonbasovich.github.io/afterimage/ --output dist
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
         with:
           path: dist
@@ -57,14 +61,20 @@ jobs:
       group: afterimage-pages-publication
       cancel-in-progress: false
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
       # Pages must already be enabled by the repository owner; never auto-enable or alter access.
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
       - name: Deploy verified artifact
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+      - name: Verify retained public snapshots after deployment
+        run: python3 scripts/retain-snapshots.py --root https://sharonbasovich.github.io/afterimage/ --verify-host
