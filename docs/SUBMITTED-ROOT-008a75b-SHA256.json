@@ -1,0 +1,118 @@
+{
+  "root_commit": "008a75b96a5e63ad3a853c3dcbcc014ed2abed6f",
+  "source_run": 40948349671,
+  "source_artifact": 12929449355,
+  "source_artifact_zip_sha256": "a90184f4fd126c2b34ce0d1eb7d7b585ec5c8aa979d5cd06cd19172d73f7a727",
+  "files": [
+    {
+      "path": ".nojekyll",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "assets/embedding.worker-GLW-7YaI.js",
+      "bytes": 870227,
+      "sha256": "705c44b90cb3186ec2ec0f6c48aedc0f16aeb0461e28c61856de79264ca4b46f"
+    },
+    {
+      "path": "assets/index-B_P8A8ue.css",
+      "bytes": 17565,
+      "sha256": "68b938197cc0432e194ef545d23b1485c482cc8ca5f8c79b0ce98e953af2fc5d"
+    },
+    {
+      "path": "assets/index-DLDEPgL_.js",
+      "bytes": 248343,
+      "sha256": "0afec01a9aff08dac9fcb012d1f5791ccc479a5e782680a063373a92409b1a6c"
+    },
+    {
+      "path": "assets/ort-wasm-simd-threaded.jsep-B0T3yYHD.wasm",
+      "bytes": 21596019,
+      "sha256": "c46655e8a94afc45338d4cb2b840475f88e5012d524509916e505079c00bfa39"
+    },
+    {
+      "path": "deployment.json",
+      "bytes": 54,
+      "sha256": "d62e675df28fc925fee886fda8b45203fff9c65e21a305cffe6398e16f919937"
+    },
+    {
+      "path": "index.html",
+      "bytes": 559,
+      "sha256": "b9c6be777691dbb840a4cc572d0566cd63462ca89ef206569f94717d26247bb0"
+    },
+    {
+      "path": "legal/LICENSE",
+      "bytes": 1268,
+      "sha256": "a3fe28ae56c3a1e31b84674f5481b22e4efd0f5edbf329d487a518fab93494ce"
+    },
+    {
+      "path": "legal/MODEL-CARD.md",
+      "bytes": 1767,
+      "sha256": "63ea99bf681a2e9eda4f6a537d5ed8fda95d1677111656da37e9cfd080c3af02"
+    },
+    {
+      "path": "legal/ONNXRUNTIME-MIT.txt",
+      "bytes": 1073,
+      "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c"
+    },
+    {
+      "path": "legal/ONNXRUNTIME-ThirdPartyNotices.txt",
+      "bytes": 326866,
+      "sha256": "e9e90971a8e75a9a8ac0c6412e29c1202d079998389915aa485f46c816c3b4cc"
+    },
+    {
+      "path": "legal/REACT-MIT.txt",
+      "bytes": 1088,
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "legal/THIRD-PARTY-NOTICES.md",
+      "bytes": 2535,
+      "sha256": "056e60c09e48ed959dfce7490d0f63115306fd28c4cc3560eddd6b646e7d2041"
+    },
+    {
+      "path": "legal/TRANSFORMERS-APACHE-2.0.txt",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "models/751bff37182d3f1213fa05d7196b954e230abad9/Xenova/all-MiniLM-L6-v2/config.json",
+      "bytes": 650,
+      "sha256": "7135149f7cffa1a573466c6e4d8423ed73b62fd2332c575bf738a0d033f70df7"
+    },
+    {
+      "path": "models/751bff37182d3f1213fa05d7196b954e230abad9/Xenova/all-MiniLM-L6-v2/onnx/model_quantized.onnx",
+      "bytes": 22972370,
+      "sha256": "afdb6f1a0e45b715d0bb9b11772f032c399babd23bfc31fed1c170afc848bdb1"
+    },
+    {
+      "path": "models/751bff37182d3f1213fa05d7196b954e230abad9/Xenova/all-MiniLM-L6-v2/tokenizer.json",
+      "bytes": 711661,
+      "sha256": "da0e79933b9ed51798a3ae27893d3c5fa4a201126cef75586296df9b4d2c62a0"
+    },
+    {
+      "path": "models/751bff37182d3f1213fa05d7196b954e230abad9/Xenova/all-MiniLM-L6-v2/tokenizer_config.json",
+      "bytes": 366,
+      "sha256": "9261e7d79b44c8195c1cada2b453e55b00aeb81e907a6664974b4d7776172ab3"
+    },
+    {
+      "path": "wasm/ort-wasm-simd-threaded.jsep.mjs",
+      "bytes": 44484,
+      "sha256": "08fb86ec433c78bfb032c5d84a68b8e8e5a8d81268fa39e24314179a5767a5b9"
+    },
+    {
+      "path": "wasm/ort-wasm-simd-threaded.jsep.wasm",
+      "bytes": 21596019,
+      "sha256": "c46655e8a94afc45338d4cb2b840475f88e5012d524509916e505079c00bfa39"
+    },
+    {
+      "path": "wasm/ort-wasm-simd-threaded.mjs",
+      "bytes": 20856,
+      "sha256": "43c25054b6b9ac000f786c65545ff83a45f871e0e310e8c2f4d48a363bb66db4"
+    },
+    {
+      "path": "wasm/ort-wasm-simd-threaded.wasm",
+      "bytes": 11133407,
+      "sha256": "f061472c6e77d6d50d079aacdc0ff9b63fee287ddd2cbf46cf62438d3891de2b"
+    }
+  ]
+}
