@@ -207,9 +207,10 @@ test('repeated Enter preserves an in-flight real search and an edited next quest
           probe.release = () => this.dispatchEvent(new MessageEvent('message', {data: event.data}));
         });
       }
-      postMessage(message: unknown, options?: StructuredSerializeOptions) {
+      postMessage(message: unknown, options?: StructuredSerializeOptions | Transferable[]) {
         if ((message as {type?: string}).type === 'search') probe.searches++;
-        super.postMessage(message, options);
+        if (Array.isArray(options)) super.postMessage(message, options);
+        else super.postMessage(message, options);
       }
       terminate() { probe.terminations++; super.terminate(); }
     };
@@ -242,4 +243,18 @@ test('repeated Enter preserves an in-flight real search and an edited next quest
   await field.press('Enter');
   await expect(page.getByRole('heading', {name: 'No close semantic match.'})).toBeVisible();
   expect(await page.evaluate(() => (window as unknown as {__searchProbe: {searches: number, terminations: number}}).__searchProbe)).toMatchObject({searches: 2, terminations: 0});
+  // Cancel a held actual result, then reconnect and search. The guard must release.
+  await page.evaluate(() => { (window as unknown as {__searchProbe: {held: boolean}}).__searchProbe.held = false; });
+  await field.fill(original);
+  await field.press('Enter');
+  await expect.poll(() => page.evaluate(() => (window as unknown as {__searchProbe: {held: boolean}}).__searchProbe.held)).toBe(true);
+  await page.getByRole('button', {name: 'Cancel', exact: true}).click();
+  await expect(page.locator('.engine-state')).toHaveText('Not initialized');
+  await page.evaluate(() => (window as unknown as {__searchProbe: {release: () => void}}).__searchProbe.release());
+  await expect(page.locator('.evidence-card')).toHaveCount(0);
+  await page.getByRole('button', {name: 'Enable browser AI'}).click();
+  await ready(page);
+  await field.press('Enter');
+  await expect(page.locator('.evidence-top > span')).toHaveText(['01 / M02', '02 / M03', '03 / M07']);
+  await expect(page.locator('.error-state')).toHaveCount(0);
 });
