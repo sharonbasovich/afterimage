@@ -190,3 +190,56 @@ test('malformed cached model config cannot trap connection retry', async ({page,
   await expect(page.getByRole('heading', {name: 'No close semantic match.'})).toBeVisible();
   await expect(page.locator('.error-state')).toHaveCount(0);
 });
+
+test('repeated Enter preserves an in-flight real search and an edited next question', async ({page}, info) => {
+  // Delay delivery of an actual model result; never replace inference or rankings.
+  await page.addInitScript(() => {
+    const NativeWorker = window.Worker;
+    const probe = {searches: 0, terminations: 0, held: false, release: () => {}};
+    Object.defineProperty(window, '__searchProbe', {value: probe});
+    window.Worker = class extends NativeWorker {
+      constructor(url: string | URL, options?: WorkerOptions) {
+        super(url, options);
+        this.addEventListener('message', event => {
+          if (event.data?.type !== 'result' || probe.held) return;
+          event.stopImmediatePropagation();
+          probe.held = true;
+          probe.release = () => this.dispatchEvent(new MessageEvent('message', {data: event.data}));
+        });
+      }
+      postMessage(message: unknown, options?: StructuredSerializeOptions) {
+        if ((message as {type?: string}).type === 'search') probe.searches++;
+        super.postMessage(message, options);
+      }
+      terminate() { probe.terminations++; super.terminate(); }
+    };
+  });
+  await page.goto('./');
+  await page.getByRole('button', {name: 'Enable browser AI'}).click();
+  await ready(page);
+  const field = page.getByLabel('What are you trying to understand?');
+  const original = 'How was the recurring nighttime alarm fixed?';
+  await field.fill(original);
+  // Two events in one task also exercise the synchronous re-entrancy guard.
+  await field.evaluate(el => {
+    el.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles: true}));
+    el.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles: true}));
+  });
+  await expect(page.locator('.submitted-query')).toContainText(`Searching for: ${original}`);
+  await expect.poll(() => page.evaluate(() => (window as unknown as {__searchProbe: {held: boolean}}).__searchProbe.held)).toBe(true);
+  await field.fill('How do I bake sourdough bread?');
+  await field.press('Enter');
+  await expect(page.locator('.submitted-query')).toContainText(`Searching for: ${original}`);
+  await expect(page.locator('.submitted-query')).toContainText('Question edited.');
+  expect(await page.evaluate(() => (window as unknown as {__searchProbe: {searches: number}}).__searchProbe.searches)).toBe(1);
+  await page.screenshot({path: info.outputPath('search-in-flight.png')});
+  await page.evaluate(() => (window as unknown as {__searchProbe: {release: () => void}}).__searchProbe.release());
+  await expect(page.locator('.submitted-query')).toContainText(`Results for: ${original}`);
+  await expect(page.locator('.evidence-top > span')).toHaveText(['01 / M02', '02 / M03', '03 / M07']);
+  await expect(field).toHaveValue('How do I bake sourdough bread?');
+  await expect(page.locator('.error-state')).toHaveCount(0);
+  await page.screenshot({path: info.outputPath('original-result-edited-question.png')});
+  await field.press('Enter');
+  await expect(page.getByRole('heading', {name: 'No close semantic match.'})).toBeVisible();
+  expect(await page.evaluate(() => (window as unknown as {__searchProbe: {searches: number, terminations: number}}).__searchProbe)).toMatchObject({searches: 2, terminations: 0});
+});
